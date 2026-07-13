@@ -27,9 +27,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // ========== Header滚动效果 ==========
   const header = document.getElementById('header');
-  let lastScroll = 0;
 
-  window.addEventListener('scroll', function() {
+  function onScroll() {
     const currentScroll = window.pageYOffset;
 
     if (currentScroll > 50) {
@@ -38,8 +37,12 @@ document.addEventListener('DOMContentLoaded', function() {
       header.classList.remove('scrolled');
     }
 
-    lastScroll = currentScroll;
-  });
+    updateActiveNav();
+    updateBackToTop();
+  }
+
+  // 使用 passive 监听提升移动端滚动性能
+  window.addEventListener('scroll', onScroll, { passive: true });
 
   // ========== 导航高亮 ==========
   const sections = document.querySelectorAll('section[id]');
@@ -73,11 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // 合并滚动事件
-  window.addEventListener('scroll', function() {
-    updateActiveNav();
-    updateBackToTop();
-  });
+  // 合并滚动事件 — 统一在 onScroll 中处理
 
   // ========== 数字滚动动画 ==========
   function animateNumbers() {
@@ -121,10 +120,11 @@ document.addEventListener('DOMContentLoaded', function() {
   createParticles();
   animateNumbers();
 
-  // ========== 滚动入场动画 ==========
+  // ========== 滚动入场动画 (移动端降低触发阈值) ==========
+  const isMobile = window.innerWidth <= 768;
   const observerOptions = {
-    threshold: 0.15,
-    rootMargin: '0px 0px -50px 0px'
+    threshold: isMobile ? 0.05 : 0.15,
+    rootMargin: isMobile ? '0px 0px -20px 0px' : '0px 0px -50px 0px'
   };
 
   const observer = new IntersectionObserver(function(entries) {
