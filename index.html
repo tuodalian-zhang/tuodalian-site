@@ -534,45 +534,52 @@
                 </div>
             </div>
             <div class="contact-form-wrap">
-                <form class="contact-form" id="contactForm">
+                <form class="contact-form" id="contactForm" action="https://formsubmit.co/info@tuodalian.com" method="POST">
+                    <!-- FormSubmit 配置 -->
+                    <input type="hidden" name="_subject" value="【网站咨询】新客户留言 - 拓达联国际贸易">
+                    <input type="hidden" name="_template" value="table">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_next" value="https://www.tuodalian.com?sent=success">
+                    <input type="hidden" name="_autoresponse" value="感谢您的咨询！上海拓达联国际贸易有限公司已收到您的留言，我们将在24小时内与您联系。电话：13363031515">
+                    <input type="text" name="_honey" style="display:none">
                     <div class="form-row">
                         <div class="form-group">
                             <label for="name">您的姓名 *</label>
-                            <input type="text" id="name" name="name" placeholder="请输入您的姓名" required>
+                            <input type="text" id="name" name="姓名" placeholder="请输入您的姓名" required>
                         </div>
                         <div class="form-group">
                             <label for="company">公司名称</label>
-                            <input type="text" id="company" name="company" placeholder="请输入您的公司名称">
+                            <input type="text" id="company" name="公司名称" placeholder="请输入您的公司名称">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
                             <label for="email">电子邮箱 *</label>
-                            <input type="email" id="email" name="email" placeholder="请输入您的电子邮箱" required>
+                            <input type="email" id="email" name="电子邮箱" placeholder="请输入您的电子邮箱" required>
                         </div>
                         <div class="form-group">
                             <label for="phone">联系电话</label>
-                            <input type="tel" id="phone" name="phone" placeholder="请输入您的联系电话">
+                            <input type="tel" id="phone" name="联系电话" placeholder="请输入您的联系电话">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="service">感兴趣的服务</label>
-                        <select id="service" name="service">
+                        <select id="service" name="感兴趣的服务">
                             <option value="">请选择您感兴趣的服务</option>
-                            <option value="import-export">进出口代理</option>
-                            <option value="sourcing">全球采购</option>
-                            <option value="logistics">国际物流</option>
-                            <option value="warehousing">仓储配送</option>
-                            <option value="consulting">贸易咨询</option>
-                            <option value="ecommerce">跨境电商</option>
-                            <option value="other">其他服务</option>
+                            <option value="进出口代理">进出口代理</option>
+                            <option value="全球采购">全球采购</option>
+                            <option value="国际物流">国际物流</option>
+                            <option value="仓储配送">仓储配送</option>
+                            <option value="贸易咨询">贸易咨询</option>
+                            <option value="跨境电商">跨境电商</option>
+                            <option value="其他服务">其他服务</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="message">留言内容 *</label>
-                        <textarea id="message" name="message" rows="4" placeholder="请描述您的需求，我们将尽快与您联系..." required></textarea>
+                        <textarea id="message" name="留言内容" rows="4" placeholder="请描述您的需求，我们将尽快与您联系..." required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-gold btn-submit">
+                    <button type="submit" class="btn btn-gold btn-submit" id="submitBtn">
                         <span>提交咨询</span>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </button>

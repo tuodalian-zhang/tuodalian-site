@@ -147,44 +147,42 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // ========== 联系表单处理 ==========
   const contactForm = document.getElementById('contactForm');
+  const submitBtn = document.getElementById('submitBtn');
+
+  // 检测URL参数，显示提交成功提示
+  if (window.location.search.includes('sent=success')) {
+    showToast('✅ 提交成功！感谢您的咨询，我们将在24小时内与您联系。', 'success');
+    window.history.replaceState({}, '', window.location.pathname + window.location.hash);
+  }
+
   if (contactForm) {
     contactForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const formData = {
-        name: document.getElementById('name').value.trim(),
-        company: document.getElementById('company').value.trim(),
-        email: document.getElementById('email').value.trim(),
-        phone: document.getElementById('phone').value.trim(),
-        service: document.getElementById('service').value,
-        message: document.getElementById('message').value.trim()
-      };
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
 
       // 基本验证
-      if (!formData.name || !formData.email || !formData.message) {
-        showToast('请填写所有必填字段', 'error');
-        return;
+      if (!name || !email || !message) {
+        e.preventDefault();
+        showToast('请填写所有必填字段（姓名、电子邮箱、留言内容）', 'error');
+        return false;
       }
 
       // 邮箱格式验证
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(formData.email)) {
+      if (!emailRegex.test(email)) {
+        e.preventDefault();
         showToast('请输入有效的电子邮箱地址', 'error');
-        return;
+        return false;
       }
 
-      // 模拟发送（实际项目中替换为真实API）
-      const submitBtn = contactForm.querySelector('.btn-submit');
-      const originalText = submitBtn.innerHTML;
-      submitBtn.innerHTML = '<span>提交中...</span>';
-      submitBtn.disabled = true;
-
-      setTimeout(() => {
-        showToast('感谢您的咨询！我们将在24小时内与您联系。', 'success');
-        contactForm.reset();
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
-      }, 1500);
+      // 显示提交中状态，表单正常提交到FormSubmit
+      if (submitBtn) {
+        submitBtn.innerHTML = '<span>正在提交...</span>';
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = '0.7';
+        submitBtn.style.pointerEvents = 'none';
+      }
     });
   }
 
