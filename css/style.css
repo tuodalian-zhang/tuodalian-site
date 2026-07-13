@@ -70,8 +70,9 @@ a{touch-action:manipulation}
 }
 .top-contact svg{flex-shrink:0}
 .top-right{margin-left:auto;display:flex;align-items:center;gap:8px}
-.top-right a{color:rgba(255,255,255,.75);transition:color var(--transition)}
+.top-right a{color:rgba(255,255,255,.75);transition:color var(--transition);cursor:pointer}
 .top-right a:hover{color:var(--gold)}
+.top-right a.active-lang{color:var(--gold);font-weight:700}
 .top-right .sep{opacity:.4;font-size:11px}
 
 /* ---------- Header / Nav ---------- */
