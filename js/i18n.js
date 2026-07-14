@@ -197,7 +197,7 @@
     'footer.services':  { zh: '核心服务',   en: 'Core Services' },
     'footer.contact.t': { zh: '联系方式',   en: 'Contact Info' },
     'footer.copy':      { zh: '© 2025-2026 上海拓达联国际贸易有限公司 版权所有', en: '© 2025-2026 Shanghai Tuodalian International Trade Co., Ltd. All Rights Reserved' },
-    'footer.icp':       { zh: '沪ICP备XXXXXXXX号-1', en: 'ICP License XXXXXXXX-1' },
+    'footer.icp':       { zh: '沪ICP备2025130866号-1', en: 'ICP License 2025130866-1' },
     'footer.privacy':   { zh: '隐私政策',   en: 'Privacy Policy' },
     'footer.terms':     { zh: '服务条款',   en: 'Terms of Service' },
 
