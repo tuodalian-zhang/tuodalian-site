@@ -138,7 +138,6 @@
     'partner3.p': { zh: '美国、加拿大、墨西哥贸易网络', en: 'Trade network in the US, Canada, and Mexico' },
     'partner4.t': { zh: '中 东 非 洲', en: 'Middle East & Africa' },
     'partner4.p': { zh: '中东、非洲等新兴市场合作伙伴', en: 'Partners in Middle East, Africa, and emerging markets' },
-    'wall.title': { zh: '已成功服务 <span class="wall-count">500+</span> 企业', en: 'Successfully Served <span class="wall-count">500+</span> Enterprises' },
 
     // ---- 新闻资讯 ----
     'news.tag':     { zh: '动态资讯',       en: 'Latest Updates' },
