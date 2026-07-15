@@ -162,7 +162,6 @@
     'contact.addrv':  { zh: '上海市浦东新区自由贸易试验区', en: 'Shanghai Pilot Free Trade Zone, Pudong New Area' },
     'contact.phone':   { zh: '联系电话',      en: 'Phone' },
     'contact.wechat':  { zh: '微信咨询',      en: 'WeChat' },
-    'contact.wechat.tip': { zh: '鼠标放上来查看二维码', en: 'Hover to view QR code' },
     'contact.wechat.scan': { zh: '扫一扫添加微信', en: 'Scan to add on WeChat' },
     'contact.email.t': { zh: '电子邮箱',      en: 'Email' },
     'contact.hours.t': { zh: '工作时间',      en: 'Business Hours' },
