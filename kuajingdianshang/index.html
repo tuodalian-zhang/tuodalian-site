@@ -243,9 +243,17 @@ img{max-width:100%;display:block;}
 .wh-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;}
 .wh-card{background:var(--white);border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-sm);transition:all .3s;border:1px solid var(--gray-100);cursor:pointer;display:flex;flex-direction:column;}
 .wh-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:var(--gold);}
-.wh-img{height:220px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.wh-img{height:220px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#fff;border-bottom:1px solid var(--gray-100);}
 .wh-img::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");}
-.wh-emoji{font-size:80px;position:relative;z-index:1;filter:drop-shadow(0 4px 12px rgba(0,0,0,.1));}
+.wh-img::after{content:'商品主图';position:absolute;bottom:10px;left:10px;background:rgba(10,31,63,.75);color:var(--gold);font-size:10px;font-weight:600;padding:3px 10px;border-radius:4px;z-index:2;letter-spacing:.5px;}
+.wh-card:hover .wh-img::after{background:var(--gold);color:var(--navy);}
+.wh-emoji{font-size:78px;position:relative;z-index:1;filter:drop-shadow(0 8px 20px rgba(0,0,0,.12));transition:transform .3s ease;}
+.wh-card:hover .wh-emoji{transform:scale(1.08);}
+.wh-product-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:3;display:none;transition:transform .4s ease;}
+.wh-card:hover .wh-product-img{transform:scale(1.05);}
+.wh-card[data-image-loaded] .wh-emoji{display:none !important;}
+.wh-card[data-image-loaded] .wh-product-img{display:block;}
+.wh-card[data-image-loaded] .wh-img::after{content:'实拍图';background:var(--gold);color:var(--navy);}
 .wh-badge{position:absolute;top:10px;left:10px;background:var(--red);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;z-index:2;}
 .wh-badge.new{background:var(--teal);}
 .wh-badge.hot{background:var(--orange);}
@@ -406,7 +414,7 @@ img{max-width:100%;display:block;}
     </a>
     <nav class="nav" id="nav">
       <a href="https://www.tuodalian.com/" class="nav-link">首页</a>
-      <a href="#categories" class="nav-link">商品类目</a>
+      <a href="#products" class="nav-link">商品类目</a>
       <a href="#rankings" class="nav-link">热销榜单</a>
       <a href="#services" class="nav-link">卖家服务</a>
       <a href="#regions" class="nav-link">覆盖市场</a>
@@ -767,7 +775,7 @@ img{max-width:100%;display:block;}
     <div class="wh-grid" id="whGrid">
 <div class="wh-card" data-category="居家日用" data-country="马来西亚" data-id="1">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8f4f8,#fff);">
-        <span class="wh-emoji">🏠</span>
+        <img class="wh-product-img" src="assets/products/1.jpg" alt="无痕粘钩强力挂钩10个装" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🏠</span>
         
       </div>
       <div class="wh-info">
@@ -786,7 +794,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="居家日用" data-country="印尼" data-id="2">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8f4f8,#fff);">
-        <span class="wh-emoji">🏠</span>
+        <img class="wh-product-img" src="assets/products/2.jpg" alt="免打孔浴室置物架" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🏠</span>
         <span class="wh-badge">飙升</span>
       </div>
       <div class="wh-info">
@@ -805,7 +813,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="居家日用" data-country="泰国" data-id="3">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8f4f8,#fff);">
-        <span class="wh-emoji">🏠</span>
+        <img class="wh-product-img" src="assets/products/3.jpg" alt="家用防滑地垫" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🏠</span>
         <span class="wh-badge new">NEW</span>
       </div>
       <div class="wh-info">
@@ -824,7 +832,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="居家日用" data-country="欧盟" data-id="4">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8f4f8,#fff);">
-        <span class="wh-emoji">🏠</span>
+        <img class="wh-product-img" src="assets/products/4.jpg" alt="透明收纳箱套装" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🏠</span>
         
       </div>
       <div class="wh-info">
@@ -843,7 +851,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="居家日用" data-country="韩国" data-id="5">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8f4f8,#fff);">
-        <span class="wh-emoji">🏠</span>
+        <img class="wh-product-img" src="assets/products/5.jpg" alt="多功能折叠衣架" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🏠</span>
         <span class="wh-badge">飙升</span>
       </div>
       <div class="wh-info">
@@ -862,7 +870,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="厨房用品" data-country="英国" data-id="6">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff3e0,#fff);">
-        <span class="wh-emoji">🍳</span>
+        <img class="wh-product-img" src="assets/products/6.jpg" alt="不锈钢菜刀套装" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🍳</span>
         <span class="wh-badge hot">HOT</span>
       </div>
       <div class="wh-info">
@@ -881,7 +889,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="厨房用品" data-country="澳洲" data-id="7">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff3e0,#fff);">
-        <span class="wh-emoji">🍳</span>
+        <img class="wh-product-img" src="assets/products/7.jpg" alt="硅胶锅铲汤勺" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🍳</span>
         
       </div>
       <div class="wh-info">
@@ -900,7 +908,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="厨房用品" data-country="菲律宾" data-id="8">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff3e0,#fff);">
-        <span class="wh-emoji">🍳</span>
+        <img class="wh-product-img" src="assets/products/8.jpg" alt="玻璃保鲜盒三件套" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🍳</span>
         
       </div>
       <div class="wh-info">
@@ -919,7 +927,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="厨房用品" data-country="越南" data-id="9">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff3e0,#fff);">
-        <span class="wh-emoji">🍳</span>
+        <img class="wh-product-img" src="assets/products/9.jpg" alt="电动绞肉机" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🍳</span>
         
       </div>
       <div class="wh-info">
@@ -938,7 +946,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="厨房用品" data-country="加拿大" data-id="10">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff3e0,#fff);">
-        <span class="wh-emoji">🍳</span>
+        <img class="wh-product-img" src="assets/products/10.jpg" alt="陶瓷碗碟组合" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🍳</span>
         
       </div>
       <div class="wh-info">
@@ -957,7 +965,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="家纺布艺" data-country="新西兰" data-id="11">
       <div class="wh-img" style="background:linear-gradient(135deg,#fce4ec,#fff);">
-        <span class="wh-emoji">🛏️</span>
+        <img class="wh-product-img" src="assets/products/11.jpg" alt="全棉四件套" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🛏️</span>
         <span class="wh-badge">飙升</span>
       </div>
       <div class="wh-info">
@@ -976,7 +984,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="家纺布艺" data-country="俄罗斯" data-id="12">
       <div class="wh-img" style="background:linear-gradient(135deg,#fce4ec,#fff);">
-        <span class="wh-emoji">🛏️</span>
+        <img class="wh-product-img" src="assets/products/12.jpg" alt="记忆棉枕头" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🛏️</span>
         <span class="wh-badge hot">HOT</span>
       </div>
       <div class="wh-info">
@@ -995,7 +1003,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="家纺布艺" data-country="日本" data-id="13">
       <div class="wh-img" style="background:linear-gradient(135deg,#fce4ec,#fff);">
-        <span class="wh-emoji">🛏️</span>
+        <img class="wh-product-img" src="assets/products/13.jpg" alt="加厚珊瑚绒毛毯" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🛏️</span>
         <span class="wh-badge new">NEW</span>
       </div>
       <div class="wh-info">
@@ -1014,7 +1022,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="家纺布艺" data-country="美国" data-id="14">
       <div class="wh-img" style="background:linear-gradient(135deg,#fce4ec,#fff);">
-        <span class="wh-emoji">🛏️</span>
+        <img class="wh-product-img" src="assets/products/14.jpg" alt="遮光窗帘成品" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🛏️</span>
         <span class="wh-badge new">NEW</span>
       </div>
       <div class="wh-info">
@@ -1033,7 +1041,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="家纺布艺" data-country="马来西亚" data-id="15">
       <div class="wh-img" style="background:linear-gradient(135deg,#fce4ec,#fff);">
-        <span class="wh-emoji">🛏️</span>
+        <img class="wh-product-img" src="assets/products/15.jpg" alt="防水桌布套装" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🛏️</span>
         <span class="wh-badge">爆款</span>
       </div>
       <div class="wh-info">
@@ -1052,7 +1060,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="家电" data-country="印尼" data-id="16">
       <div class="wh-img" style="background:linear-gradient(135deg,#e0f2f1,#fff);">
-        <span class="wh-emoji">📺</span>
+        <img class="wh-product-img" src="assets/products/16.jpg" alt="迷你电饭煲1.2L" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">📺</span>
         <span class="wh-badge new">NEW</span>
       </div>
       <div class="wh-info">
@@ -1071,7 +1079,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="家电" data-country="泰国" data-id="17">
       <div class="wh-img" style="background:linear-gradient(135deg,#e0f2f1,#fff);">
-        <span class="wh-emoji">📺</span>
+        <img class="wh-product-img" src="assets/products/17.jpg" alt="便携式榨汁机" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">📺</span>
         <span class="wh-badge">海贝优选</span>
       </div>
       <div class="wh-info">
@@ -1090,7 +1098,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="家电" data-country="欧盟" data-id="18">
       <div class="wh-img" style="background:linear-gradient(135deg,#e0f2f1,#fff);">
-        <span class="wh-emoji">📺</span>
+        <img class="wh-product-img" src="assets/products/18.jpg" alt="空气炸锅4.5L" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">📺</span>
         
       </div>
       <div class="wh-info">
@@ -1109,7 +1117,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="家电" data-country="韩国" data-id="19">
       <div class="wh-img" style="background:linear-gradient(135deg,#e0f2f1,#fff);">
-        <span class="wh-emoji">📺</span>
+        <img class="wh-product-img" src="assets/products/19.jpg" alt="不锈钢电热水壶" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">📺</span>
         
       </div>
       <div class="wh-info">
@@ -1128,7 +1136,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="家电" data-country="英国" data-id="20">
       <div class="wh-img" style="background:linear-gradient(135deg,#e0f2f1,#fff);">
-        <span class="wh-emoji">📺</span>
+        <img class="wh-product-img" src="assets/products/20.jpg" alt="手持挂烫机" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">📺</span>
         <span class="wh-badge">爆款</span>
       </div>
       <div class="wh-info">
@@ -1147,7 +1155,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="女装与女士内衣" data-country="澳洲" data-id="21">
       <div class="wh-img" style="background:linear-gradient(135deg,#f3e5f5,#fff);">
-        <span class="wh-emoji">👗</span>
+        <img class="wh-product-img" src="assets/products/21.jpg" alt="真丝吊带睡裙" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">👗</span>
         <span class="wh-badge hot">HOT</span>
       </div>
       <div class="wh-info">
@@ -1166,7 +1174,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="女装与女士内衣" data-country="菲律宾" data-id="22">
       <div class="wh-img" style="background:linear-gradient(135deg,#f3e5f5,#fff);">
-        <span class="wh-emoji">👗</span>
+        <img class="wh-product-img" src="assets/products/22.jpg" alt="无痕一片式内衣" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">👗</span>
         <span class="wh-badge">爆款</span>
       </div>
       <div class="wh-info">
@@ -1185,7 +1193,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="女装与女士内衣" data-country="越南" data-id="23">
       <div class="wh-img" style="background:linear-gradient(135deg,#f3e5f5,#fff);">
-        <span class="wh-emoji">👗</span>
+        <img class="wh-product-img" src="assets/products/23.jpg" alt="纯棉女士T恤" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">👗</span>
         <span class="wh-badge">飙升</span>
       </div>
       <div class="wh-info">
@@ -1204,7 +1212,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="女装与女士内衣" data-country="加拿大" data-id="24">
       <div class="wh-img" style="background:linear-gradient(135deg,#f3e5f5,#fff);">
-        <span class="wh-emoji">👗</span>
+        <img class="wh-product-img" src="assets/products/24.jpg" alt="高腰显瘦牛仔裤" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">👗</span>
         
       </div>
       <div class="wh-info">
@@ -1223,7 +1231,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="女装与女士内衣" data-country="新西兰" data-id="25">
       <div class="wh-img" style="background:linear-gradient(135deg,#f3e5f5,#fff);">
-        <span class="wh-emoji">👗</span>
+        <img class="wh-product-img" src="assets/products/25.jpg" alt="针织开衫外套" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">👗</span>
         <span class="wh-badge hot">HOT</span>
       </div>
       <div class="wh-info">
@@ -1242,7 +1250,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="穆斯林时尚" data-country="俄罗斯" data-id="26">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8eaf6,#fff);">
-        <span class="wh-emoji">🧕</span>
+        <img class="wh-product-img" src="assets/products/26.jpg" alt="雪纺长袍连衣裙" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🧕</span>
         <span class="wh-badge hot">HOT</span>
       </div>
       <div class="wh-info">
@@ -1261,7 +1269,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="穆斯林时尚" data-country="日本" data-id="27">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8eaf6,#fff);">
-        <span class="wh-emoji">🧕</span>
+        <img class="wh-product-img" src="assets/products/27.jpg" alt="刺绣头巾套装" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🧕</span>
         <span class="wh-badge hot">HOT</span>
       </div>
       <div class="wh-info">
@@ -1280,7 +1288,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="穆斯林时尚" data-country="美国" data-id="28">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8eaf6,#fff);">
-        <span class="wh-emoji">🧕</span>
+        <img class="wh-product-img" src="assets/products/28.jpg" alt="祈祷礼拜毯" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🧕</span>
         
       </div>
       <div class="wh-info">
@@ -1299,7 +1307,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="穆斯林时尚" data-country="马来西亚" data-id="29">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8eaf6,#fff);">
-        <span class="wh-emoji">🧕</span>
+        <img class="wh-product-img" src="assets/products/29.jpg" alt="长款穆斯林罩衫" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🧕</span>
         <span class="wh-badge new">NEW</span>
       </div>
       <div class="wh-info">
@@ -1318,7 +1326,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="穆斯林时尚" data-country="印尼" data-id="30">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8eaf6,#fff);">
-        <span class="wh-emoji">🧕</span>
+        <img class="wh-product-img" src="assets/products/30.jpg" alt="珍珠盖头饰品" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🧕</span>
         <span class="wh-badge">海贝优选</span>
       </div>
       <div class="wh-info">
@@ -1337,7 +1345,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="鞋靴" data-country="泰国" data-id="31">
       <div class="wh-img" style="background:linear-gradient(135deg,#e0f7fa,#fff);">
-        <span class="wh-emoji">👟</span>
+        <img class="wh-product-img" src="assets/products/31.jpg" alt="透气网面运动鞋" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">👟</span>
         
       </div>
       <div class="wh-info">
@@ -1356,7 +1364,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="鞋靴" data-country="欧盟" data-id="32">
       <div class="wh-img" style="background:linear-gradient(135deg,#e0f7fa,#fff);">
-        <span class="wh-emoji">👟</span>
+        <img class="wh-product-img" src="assets/products/32.jpg" alt="女士平底凉鞋" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">👟</span>
         <span class="wh-badge">爆款</span>
       </div>
       <div class="wh-info">
@@ -1375,7 +1383,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="鞋靴" data-country="韩国" data-id="33">
       <div class="wh-img" style="background:linear-gradient(135deg,#e0f7fa,#fff);">
-        <span class="wh-emoji">👟</span>
+        <img class="wh-product-img" src="assets/products/33.jpg" alt="英伦风马丁靴" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">👟</span>
         <span class="wh-badge">爆款</span>
       </div>
       <div class="wh-info">
@@ -1394,7 +1402,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="鞋靴" data-country="英国" data-id="34">
       <div class="wh-img" style="background:linear-gradient(135deg,#e0f7fa,#fff);">
-        <span class="wh-emoji">👟</span>
+        <img class="wh-product-img" src="assets/products/34.jpg" alt="经典帆布鞋" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">👟</span>
         
       </div>
       <div class="wh-info">
@@ -1413,7 +1421,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="鞋靴" data-country="澳洲" data-id="35">
       <div class="wh-img" style="background:linear-gradient(135deg,#e0f7fa,#fff);">
-        <span class="wh-emoji">👟</span>
+        <img class="wh-product-img" src="assets/products/35.jpg" alt="居家防滑拖鞋" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">👟</span>
         <span class="wh-badge new">NEW</span>
       </div>
       <div class="wh-info">
@@ -1432,7 +1440,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="美妆个护" data-country="菲律宾" data-id="36">
       <div class="wh-img" style="background:linear-gradient(135deg,#fce4ec,#fff);">
-        <span class="wh-emoji">💄</span>
+        <img class="wh-product-img" src="assets/products/36.jpg" alt="玻尿酸保湿面膜" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">💄</span>
         <span class="wh-badge">飙升</span>
       </div>
       <div class="wh-info">
@@ -1451,7 +1459,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="美妆个护" data-country="越南" data-id="37">
       <div class="wh-img" style="background:linear-gradient(135deg,#fce4ec,#fff);">
-        <span class="wh-emoji">💄</span>
+        <img class="wh-product-img" src="assets/products/37.jpg" alt="滋润护手霜套装" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">💄</span>
         
       </div>
       <div class="wh-info">
@@ -1470,7 +1478,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="美妆个护" data-country="加拿大" data-id="38">
       <div class="wh-img" style="background:linear-gradient(135deg,#fce4ec,#fff);">
-        <span class="wh-emoji">💄</span>
+        <img class="wh-product-img" src="assets/products/38.jpg" alt="声波电动牙刷" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">💄</span>
         <span class="wh-badge new">NEW</span>
       </div>
       <div class="wh-info">
@@ -1489,7 +1497,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="美妆个护" data-country="新西兰" data-id="39">
       <div class="wh-img" style="background:linear-gradient(135deg,#fce4ec,#fff);">
-        <span class="wh-emoji">💄</span>
+        <img class="wh-product-img" src="assets/products/39.jpg" alt="清爽防晒霜" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">💄</span>
         
       </div>
       <div class="wh-info">
@@ -1508,7 +1516,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="美妆个护" data-country="俄罗斯" data-id="40">
       <div class="wh-img" style="background:linear-gradient(135deg,#fce4ec,#fff);">
-        <span class="wh-emoji">💄</span>
+        <img class="wh-product-img" src="assets/products/40.jpg" alt="淡香香水" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">💄</span>
         
       </div>
       <div class="wh-info">
@@ -1527,7 +1535,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="手机与数码" data-country="日本" data-id="41">
       <div class="wh-img" style="background:linear-gradient(135deg,#e3f2fd,#fff);">
-        <span class="wh-emoji">📱</span>
+        <img class="wh-product-img" src="assets/products/41.jpg" alt="高清钢化膜三片装" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">📱</span>
         <span class="wh-badge">海贝优选</span>
       </div>
       <div class="wh-info">
@@ -1546,7 +1554,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="手机与数码" data-country="美国" data-id="42">
       <div class="wh-img" style="background:linear-gradient(135deg,#e3f2fd,#fff);">
-        <span class="wh-emoji">📱</span>
+        <img class="wh-product-img" src="assets/products/42.jpg" alt="PD快充充电器" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">📱</span>
         
       </div>
       <div class="wh-info">
@@ -1565,7 +1573,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="手机与数码" data-country="马来西亚" data-id="43">
       <div class="wh-img" style="background:linear-gradient(135deg,#e3f2fd,#fff);">
-        <span class="wh-emoji">📱</span>
+        <img class="wh-product-img" src="assets/products/43.jpg" alt="无线蓝牙耳机" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">📱</span>
         
       </div>
       <div class="wh-info">
@@ -1584,7 +1592,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="手机与数码" data-country="印尼" data-id="44">
       <div class="wh-img" style="background:linear-gradient(135deg,#e3f2fd,#fff);">
-        <span class="wh-emoji">📱</span>
+        <img class="wh-product-img" src="assets/products/44.jpg" alt="防摔手机壳" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">📱</span>
         
       </div>
       <div class="wh-info">
@@ -1603,7 +1611,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="手机与数码" data-country="泰国" data-id="45">
       <div class="wh-img" style="background:linear-gradient(135deg,#e3f2fd,#fff);">
-        <span class="wh-emoji">📱</span>
+        <img class="wh-product-img" src="assets/products/45.jpg" alt="蓝牙自拍杆" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">📱</span>
         <span class="wh-badge">飙升</span>
       </div>
       <div class="wh-info">
@@ -1622,7 +1630,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="电脑办公" data-country="欧盟" data-id="46">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8f5e9,#fff);">
-        <span class="wh-emoji">💻</span>
+        <img class="wh-product-img" src="assets/products/46.jpg" alt="静音无线鼠标" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">💻</span>
         <span class="wh-badge new">NEW</span>
       </div>
       <div class="wh-info">
@@ -1641,7 +1649,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="电脑办公" data-country="韩国" data-id="47">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8f5e9,#fff);">
-        <span class="wh-emoji">💻</span>
+        <img class="wh-product-img" src="assets/products/47.jpg" alt="机械键盘青轴" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">💻</span>
         <span class="wh-badge">海贝优选</span>
       </div>
       <div class="wh-info">
@@ -1660,7 +1668,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="电脑办公" data-country="英国" data-id="48">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8f5e9,#fff);">
-        <span class="wh-emoji">💻</span>
+        <img class="wh-product-img" src="assets/products/48.jpg" alt="铝合金笔记本支架" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">💻</span>
         <span class="wh-badge new">NEW</span>
       </div>
       <div class="wh-info">
@@ -1679,7 +1687,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="电脑办公" data-country="澳洲" data-id="49">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8f5e9,#fff);">
-        <span class="wh-emoji">💻</span>
+        <img class="wh-product-img" src="assets/products/49.jpg" alt="高速U盘64G" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">💻</span>
         <span class="wh-badge new">NEW</span>
       </div>
       <div class="wh-info">
@@ -1698,7 +1706,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="电脑办公" data-country="菲律宾" data-id="50">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8f5e9,#fff);">
-        <span class="wh-emoji">💻</span>
+        <img class="wh-product-img" src="assets/products/50.jpg" alt="打印机墨盒" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">💻</span>
         <span class="wh-badge hot">HOT</span>
       </div>
       <div class="wh-info">
@@ -1717,7 +1725,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="宠物用品" data-country="越南" data-id="51">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff8e1,#fff);">
-        <span class="wh-emoji">🐱</span>
+        <img class="wh-product-img" src="assets/products/51.jpg" alt="全封闭猫砂盆" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🐱</span>
         
       </div>
       <div class="wh-info">
@@ -1736,7 +1744,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="宠物用品" data-country="加拿大" data-id="52">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff8e1,#fff);">
-        <span class="wh-emoji">🐱</span>
+        <img class="wh-product-img" src="assets/products/52.jpg" alt="智能自动喂食器" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🐱</span>
         
       </div>
       <div class="wh-info">
@@ -1755,7 +1763,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="宠物用品" data-country="新西兰" data-id="53">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff8e1,#fff);">
-        <span class="wh-emoji">🐱</span>
+        <img class="wh-product-img" src="assets/products/53.jpg" alt="便携宠物航空箱" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🐱</span>
         <span class="wh-badge">爆款</span>
       </div>
       <div class="wh-info">
@@ -1774,7 +1782,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="宠物用品" data-country="俄罗斯" data-id="54">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff8e1,#fff);">
-        <span class="wh-emoji">🐱</span>
+        <img class="wh-product-img" src="assets/products/54.jpg" alt="反光狗狗牵引绳" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🐱</span>
         
       </div>
       <div class="wh-info">
@@ -1793,7 +1801,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="宠物用品" data-country="日本" data-id="55">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff8e1,#fff);">
-        <span class="wh-emoji">🐱</span>
+        <img class="wh-product-img" src="assets/products/55.jpg" alt="瓦楞纸猫抓板" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🐱</span>
         
       </div>
       <div class="wh-info">
@@ -1812,7 +1820,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="母婴用品" data-country="美国" data-id="56">
       <div class="wh-img" style="background:linear-gradient(135deg,#fbe9e7,#fff);">
-        <span class="wh-emoji">🍼</span>
+        <img class="wh-product-img" src="assets/products/56.jpg" alt="婴儿手口湿巾" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🍼</span>
         <span class="wh-badge">飙升</span>
       </div>
       <div class="wh-info">
@@ -1831,7 +1839,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="母婴用品" data-country="马来西亚" data-id="57">
       <div class="wh-img" style="background:linear-gradient(135deg,#fbe9e7,#fff);">
-        <span class="wh-emoji">🍼</span>
+        <img class="wh-product-img" src="assets/products/57.jpg" alt="宽口径奶瓶套装" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🍼</span>
         <span class="wh-badge hot">HOT</span>
       </div>
       <div class="wh-info">
@@ -1850,7 +1858,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="母婴用品" data-country="印尼" data-id="58">
       <div class="wh-img" style="background:linear-gradient(135deg,#fbe9e7,#fff);">
-        <span class="wh-emoji">🍼</span>
+        <img class="wh-product-img" src="assets/products/58.jpg" alt="轻便婴儿推车" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🍼</span>
         
       </div>
       <div class="wh-info">
@@ -1869,7 +1877,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="母婴用品" data-country="泰国" data-id="59">
       <div class="wh-img" style="background:linear-gradient(135deg,#fbe9e7,#fff);">
-        <span class="wh-emoji">🍼</span>
+        <img class="wh-product-img" src="assets/products/59.jpg" alt="防摔儿童餐具" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🍼</span>
         <span class="wh-badge">爆款</span>
       </div>
       <div class="wh-info">
@@ -1888,7 +1896,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="母婴用品" data-country="欧盟" data-id="60">
       <div class="wh-img" style="background:linear-gradient(135deg,#fbe9e7,#fff);">
-        <span class="wh-emoji">🍼</span>
+        <img class="wh-product-img" src="assets/products/60.jpg" alt="超薄婴儿纸尿裤" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🍼</span>
         <span class="wh-badge">飙升</span>
       </div>
       <div class="wh-info">
@@ -1907,7 +1915,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="运动与户外" data-country="韩国" data-id="61">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8f5e9,#fff);">
-        <span class="wh-emoji">🏕️</span>
+        <img class="wh-product-img" src="assets/products/61.jpg" alt="TPE防滑瑜伽垫" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🏕️</span>
         
       </div>
       <div class="wh-info">
@@ -1926,7 +1934,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="运动与户外" data-country="英国" data-id="62">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8f5e9,#fff);">
-        <span class="wh-emoji">🏕️</span>
+        <img class="wh-product-img" src="assets/products/62.jpg" alt="大容量运动水壶" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🏕️</span>
         <span class="wh-badge new">NEW</span>
       </div>
       <div class="wh-info">
@@ -1945,7 +1953,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="运动与户外" data-country="澳洲" data-id="63">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8f5e9,#fff);">
-        <span class="wh-emoji">🏕️</span>
+        <img class="wh-product-img" src="assets/products/63.jpg" alt="双人露营帐篷" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🏕️</span>
         <span class="wh-badge new">NEW</span>
       </div>
       <div class="wh-info">
@@ -1964,7 +1972,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="运动与户外" data-country="菲律宾" data-id="64">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8f5e9,#fff);">
-        <span class="wh-emoji">🏕️</span>
+        <img class="wh-product-img" src="assets/products/64.jpg" alt="铝合金登山杖" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🏕️</span>
         <span class="wh-badge">爆款</span>
       </div>
       <div class="wh-info">
@@ -1983,7 +1991,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="运动与户外" data-country="越南" data-id="65">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8f5e9,#fff);">
-        <span class="wh-emoji">🏕️</span>
+        <img class="wh-product-img" src="assets/products/65.jpg" alt="计数智能跳绳" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🏕️</span>
         
       </div>
       <div class="wh-info">
@@ -2002,7 +2010,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="玩具和婴好" data-country="加拿大" data-id="66">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff3e0,#fff);">
-        <span class="wh-emoji">🧸</span>
+        <img class="wh-product-img" src="assets/products/66.jpg" alt="益智拼装积木" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🧸</span>
         <span class="wh-badge new">NEW</span>
       </div>
       <div class="wh-info">
@@ -2021,7 +2029,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="玩具和婴好" data-country="新西兰" data-id="67">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff3e0,#fff);">
-        <span class="wh-emoji">🧸</span>
+        <img class="wh-product-img" src="assets/products/67.jpg" alt="遥控越野汽车" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🧸</span>
         <span class="wh-badge">爆款</span>
       </div>
       <div class="wh-info">
@@ -2040,7 +2048,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="玩具和婴好" data-country="俄罗斯" data-id="68">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff3e0,#fff);">
-        <span class="wh-emoji">🧸</span>
+        <img class="wh-product-img" src="assets/products/68.jpg" alt="1000片风景拼图" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🧸</span>
         
       </div>
       <div class="wh-info">
@@ -2059,7 +2067,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="玩具和婴好" data-country="日本" data-id="69">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff3e0,#fff);">
-        <span class="wh-emoji">🧸</span>
+        <img class="wh-product-img" src="assets/products/69.jpg" alt="可爱毛绒玩具" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🧸</span>
         <span class="wh-badge">飙升</span>
       </div>
       <div class="wh-info">
@@ -2078,7 +2086,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="玩具和婴好" data-country="美国" data-id="70">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff3e0,#fff);">
-        <span class="wh-emoji">🧸</span>
+        <img class="wh-product-img" src="assets/products/70.jpg" alt="磁性儿童画板" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🧸</span>
         <span class="wh-badge">爆款</span>
       </div>
       <div class="wh-info">
@@ -2097,7 +2105,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="家具" data-country="马来西亚" data-id="71">
       <div class="wh-img" style="background:linear-gradient(135deg,#efebe9,#fff);">
-        <span class="wh-emoji">🪑</span>
+        <img class="wh-product-img" src="assets/products/71.jpg" alt="折叠便携椅" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🪑</span>
         <span class="wh-badge">爆款</span>
       </div>
       <div class="wh-info">
@@ -2116,7 +2124,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="家具" data-country="印尼" data-id="72">
       <div class="wh-img" style="background:linear-gradient(135deg,#efebe9,#fff);">
-        <span class="wh-emoji">🪑</span>
+        <img class="wh-product-img" src="assets/products/72.jpg" alt="简约多层书架" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🪑</span>
         
       </div>
       <div class="wh-info">
@@ -2135,7 +2143,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="家具" data-country="泰国" data-id="73">
       <div class="wh-img" style="background:linear-gradient(135deg,#efebe9,#fff);">
-        <span class="wh-emoji">🪑</span>
+        <img class="wh-product-img" src="assets/products/73.jpg" alt="家用电脑桌" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🪑</span>
         <span class="wh-badge">海贝优选</span>
       </div>
       <div class="wh-info">
@@ -2154,7 +2162,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="家具" data-country="欧盟" data-id="74">
       <div class="wh-img" style="background:linear-gradient(135deg,#efebe9,#fff);">
-        <span class="wh-emoji">🪑</span>
+        <img class="wh-product-img" src="assets/products/74.jpg" alt="塑料抽屉储物柜" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🪑</span>
         <span class="wh-badge">飙升</span>
       </div>
       <div class="wh-info">
@@ -2173,7 +2181,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="家具" data-country="韩国" data-id="75">
       <div class="wh-img" style="background:linear-gradient(135deg,#efebe9,#fff);">
-        <span class="wh-emoji">🪑</span>
+        <img class="wh-product-img" src="assets/products/75.jpg" alt="豆袋懒人沙发" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🪑</span>
         <span class="wh-badge">爆款</span>
       </div>
       <div class="wh-info">
@@ -2192,7 +2200,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="五金工具" data-country="英国" data-id="76">
       <div class="wh-img" style="background:linear-gradient(135deg,#eceff1,#fff);">
-        <span class="wh-emoji">🔧</span>
+        <img class="wh-product-img" src="assets/products/76.jpg" alt="锂电冲击钻套装" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🔧</span>
         
       </div>
       <div class="wh-info">
@@ -2211,7 +2219,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="五金工具" data-country="澳洲" data-id="77">
       <div class="wh-img" style="background:linear-gradient(135deg,#eceff1,#fff);">
-        <span class="wh-emoji">🔧</span>
+        <img class="wh-product-img" src="assets/products/77.jpg" alt="梅花扳手套装" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🔧</span>
         <span class="wh-badge new">NEW</span>
       </div>
       <div class="wh-info">
@@ -2230,7 +2238,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="五金工具" data-country="菲律宾" data-id="78">
       <div class="wh-img" style="background:linear-gradient(135deg,#eceff1,#fff);">
-        <span class="wh-emoji">🔧</span>
+        <img class="wh-product-img" src="assets/products/78.jpg" alt="精密螺丝刀组" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🔧</span>
         <span class="wh-badge new">NEW</span>
       </div>
       <div class="wh-info">
@@ -2249,7 +2257,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="五金工具" data-country="越南" data-id="79">
       <div class="wh-img" style="background:linear-gradient(135deg,#eceff1,#fff);">
-        <span class="wh-emoji">🔧</span>
+        <img class="wh-product-img" src="assets/products/79.jpg" alt="5米钢卷尺" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🔧</span>
         <span class="wh-badge new">NEW</span>
       </div>
       <div class="wh-info">
@@ -2268,7 +2276,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="五金工具" data-country="加拿大" data-id="80">
       <div class="wh-img" style="background:linear-gradient(135deg,#eceff1,#fff);">
-        <span class="wh-emoji">🔧</span>
+        <img class="wh-product-img" src="assets/products/80.jpg" alt="迷你电锯" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🔧</span>
         
       </div>
       <div class="wh-info">
@@ -2287,7 +2295,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="家装建材" data-country="新西兰" data-id="81">
       <div class="wh-img" style="background:linear-gradient(135deg,#e0f2f1,#fff);">
-        <span class="wh-emoji">🏗️</span>
+        <img class="wh-product-img" src="assets/products/81.jpg" alt="LED吸顶灯" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🏗️</span>
         
       </div>
       <div class="wh-info">
@@ -2306,7 +2314,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="家装建材" data-country="俄罗斯" data-id="82">
       <div class="wh-img" style="background:linear-gradient(135deg,#e0f2f1,#fff);">
-        <span class="wh-emoji">🏗️</span>
+        <img class="wh-product-img" src="assets/products/82.jpg" alt="卫生间防水涂料" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🏗️</span>
         <span class="wh-badge new">NEW</span>
       </div>
       <div class="wh-info">
@@ -2325,7 +2333,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="家装建材" data-country="日本" data-id="83">
       <div class="wh-img" style="background:linear-gradient(135deg,#e0f2f1,#fff);">
-        <span class="wh-emoji">🏗️</span>
+        <img class="wh-product-img" src="assets/products/83.jpg" alt="仿大理石瓷砖" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🏗️</span>
         <span class="wh-badge hot">HOT</span>
       </div>
       <div class="wh-info">
@@ -2344,7 +2352,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="家装建材" data-country="美国" data-id="84">
       <div class="wh-img" style="background:linear-gradient(135deg,#e0f2f1,#fff);">
-        <span class="wh-emoji">🏗️</span>
+        <img class="wh-product-img" src="assets/products/84.jpg" alt="PVC自粘墙纸" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🏗️</span>
         
       </div>
       <div class="wh-info">
@@ -2363,7 +2371,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="家装建材" data-country="马来西亚" data-id="85">
       <div class="wh-img" style="background:linear-gradient(135deg,#e0f2f1,#fff);">
-        <span class="wh-emoji">🏗️</span>
+        <img class="wh-product-img" src="assets/products/85.jpg" alt="黄铜冷热水龙头" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🏗️</span>
         <span class="wh-badge hot">HOT</span>
       </div>
       <div class="wh-info">
@@ -2382,7 +2390,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="汽车与摩托车" data-country="印尼" data-id="86">
       <div class="wh-img" style="background:linear-gradient(135deg,#e3f2fd,#fff);">
-        <span class="wh-emoji">🚗</span>
+        <img class="wh-product-img" src="assets/products/86.jpg" alt="车载快充充电器" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🚗</span>
         <span class="wh-badge">海贝优选</span>
       </div>
       <div class="wh-info">
@@ -2401,7 +2409,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="汽车与摩托车" data-country="泰国" data-id="87">
       <div class="wh-img" style="background:linear-gradient(135deg,#e3f2fd,#fff);">
-        <span class="wh-emoji">🚗</span>
+        <img class="wh-product-img" src="assets/products/87.jpg" alt="全包围座椅套" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🚗</span>
         
       </div>
       <div class="wh-info">
@@ -2420,7 +2428,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="汽车与摩托车" data-country="欧盟" data-id="88">
       <div class="wh-img" style="background:linear-gradient(135deg,#e3f2fd,#fff);">
-        <span class="wh-emoji">🚗</span>
+        <img class="wh-product-img" src="assets/products/88.jpg" alt="高清行车记录仪" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🚗</span>
         
       </div>
       <div class="wh-info">
@@ -2439,7 +2447,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="汽车与摩托车" data-country="韩国" data-id="89">
       <div class="wh-img" style="background:linear-gradient(135deg,#e3f2fd,#fff);">
-        <span class="wh-emoji">🚗</span>
+        <img class="wh-product-img" src="assets/products/89.jpg" alt="无线充电车载吸尘器" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🚗</span>
         <span class="wh-badge new">NEW</span>
       </div>
       <div class="wh-info">
@@ -2458,7 +2466,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="汽车与摩托车" data-country="英国" data-id="90">
       <div class="wh-img" style="background:linear-gradient(135deg,#e3f2fd,#fff);">
-        <span class="wh-emoji">🚗</span>
+        <img class="wh-product-img" src="assets/products/90.jpg" alt="摩托车安全头盔" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🚗</span>
         <span class="wh-badge">爆款</span>
       </div>
       <div class="wh-info">
@@ -2477,7 +2485,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="时尚配件" data-country="澳洲" data-id="91">
       <div class="wh-img" style="background:linear-gradient(135deg,#f3e5f5,#fff);">
-        <span class="wh-emoji">🕶️</span>
+        <img class="wh-product-img" src="assets/products/91.jpg" alt="偏光太阳镜" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🕶️</span>
         
       </div>
       <div class="wh-info">
@@ -2496,7 +2504,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="时尚配件" data-country="菲律宾" data-id="92">
       <div class="wh-img" style="background:linear-gradient(135deg,#f3e5f5,#fff);">
-        <span class="wh-emoji">🕶️</span>
+        <img class="wh-product-img" src="assets/products/92.jpg" alt="真皮自动扣皮带" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🕶️</span>
         <span class="wh-badge hot">HOT</span>
       </div>
       <div class="wh-info">
@@ -2515,7 +2523,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="时尚配件" data-country="越南" data-id="93">
       <div class="wh-img" style="background:linear-gradient(135deg,#f3e5f5,#fff);">
-        <span class="wh-emoji">🕶️</span>
+        <img class="wh-product-img" src="assets/products/93.jpg" alt="桑蚕丝丝巾" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🕶️</span>
         
       </div>
       <div class="wh-info">
@@ -2534,7 +2542,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="时尚配件" data-country="加拿大" data-id="94">
       <div class="wh-img" style="background:linear-gradient(135deg,#f3e5f5,#fff);">
-        <span class="wh-emoji">🕶️</span>
+        <img class="wh-product-img" src="assets/products/94.jpg" alt="棒球帽" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🕶️</span>
         <span class="wh-badge hot">HOT</span>
       </div>
       <div class="wh-info">
@@ -2553,7 +2561,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="时尚配件" data-country="新西兰" data-id="95">
       <div class="wh-img" style="background:linear-gradient(135deg,#f3e5f5,#fff);">
-        <span class="wh-emoji">🕶️</span>
+        <img class="wh-product-img" src="assets/products/95.jpg" alt="保暖触屏手套" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🕶️</span>
         <span class="wh-badge new">NEW</span>
       </div>
       <div class="wh-info">
@@ -2572,7 +2580,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="食品与饮料" data-country="俄罗斯" data-id="96">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff8e1,#fff);">
-        <span class="wh-emoji">🍵</span>
+        <img class="wh-product-img" src="assets/products/96.jpg" alt="龙井绿茶礼盒" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🍵</span>
         <span class="wh-badge new">NEW</span>
       </div>
       <div class="wh-info">
@@ -2591,7 +2599,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="食品与饮料" data-country="日本" data-id="97">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff8e1,#fff);">
-        <span class="wh-emoji">🍵</span>
+        <img class="wh-product-img" src="assets/products/97.jpg" alt="每日坚果礼盒" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🍵</span>
         
       </div>
       <div class="wh-info">
@@ -2610,7 +2618,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="食品与饮料" data-country="美国" data-id="98">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff8e1,#fff);">
-        <span class="wh-emoji">🍵</span>
+        <img class="wh-product-img" src="assets/products/98.jpg" alt="速溶黑咖啡" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🍵</span>
         <span class="wh-badge">海贝优选</span>
       </div>
       <div class="wh-info">
@@ -2629,7 +2637,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="食品与饮料" data-country="马来西亚" data-id="99">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff8e1,#fff);">
-        <span class="wh-emoji">🍵</span>
+        <img class="wh-product-img" src="assets/products/99.jpg" alt="天然蜂蜜" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🍵</span>
         
       </div>
       <div class="wh-info">
@@ -2648,7 +2656,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="食品与饮料" data-country="印尼" data-id="100">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff8e1,#fff);">
-        <span class="wh-emoji">🍵</span>
+        <img class="wh-product-img" src="assets/products/100.jpg" alt="方便速食面" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🍵</span>
         <span class="wh-badge new">NEW</span>
       </div>
       <div class="wh-info">
@@ -2667,7 +2675,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="保健" data-country="泰国" data-id="101">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8f5e9,#fff);">
-        <span class="wh-emoji">💊</span>
+        <img class="wh-product-img" src="assets/products/101.jpg" alt="维生素C泡腾片" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">💊</span>
         <span class="wh-badge">海贝优选</span>
       </div>
       <div class="wh-info">
@@ -2686,7 +2694,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="保健" data-country="欧盟" data-id="102">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8f5e9,#fff);">
-        <span class="wh-emoji">💊</span>
+        <img class="wh-product-img" src="assets/products/102.jpg" alt="深海鱼油胶囊" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">💊</span>
         
       </div>
       <div class="wh-info">
@@ -2705,7 +2713,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="保健" data-country="韩国" data-id="103">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8f5e9,#fff);">
-        <span class="wh-emoji">💊</span>
+        <img class="wh-product-img" src="assets/products/103.jpg" alt="钙维生素D片" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">💊</span>
         <span class="wh-badge">爆款</span>
       </div>
       <div class="wh-info">
@@ -2724,7 +2732,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="保健" data-country="英国" data-id="104">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8f5e9,#fff);">
-        <span class="wh-emoji">💊</span>
+        <img class="wh-product-img" src="assets/products/104.jpg" alt="活性益生菌粉" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">💊</span>
         
       </div>
       <div class="wh-info">
@@ -2743,7 +2751,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="保健" data-country="澳洲" data-id="105">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8f5e9,#fff);">
-        <span class="wh-emoji">💊</span>
+        <img class="wh-product-img" src="assets/products/105.jpg" alt="颈椎按摩器" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">💊</span>
         <span class="wh-badge new">NEW</span>
       </div>
       <div class="wh-info">
@@ -2762,7 +2770,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="图书&杂志&桌游" data-country="菲律宾" data-id="106">
       <div class="wh-img" style="background:linear-gradient(135deg,#efebe9,#fff);">
-        <span class="wh-emoji">📚</span>
+        <img class="wh-product-img" src="assets/products/106.jpg" alt="策略桌游卡牌" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">📚</span>
         <span class="wh-badge">海贝优选</span>
       </div>
       <div class="wh-info">
@@ -2781,7 +2789,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="图书&杂志&桌游" data-country="越南" data-id="107">
       <div class="wh-img" style="background:linear-gradient(135deg,#efebe9,#fff);">
-        <span class="wh-emoji">📚</span>
+        <img class="wh-product-img" src="assets/products/107.jpg" alt="防水塑料扑克牌" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">📚</span>
         
       </div>
       <div class="wh-info">
@@ -2800,7 +2808,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="图书&杂志&桌游" data-country="加拿大" data-id="108">
       <div class="wh-img" style="background:linear-gradient(135deg,#efebe9,#fff);">
-        <span class="wh-emoji">📚</span>
+        <img class="wh-product-img" src="assets/products/108.jpg" alt="A5商务笔记本" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">📚</span>
         <span class="wh-badge new">NEW</span>
       </div>
       <div class="wh-info">
@@ -2819,7 +2827,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="图书&杂志&桌游" data-country="新西兰" data-id="109">
       <div class="wh-img" style="background:linear-gradient(135deg,#efebe9,#fff);">
-        <span class="wh-emoji">📚</span>
+        <img class="wh-product-img" src="assets/products/109.jpg" alt="儿童启蒙绘本" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">📚</span>
         
       </div>
       <div class="wh-info">
@@ -2838,7 +2846,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="图书&杂志&桌游" data-country="俄罗斯" data-id="110">
       <div class="wh-img" style="background:linear-gradient(135deg,#efebe9,#fff);">
-        <span class="wh-emoji">📚</span>
+        <img class="wh-product-img" src="assets/products/110.jpg" alt="双头马克笔套装" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">📚</span>
         
       </div>
       <div class="wh-info">
@@ -2857,7 +2865,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="儿童时尚" data-country="日本" data-id="111">
       <div class="wh-img" style="background:linear-gradient(135deg,#e1f5fe,#fff);">
-        <span class="wh-emoji">👶</span>
+        <img class="wh-product-img" src="assets/products/111.jpg" alt="纯棉儿童T恤" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">👶</span>
         <span class="wh-badge">爆款</span>
       </div>
       <div class="wh-info">
@@ -2876,7 +2884,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="儿童时尚" data-country="美国" data-id="112">
       <div class="wh-img" style="background:linear-gradient(135deg,#e1f5fe,#fff);">
-        <span class="wh-emoji">👶</span>
+        <img class="wh-product-img" src="assets/products/112.jpg" alt="女童连衣裙" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">👶</span>
         
       </div>
       <div class="wh-info">
@@ -2895,7 +2903,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="儿童时尚" data-country="马来西亚" data-id="113">
       <div class="wh-img" style="background:linear-gradient(135deg,#e1f5fe,#fff);">
-        <span class="wh-emoji">👶</span>
+        <img class="wh-product-img" src="assets/products/113.jpg" alt="儿童魔术贴运动鞋" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">👶</span>
         
       </div>
       <div class="wh-info">
@@ -2914,7 +2922,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="儿童时尚" data-country="印尼" data-id="114">
       <div class="wh-img" style="background:linear-gradient(135deg,#e1f5fe,#fff);">
-        <span class="wh-emoji">👶</span>
+        <img class="wh-product-img" src="assets/products/114.jpg" alt="婴儿纯棉连体衣" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">👶</span>
         <span class="wh-badge">飙升</span>
       </div>
       <div class="wh-info">
@@ -2933,7 +2941,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="儿童时尚" data-country="泰国" data-id="115">
       <div class="wh-img" style="background:linear-gradient(135deg,#e1f5fe,#fff);">
-        <span class="wh-emoji">👶</span>
+        <img class="wh-product-img" src="assets/products/115.jpg" alt="卡通儿童渔夫帽" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">👶</span>
         
       </div>
       <div class="wh-info">
@@ -2952,7 +2960,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="男装与男士内衣" data-country="欧盟" data-id="116">
       <div class="wh-img" style="background:linear-gradient(135deg,#e3f2fd,#fff);">
-        <span class="wh-emoji">👔</span>
+        <img class="wh-product-img" src="assets/products/116.jpg" alt="商务免烫衬衫" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">👔</span>
         
       </div>
       <div class="wh-info">
@@ -2971,7 +2979,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="男装与男士内衣" data-country="韩国" data-id="117">
       <div class="wh-img" style="background:linear-gradient(135deg,#e3f2fd,#fff);">
-        <span class="wh-emoji">👔</span>
+        <img class="wh-product-img" src="assets/products/117.jpg" alt="男士纯棉平角裤" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">👔</span>
         <span class="wh-badge">爆款</span>
       </div>
       <div class="wh-info">
@@ -2990,7 +2998,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="男装与男士内衣" data-country="英国" data-id="118">
       <div class="wh-img" style="background:linear-gradient(135deg,#e3f2fd,#fff);">
-        <span class="wh-emoji">👔</span>
+        <img class="wh-product-img" src="assets/products/118.jpg" alt="弹力休闲长裤" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">👔</span>
         
       </div>
       <div class="wh-info">
@@ -3009,7 +3017,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="男装与男士内衣" data-country="澳洲" data-id="119">
       <div class="wh-img" style="background:linear-gradient(135deg,#e3f2fd,#fff);">
-        <span class="wh-emoji">👔</span>
+        <img class="wh-product-img" src="assets/products/119.jpg" alt="修身西装外套" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">👔</span>
         <span class="wh-badge new">NEW</span>
       </div>
       <div class="wh-info">
@@ -3028,7 +3036,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="男装与男士内衣" data-country="菲律宾" data-id="120">
       <div class="wh-img" style="background:linear-gradient(135deg,#e3f2fd,#fff);">
-        <span class="wh-emoji">👔</span>
+        <img class="wh-product-img" src="assets/products/120.jpg" alt="德绒保暖内衣" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">👔</span>
         <span class="wh-badge new">NEW</span>
       </div>
       <div class="wh-info">
@@ -3047,7 +3055,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="箱包" data-country="越南" data-id="121">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff3e0,#fff);">
-        <span class="wh-emoji">🎒</span>
+        <img class="wh-product-img" src="assets/products/121.jpg" alt="商务双肩背包" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🎒</span>
         <span class="wh-badge">海贝优选</span>
       </div>
       <div class="wh-info">
@@ -3066,7 +3074,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="箱包" data-country="加拿大" data-id="122">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff3e0,#fff);">
-        <span class="wh-emoji">🎒</span>
+        <img class="wh-product-img" src="assets/products/122.jpg" alt="20寸拉杆旅行箱" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🎒</span>
         
       </div>
       <div class="wh-info">
@@ -3085,7 +3093,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="箱包" data-country="新西兰" data-id="123">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff3e0,#fff);">
-        <span class="wh-emoji">🎒</span>
+        <img class="wh-product-img" src="assets/products/123.jpg" alt="女士手提包" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🎒</span>
         <span class="wh-badge">飙升</span>
       </div>
       <div class="wh-info">
@@ -3104,7 +3112,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="箱包" data-country="俄罗斯" data-id="124">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff3e0,#fff);">
-        <span class="wh-emoji">🎒</span>
+        <img class="wh-product-img" src="assets/products/124.jpg" alt="运动腰包" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🎒</span>
         
       </div>
       <div class="wh-info">
@@ -3123,7 +3131,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="箱包" data-country="日本" data-id="125">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff3e0,#fff);">
-        <span class="wh-emoji">🎒</span>
+        <img class="wh-product-img" src="assets/products/125.jpg" alt="便携化妆包" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🎒</span>
         
       </div>
       <div class="wh-info">
@@ -3142,7 +3150,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="收藏品" data-country="美国" data-id="126">
       <div class="wh-img" style="background:linear-gradient(135deg,#efebe9,#fff);">
-        <span class="wh-emoji">🪙</span>
+        <img class="wh-product-img" src="assets/products/126.jpg" alt="生肖纪念币套装" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🪙</span>
         
       </div>
       <div class="wh-info">
@@ -3161,7 +3169,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="收藏品" data-country="马来西亚" data-id="127">
       <div class="wh-img" style="background:linear-gradient(135deg,#efebe9,#fff);">
-        <span class="wh-emoji">🪙</span>
+        <img class="wh-product-img" src="assets/products/127.jpg" alt="世界邮票集锦" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🪙</span>
         <span class="wh-badge">飙升</span>
       </div>
       <div class="wh-info">
@@ -3180,7 +3188,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="收藏品" data-country="印尼" data-id="128">
       <div class="wh-img" style="background:linear-gradient(135deg,#efebe9,#fff);">
-        <span class="wh-emoji">🪙</span>
+        <img class="wh-product-img" src="assets/products/128.jpg" alt="动漫手办模型" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🪙</span>
         
       </div>
       <div class="wh-info">
@@ -3199,7 +3207,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="收藏品" data-country="泰国" data-id="129">
       <div class="wh-img" style="background:linear-gradient(135deg,#efebe9,#fff);">
-        <span class="wh-emoji">🪙</span>
+        <img class="wh-product-img" src="assets/products/129.jpg" alt="NBA球星卡" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🪙</span>
         <span class="wh-badge new">NEW</span>
       </div>
       <div class="wh-info">
@@ -3218,7 +3226,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="收藏品" data-country="欧盟" data-id="130">
       <div class="wh-img" style="background:linear-gradient(135deg,#efebe9,#fff);">
-        <span class="wh-emoji">🪙</span>
+        <img class="wh-product-img" src="assets/products/130.jpg" alt="复古陶瓷摆件" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🪙</span>
         <span class="wh-badge">海贝优选</span>
       </div>
       <div class="wh-info">
@@ -3237,7 +3245,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="珠宝与衍生品" data-country="韩国" data-id="131">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff8e1,#fff);">
-        <span class="wh-emoji">💍</span>
+        <img class="wh-product-img" src="assets/products/131.jpg" alt="925银锁骨项链" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">💍</span>
         
       </div>
       <div class="wh-info">
@@ -3256,7 +3264,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="珠宝与衍生品" data-country="英国" data-id="132">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff8e1,#fff);">
-        <span class="wh-emoji">💍</span>
+        <img class="wh-product-img" src="assets/products/132.jpg" alt="钛钢情侣戒指" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">💍</span>
         <span class="wh-badge">爆款</span>
       </div>
       <div class="wh-info">
@@ -3275,7 +3283,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="珠宝与衍生品" data-country="澳洲" data-id="133">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff8e1,#fff);">
-        <span class="wh-emoji">💍</span>
+        <img class="wh-product-img" src="assets/products/133.jpg" alt="珍珠耳钉套装" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">💍</span>
         
       </div>
       <div class="wh-info">
@@ -3294,7 +3302,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="珠宝与衍生品" data-country="菲律宾" data-id="134">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff8e1,#fff);">
-        <span class="wh-emoji">💍</span>
+        <img class="wh-product-img" src="assets/products/134.jpg" alt="石榴石手链" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">💍</span>
         <span class="wh-badge">爆款</span>
       </div>
       <div class="wh-info">
@@ -3313,7 +3321,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="珠宝与衍生品" data-country="越南" data-id="135">
       <div class="wh-img" style="background:linear-gradient(135deg,#fff8e1,#fff);">
-        <span class="wh-emoji">💍</span>
+        <img class="wh-product-img" src="assets/products/135.jpg" alt="水钻发饰组合" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">💍</span>
         <span class="wh-badge">海贝优选</span>
       </div>
       <div class="wh-info">
@@ -3332,7 +3340,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="虚拟商品" data-country="加拿大" data-id="136">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8eaf6,#fff);">
-        <span class="wh-emoji">🎫</span>
+        <img class="wh-product-img" src="assets/products/136.jpg" alt="跨境电商运营课程" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🎫</span>
         <span class="wh-badge hot">HOT</span>
       </div>
       <div class="wh-info">
@@ -3351,7 +3359,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="虚拟商品" data-country="新西兰" data-id="137">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8eaf6,#fff);">
-        <span class="wh-emoji">🎫</span>
+        <img class="wh-product-img" src="assets/products/137.jpg" alt="设计素材资源包" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🎫</span>
         
       </div>
       <div class="wh-info">
@@ -3370,7 +3378,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="虚拟商品" data-country="俄罗斯" data-id="138">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8eaf6,#fff);">
-        <span class="wh-emoji">🎫</span>
+        <img class="wh-product-img" src="assets/products/138.jpg" alt="正版软件授权码" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🎫</span>
         
       </div>
       <div class="wh-info">
@@ -3389,7 +3397,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="虚拟商品" data-country="日本" data-id="139">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8eaf6,#fff);">
-        <span class="wh-emoji">🎫</span>
+        <img class="wh-product-img" src="assets/products/139.jpg" alt="在线工具年会员" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🎫</span>
         <span class="wh-badge">海贝优选</span>
       </div>
       <div class="wh-info">
@@ -3408,7 +3416,7 @@ img{max-width:100%;display:block;}
     </div>
 <div class="wh-card" data-category="虚拟商品" data-country="美国" data-id="140">
       <div class="wh-img" style="background:linear-gradient(135deg,#e8eaf6,#fff);">
-        <span class="wh-emoji">🎫</span>
+        <img class="wh-product-img" src="assets/products/140.jpg" alt="多语言翻译服务" loading="lazy" onload="this.parentNode.parentNode.setAttribute('data-image-loaded','true');" onerror="this.onerror=null;this.parentNode.querySelector('.wh-emoji').style.display='flex';this.removeAttribute('src');"><span class="wh-emoji" style="display:none">🎫</span>
         <span class="wh-badge">飙升</span>
       </div>
       <div class="wh-info">
@@ -3494,7 +3502,7 @@ img{max-width:100%;display:block;}
         <ul>
           <li><a href="https://www.tuodalian.com/">首页</a></li>
           <li><a href="https://www.tuodalian.com/gongyinglian">供应链管理</a></li>
-          <li><a href="#categories">商品类目</a></li>
+          <li><a href="#products">商品类目</a></li>
           <li><a href="#rankings">热销榜单</a></li>
           <li><a href="#products">商品中心</a></li>
         </ul>
