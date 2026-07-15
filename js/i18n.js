@@ -18,7 +18,7 @@
     'nav.contact':      { zh: '联系我们',   en: 'Contact' },
 
     // ---- Hero ----
-    'hero.badge':     { zh: 'SINCE 2025 · 立足上海 连接全球',   en: 'SINCE 2025 · Based in Shanghai, Connecting Globally' },
+    'hero.badge':     { zh: 'SINCE 2015 · 立足上海 连接全球',   en: 'SINCE 2015 · Based in Shanghai, Connecting Globally' },
     'hero.title1':    { zh: '全球贸易<span class="gold">解决方案</span>', en: 'Global Trade <span class="gold">Solutions</span>' },
     'hero.title2':    { zh: '值得信赖的<span class="gold">国际合作伙伴</span>', en: 'Your Trusted <span class="gold">International Partner</span>' },
     'hero.desc':      { zh: '上海拓达联国际贸易有限公司深耕国际贸易与供应链管理领域，为客户提供进出口代理、跨境物流、仓储配送、贸易咨询等一站式专业服务，助力企业扬帆出海，链接全球市场。', en: 'Shanghai Tuodalian International Trade Co., Ltd. specializes in international trade and supply chain management, providing one-stop professional services including import/export agency, cross-border logistics, warehousing & distribution, and trade consulting to help enterprises expand globally.' },
@@ -196,7 +196,7 @@
     'footer.nav':       { zh: '快速导航',   en: 'Quick Links' },
     'footer.services':  { zh: '核心服务',   en: 'Core Services' },
     'footer.contact.t': { zh: '联系方式',   en: 'Contact Info' },
-    'footer.copy':      { zh: '© 2025-2026 上海拓达联国际贸易有限公司 版权所有', en: '© 2025-2026 Shanghai Tuodalian International Trade Co., Ltd. All Rights Reserved' },
+    'footer.copy':      { zh: '© 2015-2026 上海拓达联国际贸易有限公司 版权所有', en: '© 2015-2026 Shanghai Tuodalian International Trade Co., Ltd. All Rights Reserved' },
     'footer.icp':       { zh: '沪ICP备2025130866号-1', en: 'ICP License 2025130866-1' },
     'footer.privacy':   { zh: '隐私政策',   en: 'Privacy Policy' },
     'footer.terms':     { zh: '服务条款',   en: 'Terms of Service' },
