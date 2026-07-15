@@ -13,6 +13,7 @@
     'nav.about':        { zh: '关于我们',   en: 'About Us' },
     'nav.trade':        { zh: '国际贸易',   en: 'Trade' },
     'nav.supplychain':  { zh: '供应链管理', en: 'Supply Chain' },
+    'nav.ecommerce':    { zh: '跨境电商',   en: 'Cross-Border' },
     'nav.products':     { zh: '产品服务',   en: 'Products' },
     'nav.news':         { zh: '新闻资讯',   en: 'News' },
     'nav.contact':      { zh: '联系我们',   en: 'Contact' },
