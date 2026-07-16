@@ -44,10 +44,6 @@ img{max-width:100%;display:block;}
 .top-bar .login-link{color:var(--gold);font-weight:600;}
 .top-bar .register-link{background:rgba(201,168,76,.12);color:var(--gold);border-radius:0 0 4px 4px;height:30px;line-height:30px;margin-top:-4px;}
 .top-bar .register-link:hover{background:var(--gold);color:var(--navy-dark);}
-.top-bar .notice{display:inline-flex;align-items:center;gap:6px;color:var(--gray-400);max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.top-bar .notice-icon{width:14px;height:14px;color:var(--gold);animation:tada 2s infinite;}
-@keyframes tada{0%,100%{transform:rotate(0);}10%,30%,50%,70%,90%{transform:rotate(-6deg);}20%,40%,60%,80%{transform:rotate(6deg);}}
-.top-bar .notice-text{color:var(--gray-300);}
 .top-bar .badge{display:inline-flex;align-items:center;justify-content:center;min-width:16px;height:16px;padding:0 4px;background:var(--red);color:#fff;border-radius:10px;font-size:10px;font-weight:700;margin-left:-4px;}
 .top-bar .mobile-link{display:inline-flex;align-items:center;gap:4px;}
 .top-bar .mobile-link svg{width:12px;height:12px;}
@@ -341,7 +337,6 @@ img{max-width:100%;display:block;}
   .top-bar-left{order:2;}
   .top-bar-right{order:1;}
   .top-bar a{padding:0 8px;height:30px;line-height:30px;font-size:12px;}
-  .top-bar .notice{display:none;}
   .top-bar .site-picker{height:30px;line-height:30px;}
   .top-bar .register-link{height:24px;line-height:24px;}
 }
@@ -367,11 +362,6 @@ img{max-width:100%;display:block;}
       <span class="sep">|</span>
       <a href="/dengru" class="login-link">登录</a>
       <a href="/zhuce" class="register-link">注册</a>
-      <span class="sep">|</span>
-      <span class="notice">
-        <svg class="notice-icon" viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>
-        <span class="notice-text">[重要通知] 关于杭州站售后退货地址变更通知</span>
-      </span>
     </div>
     <div class="top-bar-right">
       <a href="#">用户中心</a>
