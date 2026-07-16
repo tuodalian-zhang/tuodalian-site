@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0a1f3f">
+    <meta name="description" content="拓达联国际贸易服务 — 专业进出口代理、全球采购、贸易咨询、跨境电商一站式国际贸易解决方案，助力企业拓展全球市场。覆盖50+国家，200+合作企业。">
+    <meta name="keywords" content="国际贸易,进出口代理,全球采购,贸易咨询,跨境电商,报关清关,出口退税,上海拓达联">
+    <title>拓达联国际贸易服务 | 专业进出口代理与全球贸易解决方案</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='4' fill='%230a1f3f'/><path d='M8 22l8-16 8 16' fill='none' stroke='%23c9a84c' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/><line x1='16' y1='6' x2='16' y2='26' stroke='%23c9a84c' stroke-width='2'/></svg>">
+    <style>
+/* ===== Reset & Variables ===== */
+:root {
+    --navy: #0a1f3f;
+    --navy-light: #132d5e;
+    --navy-dark: #06152b;
+    --gold: #c9a84c;
+    --gold-light: #d4b96a;
+    --gold-dark: #a68a2e;
+    --gold-pale: #f7f3e8;
+    --white: #ffffff;
+    --gray-50: #f8f9fa;
+    --gray-100: #e9ecef;
+    --gray-200: #dee2e6;
+    --gray-300: #ced4da;
+    --gray-400: #adb5bd;
+    --gray-500: #6c757d;
+    --gray-600: #495057;
+    --gray-700: #343a40;
+    --gray-800: #212529;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --shadow-sm: 0 2px 8px rgba(0,0,0,.06);
+    --shadow-md: 0 4px 20px rgba(0,0,0,.08);
+    --shadow-lg: 0 8px 40px rgba(0,0,0,.12);
+    --shadow-xl: 0 12px 60px rgba(0,0,0,.16);
+    --transition: .3s cubic-bezier(.4,0,.2,1);
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; scroll-padding-top:80px; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+    font-size:16px; line-height:1.7; color:var(--gray-700); background:var(--white);
+    -webkit-font-smoothing:antialiased;
+}
+a { text-decoration:none; color:inherit; }
+ul, ol { list-style:none; }
+img { max-width:100%; display:block; }
+.container { max-width:1200px; margin:0 auto; padding:0 20px; }
+.gold { color:var(--gold); }
+
+/* ===== Top Bar ===== */
+.top-bar {
+    background:var(--navy-dark); color:var(--gray-300); font-size:13px;
+    padding:6px 0; border-bottom:1px solid rgba(201,168,76,.1);
+}
+.top-bar-inner { display:flex; align-items:center; gap:20px; }
+.top-contact { display:inline-flex; align-items:center; gap:5px; white-space:nowrap; }
+.top-contact svg { flex-shrink:0; }
+.top-right { margin-left:auto; display:flex; align-items:center; gap:8px; }
+.top-right a { color:rgba(255,255,255,.75); transition:color var(--transition); cursor:pointer; }
+.top-right a:hover { color:var(--gold); }
+.top-right a.active-lang { color:var(--gold); font-weight:700; }
+.top-right .sep { opacity:.4; font-size:11px; }
+
+/* ===== Header ===== */
+.header {
+    position:sticky; top:0; z-index:1000; background:rgba(10,31,63,.97);
+    backdrop-filter:blur(12px); border-bottom:1px solid rgba(201,168,76,.15);
+    transition:box-shadow var(--transition);
+}
+.header.scrolled { box-shadow:0 4px 20px rgba(0,0,0,.3); }
+.header-inner { display:flex; align-items:center; justify-content:space-between; height:72px; }
+.logo {
+    display:flex; align-items:center; gap:12px; font-weight:700; color:var(--white);
+    transition:opacity var(--transition);
+}
+.logo:hover { opacity:.85; }
+.logo-icon { line-height:0; flex-shrink:0; }
+.logo-icon img {
+    width:50px; height:50px; border-radius:10px; object-fit:cover;
+    box-shadow:0 2px 12px rgba(0,0,0,.25);
+    transition:box-shadow .3s ease;
+}
+.logo:hover .logo-icon img { box-shadow:0 4px 18px rgba(201,168,76,.35); }
+.logo-text { display:flex; flex-direction:column; line-height:1.3; }
+.logo-name { font-size:17px; letter-spacing:1px; }
+.logo-sub { font-size:11px; color:var(--gold-light); font-weight:400; letter-spacing:.5px; }
+
+.nav-list { display:flex; gap:4px; }
+.nav-link {
+    color:var(--gray-300); font-size:14px; font-weight:500; padding:8px 14px;
+    border-radius:8px; transition:all var(--transition); position:relative;
+}
+.nav-link:hover, .nav-link.active { color:var(--gold); background:rgba(201,168,76,.08); }
+
+.mobile-toggle { display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:8px; }
+.mobile-toggle span { display:block; width:24px; height:2px; background:var(--gold); border-radius:2px; transition:all var(--transition); }
+
+/* ===== Hero ===== */
+.hero {
+    position:relative; min-height:70vh; display:flex; align-items:center;
+    background:linear-gradient(135deg, #06152b 0%, #0a1f3f 30%, #132d5e 60%, #0a1f3f 100%);
+    overflow:hidden;
+}
+.hero::before {
+    content:''; position:absolute; inset:0;
+    background:
+        radial-gradient(ellipse at 20% 30%, rgba(201,168,76,.1) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 70%, rgba(19,45,94,.4) 0%, transparent 50%);
+}
+.hero-grid-bg {
+    position:absolute; inset:0; opacity:.03;
+    background-image:linear-gradient(rgba(255,255,255,.3) 1px,transparent 1px),
+                     linear-gradient(90deg,rgba(255,255,255,.3) 1px,transparent 1px);
+    background-size:60px 60px;
+}
+.hero-content { position:relative; z-index:2; padding:100px 0 60px; text-align:center; }
+.hero-badge {
+    display:inline-block; padding:8px 24px; border:1px solid var(--gold);
+    border-radius:50px; color:var(--gold); font-size:13px; letter-spacing:3px;
+    margin-bottom:28px; background:rgba(201,168,76,.06);
+}
+.hero-title {
+    font-size:clamp(1.8rem,4.5vw,3.2rem); font-weight:800; color:var(--white);
+    line-height:1.3; margin-bottom:20px; letter-spacing:-.5px;
+}
+.hero-desc {
+    font-size:clamp(.95rem,1.5vw,1.1rem); color:var(--gray-300);
+    max-width:700px; margin:0 auto 36px; line-height:1.8;
+}
+.hero-btns { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+.btn {
+    display:inline-flex; align-items:center; gap:8px; padding:14px 32px;
+    border-radius:50px; font-size:15px; font-weight:600; transition:all var(--transition);
+    border:2px solid transparent; cursor:pointer;
+}
+.btn-gold { background:var(--gold); color:var(--navy); border-color:var(--gold); }
+.btn-gold:hover { background:var(--gold-light); border-color:var(--gold-light); transform:translateY(-2px); box-shadow:0 8px 24px rgba(201,168,76,.3); }
+.btn-outline { background:transparent; color:var(--gold); border-color:var(--gold); }
+.btn-outline:hover { background:rgba(201,168,76,.1); transform:translateY(-2px); }
+.btn-white { background:var(--white); color:var(--navy); border-color:var(--white); }
+.btn-white:hover { background:rgba(255,255,255,.9); transform:translateY(-2px); box-shadow:0 8px 24px rgba(255,255,255,.2); }
+
+.hero-stats {
+    display:flex; gap:48px; justify-content:center; margin-top:56px; flex-wrap:wrap;
+}
+.hero-stat { text-align:center; }
+.hero-stat-num { font-size:2.5rem; font-weight:800; color:var(--gold); line-height:1; }
+.hero-stat-label { font-size:13px; color:var(--gray-400); margin-top:8px; letter-spacing:1px; }
+
+/* ===== Section Common ===== */
+.section { padding:80px 0; }
+.section-header { text-align:center; margin-bottom:56px; }
+.section-tag {
+    display:inline-block; padding:4px 16px; border:1px solid var(--gold);
+    border-radius:50px; color:var(--gold-dark); font-size:12px; letter-spacing:2px;
+    margin-bottom:16px; background:var(--gold-pale);
+}
+.section-title { font-size:clamp(1.6rem,3.5vw,2.4rem); font-weight:800; color:var(--navy); line-height:1.3; }
+.section-title .gold { color:var(--gold); }
+.section-desc { font-size:1rem; color:var(--gray-500); margin-top:12px; }
+
+/* ===== Services ===== */
+.services { background:var(--gray-50); }
+.services-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:28px; }
+.service-card {
+    background:var(--white); border-radius:var(--radius-lg); padding:40px 32px;
+    box-shadow:var(--shadow-sm); transition:all var(--transition); position:relative; overflow:hidden;
+    border-top:4px solid var(--gold);
+}
+.service-card:hover { box-shadow:var(--shadow-lg); transform:translateY(-4px); }
+.service-card::before {
+    content:''; position:absolute; top:0; right:0; width:120px; height:120px;
+    background:radial-gradient(circle, rgba(201,168,76,.05) 0%, transparent 70%);
+    border-radius:50%; transform:translate(40px,-40px);
+}
+.service-icon {
+    width:72px; height:72px; border-radius:var(--radius-md);
+    background:var(--gold-pale); display:flex; align-items:center; justify-content:center;
+    margin-bottom:24px; transition:all var(--transition);
+}
+.service-card:hover .service-icon { background:var(--gold); }
+.service-card:hover .service-icon svg path,
+.service-card:hover .service-icon svg circle,
+.service-card:hover .service-icon svg rect,
+.service-card:hover .service-icon svg line,
+.service-card:hover .service-icon svg ellipse { stroke:var(--white) !important; fill:var(--white) !important; }
+.service-title { font-size:1.4rem; font-weight:700; color:var(--navy); margin-bottom:12px; }
+.service-desc { font-size:.95rem; color:var(--gray-500); line-height:1.8; margin-bottom:20px; }
+.service-list { display:flex; flex-direction:column; gap:10px; }
+.service-list li {
+    display:flex; align-items:center; gap:10px; font-size:.9rem; color:var(--gray-600);
+}
+.service-list li::before {
+    content:''; width:6px; height:6px; border-radius:50%; background:var(--gold); flex-shrink:0;
+}
+
+/* ===== Process ===== */
+.process { background:var(--white); }
+.process-flow {
+    display:flex; align-items:stretch; gap:0; flex-wrap:wrap; justify-content:center;
+    position:relative;
+}
+.process-step {
+    flex:1; min-width:160px; max-width:200px; text-align:center; position:relative; padding:0 12px;
+}
+.process-step-num {
+    width:64px; height:64px; border-radius:50%; background:var(--navy); color:var(--gold);
+    font-size:1.5rem; font-weight:800; display:flex; align-items:center; justify-content:center;
+    margin:0 auto 20px; border:3px solid var(--gold); position:relative; z-index:2;
+    transition:all var(--transition);
+}
+.process-step:hover .process-step-num { background:var(--gold); color:var(--navy); transform:scale(1.1); }
+.process-step-title { font-size:1.05rem; font-weight:700; color:var(--navy); margin-bottom:8px; }
+.process-step-desc { font-size:.85rem; color:var(--gray-500); line-height:1.6; }
+.process-connector {
+    position:absolute; top:32px; left:50%; width:100%; height:3px;
+    background:linear-gradient(90deg, var(--gold) 50%, transparent 50%);
+    background-size:16px 3px; z-index:1;
+}
+.process-step:last-child .process-connector { display:none; }
+
+/* ===== Trade Routes / Markets ===== */
+.routes { background:var(--gray-50); }
+.routes-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+.route-card {
+    background:var(--white); border-radius:var(--radius-md); padding:28px 20px;
+    text-align:center; box-shadow:var(--shadow-sm); transition:all var(--transition);
+    border-bottom:3px solid transparent;
+}
+.route-card:hover { box-shadow:var(--shadow-md); transform:translateY(-4px); border-bottom-color:var(--gold); }
+.route-icon { font-size:2.5rem; margin-bottom:12px; }
+.route-title { font-size:1.1rem; font-weight:700; color:var(--navy); margin-bottom:8px; }
+.route-desc { font-size:.85rem; color:var(--gray-500); line-height:1.6; }
+.route-countries { font-size:.8rem; color:var(--gold-dark); margin-top:10px; font-weight:500; }
+
+/* ===== Advantages ===== */
+.advantages { background:var(--white); }
+.adv-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
+.adv-card {
+    text-align:center; padding:32px 20px; border-radius:var(--radius-md);
+    background:var(--gray-50); transition:all var(--transition);
+}
+.adv-card:hover { background:var(--gold-pale); transform:translateY(-4px); box-shadow:var(--shadow-md); }
+.adv-icon {
+    width:64px; height:64px; margin:0 auto 20px; border-radius:50%;
+    background:var(--white); display:flex; align-items:center; justify-content:center;
+    box-shadow:var(--shadow-sm); transition:all var(--transition);
+}
+.adv-card:hover .adv-icon { background:var(--gold); }
+.adv-card:hover .adv-icon svg path,
+.adv-card:hover .adv-icon svg circle,
+.adv-card:hover .adv-icon svg rect,
+.adv-card:hover .adv-icon svg line { stroke:var(--white) !important; }
+.adv-card:hover .adv-icon svg [fill="#c9a84c"] { fill:var(--white) !important; }
+.adv-title { font-size:1.1rem; font-weight:700; color:var(--navy); margin-bottom:10px; }
+.adv-desc { font-size:.88rem; color:var(--gray-500); line-height:1.7; }
+
+/* ===== Stats Banner ===== */
+.stats-banner {
+    background:linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 50%, var(--navy-light) 100%);
+    padding:64px 0; position:relative; overflow:hidden;
+}
+.stats-banner::before {
+    content:''; position:absolute; inset:0; opacity:.05;
+    background-image:linear-gradient(rgba(255,255,255,.3) 1px,transparent 1px),
+                     linear-gradient(90deg,rgba(255,255,255,.3) 1px,transparent 1px);
+    background-size:40px 40px;
+}
+.stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:32px; position:relative; z-index:1; }
+.stat-item { text-align:center; }
+.stat-num { font-size:clamp(2rem,4vw,3rem); font-weight:800; color:var(--gold); line-height:1; }
+.stat-suffix { font-size:1.5rem; color:var(--gold); font-weight:700; }
+.stat-label { font-size:.9rem; color:var(--gray-300); margin-top:10px; letter-spacing:1px; }
+
+/* ===== Cases ===== */
+.cases { background:var(--gray-50); }
+.cases-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+.case-card {
+    background:var(--white); border-radius:var(--radius-md); overflow:hidden;
+    box-shadow:var(--shadow-sm); transition:all var(--transition);
+}
+.case-card:hover { box-shadow:var(--shadow-lg); transform:translateY(-4px); }
+.case-header {
+    padding:24px 24px 16px; background:linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    color:var(--white);
+}
+.case-tag { font-size:11px; color:var(--gold); letter-spacing:2px; margin-bottom:6px; }
+.case-title { font-size:1.1rem; font-weight:700; }
+.case-body { padding:24px; }
+.case-desc { font-size:.9rem; color:var(--gray-500); line-height:1.8; margin-bottom:16px; }
+.case-meta { display:flex; gap:16px; flex-wrap:wrap; }
+.case-meta-item { font-size:.82rem; color:var(--gray-400); display:flex; align-items:center; gap:4px; }
+.case-meta-item strong { color:var(--gold-dark); }
+
+/* ===== CTA ===== */
+.cta {
+    background:linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    padding:80px 0; text-align:center; position:relative; overflow:hidden;
+}
+.cta::before {
+    content:''; position:absolute; inset:0;
+    background:radial-gradient(ellipse at 30% 50%, rgba(201,168,76,.1) 0%, transparent 60%);
+}
+.cta-content { position:relative; z-index:1; }
+.cta-title { font-size:clamp(1.5rem,3vw,2.2rem); font-weight:800; color:var(--white); margin-bottom:16px; }
+.cta-desc { font-size:1rem; color:var(--gray-300); margin-bottom:32px; max-width:600px; margin-left:auto; margin-right:auto; }
+.cta-btns { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+.cta-phone {
+    display:inline-flex; align-items:center; gap:10px; margin-top:24px;
+    color:var(--gold); font-size:1.3rem; font-weight:700;
+}
+.cta-phone a { color:var(--gold); }
+
+/* ===== Footer ===== */
+.footer {
+    background:var(--navy-dark); color:var(--gray-400); padding:56px 0 0;
+    border-top:3px solid var(--gold);
+}
+.footer-grid {
+    display:grid; grid-template-columns:2fr 1fr 1fr 1.5fr; gap:40px;
+    padding-bottom:40px; border-bottom:1px solid rgba(255,255,255,.06);
+}
+.footer-brand h3 { color:var(--white); font-size:1.1rem; margin-bottom:8px; }
+.footer-brand-en { color:var(--gold); font-size:12px; letter-spacing:.5px; margin-bottom:14px; }
+.footer-brand p { font-size:.85rem; line-height:1.7; }
+.footer-links h4 { color:var(--white); font-size:.95rem; margin-bottom:16px; }
+.footer-links ul { display:flex; flex-direction:column; gap:10px; }
+.footer-links a { font-size:.85rem; color:var(--gray-400); transition:color var(--transition); }
+.footer-links a:hover { color:var(--gold); }
+.footer-contact h4 { color:var(--white); font-size:.95rem; margin-bottom:16px; }
+.footer-contact p { font-size:.85rem; margin-bottom:8px; }
+.footer-contact a { color:inherit; }
+.footer-bottom {
+    padding:20px 0; text-align:center; font-size:.8rem; color:var(--gray-500);
+}
+.footer-bottom .sep { margin:0 8px; opacity:.4; }
+.footer-bottom a { transition:color var(--transition); }
+.footer-bottom a:hover { color:var(--gold); }
+
+/* ===== Back to Top ===== */
+.back-to-top {
+    position:fixed; right:24px; bottom:80px; width:48px; height:48px;
+    border-radius:50%; background:var(--navy); color:var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:var(--shadow-md); cursor:pointer; z-index:999;
+    opacity:0; visibility:hidden; transition:all var(--transition);
+}
+.back-to-top.show { opacity:1; visibility:visible; }
+.back-to-top:hover { background:var(--gold); color:var(--navy); transform:translateY(-4px); }
+
+/* ===== Mobile Call Bar ===== */
+.mobile-call-bar {
+    display:none; position:fixed; bottom:0; left:0; right:0; z-index:1000;
+    background:var(--navy); border-top:1px solid rgba(201,168,76,.2);
+}
+.mobile-call-bar a {
+    flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;
+    padding:10px 0; font-size:12px; color:var(--gray-300); transition:color var(--transition);
+}
+.mobile-call-bar a:hover { color:var(--gold); }
+
+/* ===== Responsive ===== */
+@media (max-width: 968px) {
+    .nav-list { display:none; }
+    .mobile-toggle { display:flex; }
+    .nav-list.open {
+        display:flex; flex-direction:column; position:absolute; top:72px; left:0; right:0;
+        background:var(--navy-dark); padding:16px; gap:4px; border-bottom:1px solid rgba(201,168,76,.15);
+    }
+    .services-grid { grid-template-columns:1fr; }
+    .routes-grid { grid-template-columns:repeat(2,1fr); }
+    .adv-grid { grid-template-columns:repeat(2,1fr); }
+    .stats-grid { grid-template-columns:repeat(2,1fr); gap:24px; }
+    .cases-grid { grid-template-columns:1fr; }
+    .footer-grid { grid-template-columns:1fr; gap:28px; }
+    .hero-stats { gap:28px; }
+    .mobile-call-bar { display:flex; }
+    .back-to-top { bottom:72px; }
+}
+@media (max-width: 600px) {
+    .routes-grid { grid-template-columns:1fr; }
+    .adv-grid { grid-template-columns:1fr; }
+    .stats-grid { grid-template-columns:1fr 1fr; }
+    .process-step { min-width:140px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== Top Bar ===== -->
+<div class="top-bar">
+    <div class="container top-bar-inner">
+        <span class="top-contact">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            <a href="tel:13363031515" style="color:inherit;text-decoration:none">13363031515</a>
+        </span>
+        <span class="top-contact">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4l-10 7L2 4"/></svg>
+            <span>info@tuodalian.com</span>
+        </span>
+        <span class="top-right">
+            <a href="javascript:void(0)" class="active-lang">中文</a>
+            <span class="sep">|</span>
+            <a href="javascript:void(0)">English</a>
+        </span>
+    </div>
+</div>
+
+<!-- ===== Header ===== -->
+<header class="header" id="header">
+    <div class="container header-inner">
+        <a href="https://www.tuodalian.com/" class="logo">
+            <div class="logo-icon">
+                <img src="https://www.tuodalian.com/assets/logo.png" alt="上海拓达联国际贸易有限公司" width="50" height="50">
+            </div>
+            <div class="logo-text">
+                <span class="logo-name">上海拓达联</span>
+                <span class="logo-sub">国际贸易有限公司</span>
+            </div>
+        </a>
+        <nav class="nav" id="nav">
+            <ul class="nav-list" id="navList">
+                <li><a href="https://www.tuodalian.com/" class="nav-link">首页</a></li>
+                <li><a href="https://www.tuodalian.com/#about" class="nav-link">关于我们</a></li>
+                <li><a href="https://www.tuodalian.com/guojimaoyi/" class="nav-link active">国际贸易</a></li>
+                <li><a href="https://www.tuodalian.com/gongyinglian" class="nav-link">供应链管理</a></li>
+                <li><a href="https://www.tuodalian.com/kuajingdianshang" class="nav-link">跨境电商</a></li>
+                <li><a href="https://www.tuodalian.com/#products" class="nav-link">产品服务</a></li>
+                <li><a href="https://www.tuodalian.com/#news" class="nav-link">新闻资讯</a></li>
+                <li><a href="https://www.tuodalian.com/#contact" class="nav-link">联系我们</a></li>
+            </ul>
+        </nav>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="菜单">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</header>
+
+<!-- ===== Hero ===== -->
+<section class="hero" id="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="container hero-content">
+        <div class="hero-badge">SINCE 2015 · 专业国际贸易服务商</div>
+        <h1 class="hero-title">
+            国际<span class="gold">贸易服务</span><br>全方位进出口解决方案
+        </h1>
+        <p class="hero-desc">
+            上海拓达联国际贸易有限公司深耕国际贸易领域十余年，
+            提供进出口代理、全球采购、贸易咨询、跨境电商等一站式专业服务，
+            助力企业高效拓展全球市场，链接50+国家和地区。
+        </p>
+        <div class="hero-btns">
+            <a href="https://www.tuodalian.com/#contact" class="btn btn-gold">
+                立即咨询
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="#services" class="btn btn-outline">了解服务详情</a>
+        </div>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="hero-stat-num">50+</div>
+                <div class="hero-stat-label">覆盖国家/地区</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-num">200+</div>
+                <div class="hero-stat-label">合作企业</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-num">1000+</div>
+                <div class="hero-stat-label">服务品类SKU</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-num">99%</div>
+                <div class="hero-stat-label">客户满意度</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== Core Services ===== -->
+<section class="section services" id="services">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">核心业务</span>
+            <h2 class="section-title">四大<span class="gold">核心服务</span></h2>
+            <p class="section-desc">全方位覆盖国际贸易全链路，为客户提供专业、高效、合规的贸易解决方案</p>
+        </div>
+        <div class="services-grid">
+            <!-- Service 1: 进出口代理 -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg width="40" height="40" viewBox="0 0 48 48" fill="none"><rect x="4" y="14" width="40" height="24" rx="2" stroke="#c9a84c" stroke-width="2"/><line x1="4" y1="20" x2="44" y2="20" stroke="#c9a84c" stroke-width="2"/><circle cx="14" cy="35" r="5" stroke="#c9a84c" stroke-width="2"/><circle cx="34" cy="35" r="5" stroke="#c9a84c" stroke-width="2"/><line x1="14" y1="35" x2="24" y2="35" stroke="#c9a84c" stroke-width="2"/></svg>
+                </div>
+                <h3 class="service-title">进出口代理</h3>
+                <p class="service-desc">提供一站式进出口代理服务，涵盖报关、报检、外汇结算、退税等全流程操作，确保合规高效。具备进出口经营权、海关备案、检验检疫备案等全套资质。</p>
+                <ul class="service-list">
+                    <li>海关报关清关 — 熟悉各口岸操作流程</li>
+                    <li>商检/动植检代理 — 全品类检验检疫</li>
+                    <li>外汇收付与管理 — 多币种结算服务</li>
+                    <li>出口退税代办 — 快速退税到账</li>
+                    <li>贸易单证制作 — 合同/发票/装箱单/提单</li>
+                </ul>
+            </div>
+            <!-- Service 2: 全球采购 -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg width="40" height="40" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" stroke="#c9a84c" stroke-width="2"/><circle cx="24" cy="24" r="8" stroke="#c9a84c" stroke-width="2"/><line x1="24" y1="2" x2="24" y2="8" stroke="#c9a84c" stroke-width="2"/><line x1="24" y1="40" x2="24" y2="46" stroke="#c9a84c" stroke-width="2"/><line x1="2" y1="24" x2="8" y2="24" stroke="#c9a84c" stroke-width="2"/><line x1="40" y1="24" x2="46" y2="24" stroke="#c9a84c" stroke-width="2"/><line x1="6.3" y1="6.3" x2="10.5" y2="10.5" stroke="#c9a84c" stroke-width="2"/><line x1="37.5" y1="37.5" x2="41.7" y2="41.7" stroke="#c9a84c" stroke-width="2"/></svg>
+                </div>
+                <h3 class="service-title">全球采购</h3>
+                <p class="service-desc">依托全球供应商网络，为客户进行优质货源寻源、供应商审核、价格谈判及质量控制服务，降低采购成本，保障交付品质。</p>
+                <ul class="service-list">
+                    <li>供应商开发与审核 — 严格准入标准</li>
+                    <li>产品比价与成本优化 — 最优性价比</li>
+                    <li>样品确认与质量管控 — 全程跟踪</li>
+                    <li>订单跟踪与交付管理 — 透明可控</li>
+                    <li>原产地证明与认证 — CO/Form A/Form E</li>
+                </ul>
+            </div>
+            <!-- Service 3: 贸易咨询 -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg width="40" height="40" viewBox="0 0 48 48" fill="none"><rect x="6" y="12" width="36" height="28" rx="2" stroke="#c9a84c" stroke-width="2"/><line x1="6" y1="20" x2="42" y2="20" stroke="#c9a84c" stroke-width="2"/><circle cx="16" cy="32" r="3" fill="#c9a84c"/><line x1="20" y1="32" x2="36" y2="32" stroke="#c9a84c" stroke-width="2"/></svg>
+                </div>
+                <h3 class="service-title">贸易咨询</h3>
+                <p class="service-desc">提供国际贸易政策解读、市场分析、合规咨询、合同审查等专业顾问服务，帮助客户降低贸易风险，把握市场机遇。</p>
+                <ul class="service-list">
+                    <li>国际市场调研分析 — 行业趋势洞察</li>
+                    <li>贸易合规咨询 — 各国法规解读</li>
+                    <li>合同审查与谈判 — 风险前置把控</li>
+                    <li>关税政策解读 — 优惠税率运用</li>
+                    <li>信用证操作咨询 — L/C条款审核</li>
+                </ul>
+            </div>
+            <!-- Service 4: 跨境电商 -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg width="40" height="40" viewBox="0 0 48 48" fill="none"><rect x="10" y="6" width="28" height="36" rx="3" stroke="#c9a84c" stroke-width="2"/><line x1="20" y1="10" x2="28" y2="10" stroke="#c9a84c" stroke-width="2"/><circle cx="24" cy="22" r="6" stroke="#c9a84c" stroke-width="2"/><path d="M14 34c0-4.4 4.5-8 10-8s10 3.6 10 8" stroke="#c9a84c" stroke-width="2"/></svg>
+                </div>
+                <h3 class="service-title">跨境电商</h3>
+                <p class="service-desc">提供跨境电商平台运营、海外仓储、跨境支付、品牌出海等数字化贸易解决方案，助力企业数字化转型与全球品牌推广。</p>
+                <ul class="service-list">
+                    <li>平台店铺运营 — Amazon/AliExpress/TikTok</li>
+                    <li>海外仓一件代发 — 14国海外仓网络</li>
+                    <li>多币种跨境结算 — 安全高效收付</li>
+                    <li>品牌全球推广 — 数字营销策略</li>
+                    <li>跨境合规服务 — 各国电商法规</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== Trade Process ===== -->
+<section class="section process" id="process">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">服务流程</span>
+            <h2 class="section-title">国际贸易<span class="gold">全流程</span></h2>
+            <p class="section-desc">从需求对接到交付完成，六个环节环环相扣，全程透明可控</p>
+        </div>
+        <div class="process-flow">
+            <div class="process-step">
+                <div class="process-step-num">1</div>
+                <div class="process-step-title">需求对接</div>
+                <div class="process-step-desc">了解客户需求，明确产品品类、目标市场、贸易方式</div>
+                <div class="process-connector"></div>
+            </div>
+            <div class="process-step">
+                <div class="process-step-num">2</div>
+                <div class="process-step-title">方案设计</div>
+                <div class="process-step-desc">制定贸易方案，包括采购/出口路径、物流方式、成本预算</div>
+                <div class="process-connector"></div>
+            </div>
+            <div class="process-step">
+                <div class="process-step-num">3</div>
+                <div class="process-step-title">合同签订</div>
+                <div class="process-step-desc">贸易合同审查、信用证开立、外汇收付安排</div>
+                <div class="process-connector"></div>
+            </div>
+            <div class="process-step">
+                <div class="process-step-num">4</div>
+                <div class="process-step-title">货物备妥</div>
+                <div class="process-step-desc">货源组织、质量检验、包装贴标、集货发运</div>
+                <div class="process-connector"></div>
+            </div>
+            <div class="process-step">
+                <div class="process-step-num">5</div>
+                <div class="process-step-title">报关清关</div>
+                <div class="process-step-desc">报关报检、海关查验配合、关税缴纳、放行提货</div>
+                <div class="process-connector"></div>
+            </div>
+            <div class="process-step">
+                <div class="process-step-num">6</div>
+                <div class="process-step-title">交付结算</div>
+                <div class="process-step-desc">末端配送、贸易单证交付、外汇核销、出口退税</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== Trade Markets ===== -->
+<section class="section routes" id="markets">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">全球市场</span>
+            <h2 class="section-title">覆盖<span class="gold">贸易市场</span></h2>
+            <p class="section-desc">深耕全球五大区域市场，与当地港口、航运、仓储企业深度合作</p>
+        </div>
+        <div class="routes-grid">
+            <div class="route-card">
+                <div class="route-icon">🌏</div>
+                <div class="route-title">亚太地区</div>
+                <div class="route-desc">RCEP协定核心受益区域，贸易便利化水平高</div>
+                <div class="route-countries">日本 · 韩国 · 东南亚 · 澳新</div>
+            </div>
+            <div class="route-card">
+                <div class="route-icon">🌍</div>
+                <div class="route-title">欧洲地区</div>
+                <div class="route-desc">欧盟统一市场，CE认证产品准入服务</div>
+                <div class="route-countries">德国 · 法国 · 英国 · 意大利 · 荷兰</div>
+            </div>
+            <div class="route-card">
+                <div class="route-icon">🌎</div>
+                <div class="route-title">北美地区</div>
+                <div class="route-desc">美加墨自由贸易区，FBA头程专线服务</div>
+                <div class="route-countries">美国 · 加拿大 · 墨西哥</div>
+            </div>
+            <div class="route-card">
+                <div class="route-icon">🏜️</div>
+                <div class="route-title">中东非洲</div>
+                <div class="route-desc">新兴市场高速增长，建材/日用品需求旺盛</div>
+                <div class="route-countries">阿联酋 · 沙特 · 南非 · 埃及</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== Advantages ===== -->
+<section class="section advantages" id="advantages">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">为什么选择我们</span>
+            <h2 class="section-title">核心<span class="gold">优势</span></h2>
+            <p class="section-desc">以专业铸就信任，以服务创造价值</p>
+        </div>
+        <div class="adv-grid">
+            <div class="adv-card">
+                <div class="adv-icon">
+                    <svg width="36" height="36" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" fill="#e8e0cc"/><path d="M14 20l4 4 8-8" stroke="#c9a84c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="24" r="22" stroke="#c9a84c" stroke-width="1.5"/></svg>
+                </div>
+                <h3 class="adv-title">资质齐全</h3>
+                <p class="adv-desc">具备进出口经营权、海关AEO认证、检验检疫备案等全套资质，合规经营无忧。</p>
+            </div>
+            <div class="adv-card">
+                <div class="adv-icon">
+                    <svg width="36" height="36" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" fill="#e8e0cc"/><path d="M24 6l4 12h12l-10 8 4 12-10-8-10 8 4-12-10-8h12l4-12z" fill="#c9a84c" stroke="#c9a84c" stroke-width="1"/></svg>
+                </div>
+                <h3 class="adv-title">专业团队</h3>
+                <p class="adv-desc">拥有经验丰富的国际贸易专家团队，精通海关法规、国际结算、信用证操作。</p>
+            </div>
+            <div class="adv-card">
+                <div class="adv-icon">
+                    <svg width="36" height="36" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" fill="#e8e0cc"/><rect x="8" y="12" width="32" height="24" rx="2" stroke="#c9a84c" stroke-width="2"/><path d="M8 18h32M18 12v30" stroke="#c9a84c" stroke-width="2"/></svg>
+                </div>
+                <h3 class="adv-title">全球网络</h3>
+                <p class="adv-desc">覆盖50+国家和地区的供应链网络，与全球主要港口、航运公司深度合作。</p>
+            </div>
+            <div class="adv-card">
+                <div class="adv-icon">
+                    <svg width="36" height="36" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" fill="#e8e0cc"/><circle cx="24" cy="24" r="6" fill="#c9a84c"/><circle cx="24" cy="12" r="2.5" fill="#c9a84c"/><circle cx="24" cy="36" r="2.5" fill="#c9a84c"/><circle cx="36" cy="24" r="2.5" fill="#c9a84c"/><circle cx="12" cy="24" r="2.5" fill="#c9a84c"/><line x1="24" y1="12" x2="24" y2="18" stroke="#c9a84c" stroke-width="2"/><line x1="24" y1="30" x2="24" y2="36" stroke="#c9a84c" stroke-width="2"/><line x1="36" y1="24" x2="30" y2="24" stroke="#c9a84c" stroke-width="2"/><line x1="18" y1="24" x2="12" y2="24" stroke="#c9a84c" stroke-width="2"/></svg>
+                </div>
+                <h3 class="adv-title">一站式服务</h3>
+                <p class="adv-desc">从采购寻源到清关配送，全链路一站式解决您的贸易需求，省时省心。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== Stats Banner ===== -->
+<section class="stats-banner">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-num">10<span class="stat-suffix">+</span></div>
+                <div class="stat-label">年行业经验</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">50<span class="stat-suffix">+</span></div>
+                <div class="stat-label">覆盖国家/地区</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">200<span class="stat-suffix">+</span></div>
+                <div class="stat-label">合作企业</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">99<span class="stat-suffix">%</span></div>
+                <div class="stat-label">客户满意度</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== Cases ===== -->
+<section class="section cases" id="cases">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">服务案例</span>
+            <h2 class="section-title">典型<span class="gold">贸易案例</span></h2>
+            <p class="section-desc">真实贸易项目，见证专业实力</p>
+        </div>
+        <div class="cases-grid">
+            <div class="case-card">
+                <div class="case-header">
+                    <div class="case-tag">出口代理</div>
+                    <div class="case-title">电子产品出口东南亚</div>
+                </div>
+                <div class="case-body">
+                    <p class="case-desc">为国内电子产品制造商提供出口东南亚一站式服务，涵盖报关、外汇结算、退税全流程，助力客户年出口额增长40%。</p>
+                    <div class="case-meta">
+                        <span class="case-meta-item"><strong>目的地：</strong>越南/泰国</span>
+                        <span class="case-meta-item"><strong>品类：</strong>消费电子</span>
+                        <span class="case-meta-item"><strong>周期：</strong>15天</span>
+                    </div>
+                </div>
+            </div>
+            <div class="case-card">
+                <div class="case-header">
+                    <div class="case-tag">全球采购</div>
+                    <div class="case-title">欧洲精密设备采购</div>
+                </div>
+                <div class="case-body">
+                    <p class="case-desc">为客户从德国采购精密制造设备，完成供应商审核、价格谈判、国际运输、清关交付全流程，为客户节省采购成本15%。</p>
+                    <div class="case-meta">
+                        <span class="case-meta-item"><strong>来源地：</strong>德国</span>
+                        <span class="case-meta-item"><strong>品类：</strong>机械设备</span>
+                        <span class="case-meta-item"><strong>节约：</strong>15%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="case-card">
+                <div class="case-header">
+                    <div class="case-tag">跨境电商</div>
+                    <div class="case-title">品牌出海北美市场</div>
+                </div>
+                <div class="case-body">
+                    <p class="case-desc">协助国内消费品品牌通过Amazon平台出海北美，提供海外仓代发、品牌注册、跨境结算服务，首月销售额突破50万美元。</p>
+                    <div class="case-meta">
+                        <span class="case-meta-item"><strong>平台：</strong>Amazon</span>
+                        <span class="case-meta-item"><strong>市场：</strong>美国/加拿大</span>
+                        <span class="case-meta-item"><strong>首月：</strong>$50W</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta" id="cta">
+    <div class="container cta-content">
+        <h2 class="cta-title">开启您的<span class="gold">全球贸易之旅</span></h2>
+        <p class="cta-desc">无论您是需要进出口代理、全球采购，还是贸易咨询、跨境电商服务，上海拓达联都能为您提供专业的一站式解决方案。</p>
+        <div class="cta-btns">
+            <a href="https://www.tuodalian.com/#contact" class="btn btn-gold">
+                立即咨询
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="https://www.tuodalian.com/" class="btn btn-outline">返回首页</a>
+        </div>
+        <div class="cta-phone">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            <a href="tel:13363031515">13363031515</a>
+        </div>
+    </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>上海拓达联国际贸易有限公司</h3>
+                <p class="footer-brand-en">Shanghai Tuodalian International Trade Co., Ltd.</p>
+                <p>专业国际贸易与供应链管理服务商，致力于为全球客户提供高效、安全、合规的一站式贸易解决方案。业务涵盖进出口代理、全球采购、贸易咨询、跨境电商等全链条服务。</p>
+            </div>
+            <div class="footer-links">
+                <h4>快速导航</h4>
+                <ul>
+                    <li><a href="https://www.tuodalian.com/">首页</a></li>
+                    <li><a href="https://www.tuodalian.com/#about">关于我们</a></li>
+                    <li><a href="https://www.tuodalian.com/guojimaoyi/">国际贸易</a></li>
+                    <li><a href="https://www.tuodalian.com/gongyinglian">供应链管理</a></li>
+                    <li><a href="https://www.tuodalian.com/kuajingdianshang">跨境电商</a></li>
+                    <li><a href="https://www.tuodalian.com/#contact">联系我们</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>核心服务</h4>
+                <ul>
+                    <li><a href="#services">进出口代理</a></li>
+                    <li><a href="#services">全球采购</a></li>
+                    <li><a href="#services">贸易咨询</a></li>
+                    <li><a href="#services">跨境电商</a></li>
+                    <li><a href="https://www.tuodalian.com/gongyinglian">供应链金融</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>联系方式</h4>
+                <p>📍 上海市浦东新区自由贸易试验区</p>
+                <p>📞 <a href="tel:13363031515" style="color:inherit">13363031515</a></p>
+                <p>📧 info@tuodalian.com</p>
+                <p>🕐 周一至周五 9:00-18:00</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2015-2026 上海拓达联国际贸易有限公司 版权所有
+                <span class="sep">|</span>
+                <a href="#">沪ICP备2025130866号-1</a>
+                <span class="sep">|</span>
+                <a href="#">隐私政策</a>
+                <span class="sep">|</span>
+                <a href="#">服务条款</a>
+            </p>
+        </div>
+    </div>
+</footer>
+
+<!-- ===== Back to Top ===== -->
+<a href="#hero" class="back-to-top" id="backToTop" aria-label="回到顶部">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M18 15l-6-6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</a>
+
+<!-- ===== Mobile Call Bar ===== -->
+<div class="mobile-call-bar">
+    <a href="tel:13363031515">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        <span>拨打电话</span>
+    </a>
+    <a href="https://www.tuodalian.com/#contact">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4l-10 7L2 4"/></svg>
+        <span>在线咨询</span>
+    </a>
+</div>
+
+<script>
+// Header scroll effect
+(function(){
+    var header = document.getElementById('header');
+    var backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', function(){
+        if (window.scrollY > 50) { header.classList.add('scrolled'); }
+        else { header.classList.remove('scrolled'); }
+        if (window.scrollY > 400) { backToTop.classList.add('show'); }
+        else { backToTop.classList.remove('show'); }
+    });
+
+    // Mobile toggle
+    var toggle = document.getElementById('mobileToggle');
+    var navList = document.getElementById('navList');
+    toggle.addEventListener('click', function(){
+        navList.classList.toggle('open');
+    });
+    navList.addEventListener('click', function(e){
+        if (e.target.tagName === 'A') navList.classList.remove('open');
+    });
+
+    // Language switcher
+    var langLinks = document.querySelectorAll('.top-right a');
+    langLinks.forEach(function(link){
+        link.addEventListener('click', function(e){
+            e.preventDefault();
+            langLinks.forEach(function(l){ l.classList.remove('active-lang'); });
+            this.classList.add('active-lang');
+        });
+    });
+})();
+</script>
+</body>
+</html>
