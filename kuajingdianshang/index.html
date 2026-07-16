@@ -32,13 +32,31 @@ ul,ol{list-style:none;}
 img{max-width:100%;display:block;}
 .container{max-width:1320px;margin:0 auto;padding:0 24px;}
 
-/* ===== Top Bar ===== */
-.top-bar{background:var(--navy-dark);color:var(--gray-300);font-size:13px;padding:8px 0;border-bottom:1px solid rgba(201,168,76,.15);}
-.top-bar .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
-.top-bar .top-links{display:flex;gap:16px;align-items:center;}
-.top-bar a{color:var(--gray-400);transition:color .2s;}
+/* ===== Top Bar (B2B E-commerce Style) ===== */
+.top-bar{background:linear-gradient(90deg,var(--navy-dark) 0%,var(--navy) 50%,var(--navy-light) 100%);color:var(--gray-300);font-size:13px;padding:0;border-bottom:1px solid rgba(201,168,76,.2);}
+.top-bar .container{display:flex;justify-content:space-between;align-items:center;height:38px;}
+.top-bar-left,.top-bar-right{display:flex;align-items:center;gap:4px;}
+.top-bar a{color:var(--gray-300);transition:all .2s;display:inline-flex;align-items:center;gap:5px;padding:0 10px;height:38px;line-height:38px;white-space:nowrap;}
 .top-bar a:hover{color:var(--gold);}
-.top-bar .top-right{display:flex;gap:16px;align-items:center;}
+.top-bar .sep{color:rgba(255,255,255,.12);font-size:11px;}
+.top-bar .site-picker{font-weight:600;color:var(--gold);cursor:pointer;}
+.top-bar .site-picker svg{width:12px;height:12px;fill:var(--gold);}
+.top-bar .login-link{color:var(--gold);font-weight:600;}
+.top-bar .register-link{background:rgba(201,168,76,.12);color:var(--gold);border-radius:0 0 4px 4px;height:30px;line-height:30px;margin-top:-4px;}
+.top-bar .register-link:hover{background:var(--gold);color:var(--navy-dark);}
+.top-bar .notice{display:inline-flex;align-items:center;gap:6px;color:var(--gray-400);max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.top-bar .notice-icon{width:14px;height:14px;color:var(--gold);animation:tada 2s infinite;}
+@keyframes tada{0%,100%{transform:rotate(0);}10%,30%,50%,70%,90%{transform:rotate(-6deg);}20%,40%,60%,80%{transform:rotate(6deg);}}
+.top-bar .notice-text{color:var(--gray-300);}
+.top-bar .badge{display:inline-flex;align-items:center;justify-content:center;min-width:16px;height:16px;padding:0 4px;background:var(--red);color:#fff;border-radius:10px;font-size:10px;font-weight:700;margin-left:-4px;}
+.top-bar .mobile-link{display:inline-flex;align-items:center;gap:4px;}
+.top-bar .mobile-link svg{width:12px;height:12px;}
+.top-bar .nav-dropdown{position:relative;display:inline-flex;align-items:center;}
+.top-bar .nav-dropdown>a::after{content:'';display:inline-block;width:0;height:0;margin-left:4px;border-left:3px solid transparent;border-right:3px solid transparent;border-top:3px solid currentColor;opacity:.6;}
+.top-bar .nav-dropdown:hover .dropdown-menu{opacity:1;visibility:visible;transform:translateY(0);}
+.top-bar .dropdown-menu{position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(8px);background:#fff;border-radius:8px;box-shadow:0 8px 30px rgba(0,0,0,.18);padding:8px 0;min-width:140px;opacity:0;visibility:hidden;transition:all .25s;z-index:1000;}
+.top-bar .dropdown-menu a{display:block;color:var(--gray-700);height:auto;line-height:1.5;padding:8px 16px;font-size:13px;}
+.top-bar .dropdown-menu a:hover{background:var(--gray-50);color:var(--navy);}
 
 /* ===== Header ===== */
 .header{position:sticky;top:0;z-index:900;background:var(--navy);box-shadow:0 2px 20px rgba(0,0,0,.15);transition:background .3s;}
@@ -317,8 +335,15 @@ img{max-width:100%;display:block;}
   .footer-grid{grid-template-columns:1fr;gap:28px;}
   .footer-qr{display:none;}
   .cta-section h2{font-size:26px;}
-  .top-bar .container{flex-direction:column;}
-  .top-bar .top-links{font-size:12px;}
+  .top-bar{height:auto;}
+  .top-bar .container{flex-wrap:wrap;justify-content:center;height:auto;gap:0;padding:4px 16px;}
+  .top-bar-left,.top-bar-right{gap:0;flex-wrap:wrap;justify-content:center;}
+  .top-bar-left{order:2;}
+  .top-bar-right{order:1;}
+  .top-bar a{padding:0 8px;height:30px;line-height:30px;font-size:12px;}
+  .top-bar .notice{display:none;}
+  .top-bar .site-picker{height:30px;line-height:30px;}
+  .top-bar .register-link{height:24px;line-height:24px;}
 }
 @media(max-width:400px){
   .hero h1{font-size:26px;}
@@ -334,16 +359,49 @@ img{max-width:100%;display:block;}
 <!-- Top Bar -->
 <div class="top-bar">
   <div class="container">
-    <div class="top-links">
-      <span>欢迎来到拓达联跨境电商平台</span>
-      <a href="#">商家入驻</a>
-      <a href="#">帮助中心</a>
+    <div class="top-bar-left">
+      <span class="site-picker">
+        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM12 11.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        杭州站
+      </span>
+      <span class="sep">|</span>
+      <a href="#" class="login-link">登录</a>
+      <a href="#" class="register-link">注册</a>
+      <span class="sep">|</span>
+      <span class="notice">
+        <svg class="notice-icon" viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>
+        <span class="notice-text">[重要通知] 关于杭州站售后退货地址变更通知</span>
+      </span>
     </div>
-    <div class="top-right">
-      <a href="https://www.tuodalian.com">返回主站</a>
-      <a href="#">中文</a>
-      <span style="color:var(--gray-600);">|</span>
-      <a href="#">EN</a>
+    <div class="top-bar-right">
+      <a href="#">用户中心</a>
+      <span class="sep">|</span>
+      <a href="#">进货车<span class="badge">0</span></a>
+      <span class="sep">|</span>
+      <a href="#">收藏夹</a>
+      <span class="sep">|</span>
+      <a href="#">供应商中心</a>
+      <span class="sep">|</span>
+      <a href="#">联系客服</a>
+      <span class="sep">|</span>
+      <div class="nav-dropdown">
+        <a href="#">网站导航</a>
+        <div class="dropdown-menu">
+          <a href="/guojimaoyi">国际贸易</a>
+          <a href="/gongyinglian">供应链服务</a>
+          <a href="/kuajingdianshang">跨境电商</a>
+          <a href="/shangpinleimu">商品类目</a>
+        </div>
+      </div>
+      <span class="sep">|</span>
+      <a href="#">帮助中心</a>
+      <span class="sep">|</span>
+      <a href="#">消息<span class="badge">0</span></a>
+      <span class="sep">|</span>
+      <a href="#" class="mobile-link">
+        <svg viewBox="0 0 24 24"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>
+        手机版
+      </a>
     </div>
   </div>
 </div>
@@ -359,7 +417,7 @@ img{max-width:100%;display:block;}
       </div>
     </a>
     <nav class="nav" id="nav">
-      <a href="https://www.tuodalian.com/" class="nav-link">首页</a>
+      <a href="/" class="nav-link active">首页</a>
       <a href="/shangpinleimu" class="nav-link">商品类目</a>
       <a href="/guojimaoyi" class="nav-link">国际贸易</a>
       <a href="/gongyinglian" class="nav-link">供应链服务</a>
