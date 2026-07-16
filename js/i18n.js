@@ -86,6 +86,7 @@
     'trade4.l2': { zh: '海外仓一件代发', en: 'Overseas Fulfillment' },
     'trade4.l3': { zh: '多币种跨境结算', en: 'Multi-Currency Settlement' },
     'trade4.l4': { zh: '品牌全球推广', en: 'Global Brand Promotion' },
+    'trade.detail': { zh: '查看国际贸易详情', en: 'View Trade Details' },
 
     // ---- 供应链管理 ----
     'sc.tag':      { zh: '核心业务',       en: 'Core Services' },
@@ -109,6 +110,7 @@
     'sc.card3.p':  { zh: '专业的报关报检团队，熟悉各国海关法规和流程，提供进出口报关、商品归类、原产地证办理、熏蒸消毒等一站式通关服务。', en: 'Professional customs brokerage team familiar with international regulations, providing one-stop clearance services including import/export declaration, HS classification, certificate of origin, and fumigation.' },
     'sc.card4.t':  { zh: '供应链金融',     en: 'Supply Chain Finance' },
     'sc.card4.p':  { zh: '联合金融机构，为客户提供灵活的供应链融资方案，包括信用证开立、应收账款融资、仓单质押等金融服务。', en: 'Partnering with financial institutions to offer flexible supply chain financing solutions, including L/C issuance, accounts receivable financing, and warehouse receipt pledging.' },
+    'sc.detail':   { zh: '查看完整供应链服务', en: 'View Supply Chain Services' },
 
     // ---- 产品服务 ----
     'prod.tag':    { zh: '业务范围',       en: 'Our Scope' },
