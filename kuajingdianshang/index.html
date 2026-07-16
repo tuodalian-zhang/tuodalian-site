@@ -39,8 +39,8 @@ img{max-width:100%;display:block;}
 .top-bar a{color:var(--gray-300);transition:all .2s;display:inline-flex;align-items:center;gap:5px;padding:0 10px;height:38px;line-height:38px;white-space:nowrap;}
 .top-bar a:hover{color:var(--gold);}
 .top-bar .sep{color:rgba(255,255,255,.12);font-size:11px;}
-.top-bar .site-picker{font-weight:600;color:var(--gold);cursor:pointer;}
-.top-bar .site-picker svg{width:12px;height:12px;fill:var(--gold);}
+.top-bar .site-picker>a{color:var(--gold);font-weight:600;}
+.top-bar .site-picker>a svg{width:12px;height:12px;fill:var(--gold);margin-right:4px;}
 .top-bar .login-link{color:var(--gold);font-weight:600;}
 .top-bar .register-link{background:rgba(201,168,76,.12);color:var(--gold);border-radius:0 0 4px 4px;height:30px;line-height:30px;margin-top:-4px;}
 .top-bar .register-link:hover{background:var(--gold);color:var(--navy-dark);}
@@ -50,9 +50,14 @@ img{max-width:100%;display:block;}
 .top-bar .nav-dropdown{position:relative;display:inline-flex;align-items:center;}
 .top-bar .nav-dropdown>a::after{content:'';display:inline-block;width:0;height:0;margin-left:4px;border-left:3px solid transparent;border-right:3px solid transparent;border-top:3px solid currentColor;opacity:.6;}
 .top-bar .nav-dropdown:hover .dropdown-menu{opacity:1;visibility:visible;transform:translateY(0);}
-.top-bar .dropdown-menu{position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(8px);background:#fff;border-radius:8px;box-shadow:0 8px 30px rgba(0,0,0,.18);padding:8px 0;min-width:140px;opacity:0;visibility:hidden;transition:all .25s;z-index:1000;}
+.top-bar .dropdown-menu{position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(8px);background:#fff;border-radius:8px;box-shadow:0 8px 30px rgba(0,0,0,.18);padding:8px 0;min-width:180px;max-height:420px;overflow-y:auto;opacity:0;visibility:hidden;transition:all .25s;z-index:1000;}
 .top-bar .dropdown-menu a{display:block;color:var(--gray-700);height:auto;line-height:1.5;padding:8px 16px;font-size:13px;}
 .top-bar .dropdown-menu a:hover{background:var(--gray-50);color:var(--navy);}
+.top-bar .dropdown-menu .dropdown-section{padding:6px 0;border-bottom:1px solid var(--gray-100);}
+.top-bar .dropdown-menu .dropdown-section:last-child{border-bottom:none;}
+.top-bar .dropdown-menu .dropdown-title{display:block;padding:6px 16px;font-size:11px;color:var(--gray-400);font-weight:700;text-transform:uppercase;letter-spacing:1px;}
+.top-bar .dropdown-menu .dropdown-section a{padding:7px 16px 7px 24px;font-size:13px;}
+.top-bar .dropdown-menu .dropdown-section a.active{background:var(--gold-pale);color:var(--navy);font-weight:600;}
 
 /* ===== Header ===== */
 .header{position:sticky;top:0;z-index:900;background:var(--navy);box-shadow:0 2px 20px rgba(0,0,0,.15);transition:background .3s;}
@@ -355,10 +360,60 @@ img{max-width:100%;display:block;}
 <div class="top-bar">
   <div class="container">
     <div class="top-bar-left">
-      <span class="site-picker">
-        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM12 11.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-        杭州站
-      </span>
+      <div class="nav-dropdown site-picker">
+        <a href="javascript:void(0)" id="sitePickerTrigger">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM12 11.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          <span>全国地区</span>
+        </a>
+        <div class="dropdown-menu">
+          <div class="dropdown-section">
+            <span class="dropdown-title">华东地区</span>
+            <a href="javascript:void(0)" onclick="selectRegion('上海')">上海</a>
+            <a href="javascript:void(0)" onclick="selectRegion('杭州')">杭州</a>
+            <a href="javascript:void(0)" onclick="selectRegion('南京')">南京</a>
+            <a href="javascript:void(0)" onclick="selectRegion('苏州')">苏州</a>
+            <a href="javascript:void(0)" onclick="selectRegion('宁波')">宁波</a>
+          </div>
+          <div class="dropdown-section">
+            <span class="dropdown-title">华南地区</span>
+            <a href="javascript:void(0)" onclick="selectRegion('广州')">广州</a>
+            <a href="javascript:void(0)" onclick="selectRegion('深圳')">深圳</a>
+            <a href="javascript:void(0)" onclick="selectRegion('东莞')">东莞</a>
+            <a href="javascript:void(0)" onclick="selectRegion('佛山')">佛山</a>
+          </div>
+          <div class="dropdown-section">
+            <span class="dropdown-title">华北地区</span>
+            <a href="javascript:void(0)" onclick="selectRegion('北京')">北京</a>
+            <a href="javascript:void(0)" onclick="selectRegion('天津')">天津</a>
+            <a href="javascript:void(0)" onclick="selectRegion('青岛')">青岛</a>
+            <a href="javascript:void(0)" onclick="selectRegion('石家庄')">石家庄</a>
+          </div>
+          <div class="dropdown-section">
+            <span class="dropdown-title">华中地区</span>
+            <a href="javascript:void(0)" onclick="selectRegion('武汉')">武汉</a>
+            <a href="javascript:void(0)" onclick="selectRegion('长沙')">长沙</a>
+            <a href="javascript:void(0)" onclick="selectRegion('郑州')">郑州</a>
+          </div>
+          <div class="dropdown-section">
+            <span class="dropdown-title">西部地区</span>
+            <a href="javascript:void(0)" onclick="selectRegion('成都')">成都</a>
+            <a href="javascript:void(0)" onclick="selectRegion('重庆')">重庆</a>
+            <a href="javascript:void(0)" onclick="selectRegion('西安')">西安</a>
+          </div>
+          <div class="dropdown-section">
+            <span class="dropdown-title">东北地区</span>
+            <a href="javascript:void(0)" onclick="selectRegion('沈阳')">沈阳</a>
+            <a href="javascript:void(0)" onclick="selectRegion('大连')">大连</a>
+            <a href="javascript:void(0)" onclick="selectRegion('哈尔滨')">哈尔滨</a>
+          </div>
+          <div class="dropdown-section">
+            <span class="dropdown-title">港澳台及海外</span>
+            <a href="javascript:void(0)" onclick="selectRegion('香港')">香港</a>
+            <a href="javascript:void(0)" onclick="selectRegion('澳门')">澳门</a>
+            <a href="javascript:void(0)" onclick="selectRegion('台湾')">台湾</a>
+          </div>
+        </div>
+      </div>
       <span class="sep">|</span>
       <a href="/dengru" class="login-link">登录</a>
       <a href="/zhuce" class="register-link">注册</a>
@@ -884,6 +939,22 @@ document.querySelectorAll('.nav-link').forEach(function(link) {
     document.getElementById('nav').classList.remove('open');
   });
 });
+
+// Region picker
+function selectRegion(region) {
+  var trigger = document.querySelector('#sitePickerTrigger span');
+  if (trigger) trigger.textContent = region;
+  document.querySelectorAll('.dropdown-section a').forEach(function(a) {
+    a.classList.remove('active');
+  });
+  event && event.target && event.target.classList.add('active');
+  localStorage.setItem('tuodalian-region', region);
+}
+(function initRegion() {
+  var saved = localStorage.getItem('tuodalian-region');
+  var trigger = document.querySelector('#sitePickerTrigger span');
+  if (saved && trigger) trigger.textContent = saved;
+})();
 </script>
 
 </body>
