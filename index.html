@@ -1,564 +1,936 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-    <meta name="theme-color" content="#0a1f3f">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="拓达联国际">
-    <meta name="format-detection" content="telephone=yes">
-    <meta name="description" content="上海拓达联国际贸易有限公司 — 专业的国际贸易与供应链管理服务商，提供进出口代理、货物运输、仓储物流、跨境电商等一站式全球贸易解决方案。">
-    <meta name="keywords" content="国际贸易,供应链管理,进出口代理,货运代理,仓储物流,跨境电商,上海拓达联">
-    <title>上海拓达联国际贸易有限公司 | 国际贸易与供应链管理</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon.ico">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-    <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a1f3f">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="拓达联国际">
+<meta name="format-detection" content="telephone=yes">
+<meta name="description" content="上海拓达联国际贸易有限公司 — 专业的国际贸易与供应链管理服务商，提供进出口代理、货物运输、仓储物流、跨境电商等一站式全球贸易解决方案。">
+<meta name="keywords" content="国际贸易,供应链管理,进出口代理,货运代理,仓储物流,跨境电商,上海拓达联">
+<title>上海拓达联国际贸易有限公司 | 国际贸易与供应链管理</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='4' fill='%230a1f3f'/><path d='M8 22l8-16 8 16' fill='none' stroke='%23c9a84c' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/><line x1='16' y1='6' x2='16' y2='26' stroke='%23c9a84c' stroke-width='2'/></svg>">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<style>
+/* ===== Reset & Variables ===== */
+:root{
+  --navy:#0a1f3f; --navy-light:#132d5e; --navy-dark:#06152b;
+  --gold:#c9a84c; --gold-light:#d4b96a; --gold-dark:#a68a2e; --gold-pale:#f7f3e8;
+  --white:#fff;
+  --gray-50:#f8f9fa; --gray-100:#e9ecef; --gray-200:#dee2e6; --gray-300:#ced4da;
+  --gray-400:#adb5bd; --gray-500:#6c757d; --gray-600:#495057; --gray-700:#343a40; --gray-800:#212529;
+  --blue:#0077b6; --orange:#e67e22; --red:#c0392b; --teal:#16a085; --purple:#6c5ce7;
+  --radius-sm:8px; --radius-md:12px; --radius-lg:20px;
+  --shadow-sm:0 2px 8px rgba(0,0,0,.06);
+  --shadow-md:0 4px 20px rgba(0,0,0,.08);
+  --shadow-lg:0 8px 40px rgba(0,0,0,.12);
+  --shadow-xl:0 12px 60px rgba(0,0,0,.16);
+  --transition:.3s cubic-bezier(.4,0,.2,1);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;scroll-padding-top:80px;font-size:16px;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;font-size:16px;line-height:1.7;color:var(--gray-700);background:var(--white);-webkit-font-smoothing:antialiosed;overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+ul,ol{list-style:none;}
+img{max-width:100%;display:block;}
+button{cursor:pointer;font:inherit;border:none;background:none;}
+input,select,textarea{font:inherit;color:inherit;}
+.container{max-width:1320px;margin:0 auto;padding:0 24px;}
+
+/* ===== Top Bar ===== */
+.top-bar{background:var(--navy-dark);color:var(--gray-300);font-size:13px;padding:8px 0;border-bottom:1px solid rgba(201,168,76,.15);}
+.top-bar .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.top-bar .top-links{display:flex;gap:16px;align-items:center;}
+.top-bar .top-links span,.top-bar .top-links a{display:inline-flex;align-items:center;gap:5px;color:var(--gray-400);transition:color .2s;}
+.top-bar .top-links a:hover{color:var(--gold);}
+.top-bar .top-right{display:flex;gap:12px;align-items:center;}
+.top-bar .top-right a{color:var(--gray-400);transition:color .2s;cursor:pointer;}
+.top-bar .top-right a:hover{color:var(--gold);}
+.top-bar .top-right a.active-lang{color:var(--gold);font-weight:700;}
+.top-bar .sep{opacity:.4;font-size:11px;}
+
+/* ===== Header ===== */
+.header{position:sticky;top:0;z-index:900;background:var(--navy);box-shadow:0 2px 20px rgba(0,0,0,.15);transition:background .3s;}
+.header.scrolled{background:rgba(6,21,43,.96);backdrop-filter:blur(10px);}
+.header .container{display:flex;align-items:center;justify-content:space-between;height:72px;}
+.logo{display:flex;align-items:center;gap:12px;transition:opacity .2s;}
+.logo:hover{opacity:.85;}
+.logo-icon{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:8px;overflow:hidden;}
+.logo-icon img{width:40px;height:40px;object-fit:contain;}
+.logo-text{display:flex;flex-direction:column;line-height:1.2;}
+.logo-name{font-size:18px;font-weight:800;color:var(--white);}
+.logo-sub{font-size:11px;color:var(--gold);letter-spacing:1px;}
+.nav{display:flex;gap:8px;align-items:center;}
+.nav-link{padding:8px 16px;font-size:15px;color:var(--gray-200);border-radius:var(--radius-sm);transition:all .2s;position:relative;}
+.nav-link:hover{color:var(--gold);background:rgba(201,168,76,.08);}
+.nav-link.active{color:var(--gold);background:rgba(201,168,76,.12);}
+.nav-cta{padding:8px 20px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--navy)!important;font-weight:600;border-radius:var(--radius-sm);}
+.nav-cta:hover{background:linear-gradient(135deg,var(--gold-light),var(--gold));color:var(--navy-dark)!important;transform:translateY(-1px);box-shadow:0 4px 16px rgba(201,168,76,.3);}
+.mobile-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;}
+.mobile-toggle span{width:24px;height:2px;background:var(--white);border-radius:2px;transition:.3s;}
+
+/* ===== Hero ===== */
+.hero{position:relative;background:linear-gradient(135deg,var(--navy-dark) 0%,var(--navy) 50%,var(--navy-light) 100%);overflow:hidden;padding:80px 0 100px;}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background-image:radial-gradient(circle at 20% 30%,rgba(201,168,76,.1) 0%,transparent 50%),radial-gradient(circle at 80% 70%,rgba(201,168,76,.06) 0%,transparent 50%);}
+.hero::after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a84c' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");}
+.hero .container{position:relative;z-index:2;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);color:var(--gold);font-size:13px;font-weight:600;padding:6px 16px;border-radius:30px;margin-bottom:24px;}
+.hero-badge::before{content:'';width:8px;height:8px;background:var(--gold);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.hero h1{font-size:52px;font-weight:900;color:var(--white);line-height:1.2;margin-bottom:20px;letter-spacing:-1px;}
+.hero h1 .gold{color:var(--gold);}
+.hero .sub{font-size:20px;color:var(--gray-200);line-height:1.7;margin-bottom:36px;max-width:680px;}
+.hero-stats{display:flex;gap:40px;flex-wrap:wrap;margin-bottom:36px;}
+.hero-stat .num{font-size:40px;font-weight:900;color:var(--gold);line-height:1;}
+.hero-stat .label{font-size:14px;color:var(--gray-300);margin-top:6px;}
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:var(--radius-sm);font-size:16px;font-weight:600;cursor:pointer;transition:all .3s;border:none;}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--navy);}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(201,168,76,.35);}
+.btn-outline{border:2px solid var(--gold);color:var(--gold);background:transparent;}
+.btn-outline:hover{background:rgba(201,168,76,.1);color:var(--gold-light);}
+
+/* Floating keyword tags */
+.hero-tags{position:absolute;right:0;top:20px;width:380px;opacity:.5;display:flex;flex-wrap:wrap;gap:8px;}
+.hero-tags span{background:rgba(255,255,255,.06);border:1px solid rgba(201,168,76,.2);color:var(--gray-300);font-size:12px;padding:4px 12px;border-radius:20px;white-space:nowrap;}
+
+/* ===== Core Advantages Bar ===== */
+.adv-bar{background:var(--white);border-top:4px solid var(--gold);box-shadow:var(--shadow-md);margin-top:-50px;position:relative;z-index:10;border-radius:var(--radius-md);padding:36px 40px;max-width:1272px;margin-left:auto;margin-right:auto;}
+.adv-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;}
+.adv-item{display:flex;gap:16px;align-items:flex-start;}
+.adv-icon{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.adv-item:nth-child(1) .adv-icon{background:rgba(0,119,182,.1);color:var(--blue);}
+.adv-item:nth-child(2) .adv-icon{background:rgba(230,126,34,.1);color:var(--orange);}
+.adv-item:nth-child(3) .adv-icon{background:rgba(192,57,43,.1);color:var(--red);}
+.adv-item:nth-child(4) .adv-icon{background:rgba(22,160,133,.1);color:var(--teal);}
+.adv-content h3{font-size:17px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+.adv-content p{font-size:13px;color:var(--gray-500);line-height:1.5;}
+
+/* ===== Section Common ===== */
+.section{padding:80px 0;}
+.section-head{text-align:center;margin-bottom:56px;}
+.section-head .label{display:inline-block;font-size:13px;font-weight:700;color:var(--gold);letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;}
+.section-head h2{font-size:40px;font-weight:900;color:var(--navy);line-height:1.2;margin-bottom:16px;}
+.section-head h2 .gold{color:var(--gold);}
+.section-head p{font-size:17px;color:var(--gray-500);max-width:680px;margin:0 auto;}
+
+/* ===== About Section ===== */
+.about-section{background:var(--white);}
+.about-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:60px;align-items:center;}
+.about-image{position:relative;}
+.about-img-main{height:400px;border-radius:var(--radius-lg);background:linear-gradient(135deg,var(--navy-dark),var(--navy-light));position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.about-img-main::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 30% 40%,rgba(201,168,76,.15) 0%,transparent 60%);}
+.about-img-main svg{position:relative;z-index:1;}
+.about-badge-float{position:absolute;top:-16px;right:-16px;background:var(--gold);color:var(--navy);padding:16px 24px;border-radius:var(--radius-md);text-align:center;box-shadow:var(--shadow-lg);}
+.about-badge-float .badge-year{display:block;font-size:32px;font-weight:900;line-height:1;}
+.about-badge-float .badge-text{font-size:12px;font-weight:600;}
+.about-experience{position:absolute;bottom:-16px;left:-16px;background:var(--white);padding:16px 24px;border-radius:var(--radius-md);box-shadow:var(--shadow-lg);text-align:center;}
+.about-experience .exp-label{display:block;font-size:12px;color:var(--gray-500);}
+.about-experience .exp-value{display:block;font-size:36px;font-weight:900;color:var(--gold);line-height:1;}
+.about-experience .exp-unit{font-size:12px;color:var(--gray-500);}
+.about-content .section-tag{display:inline-block;font-size:13px;font-weight:700;color:var(--gold);letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;}
+.about-content h2{font-size:36px;font-weight:900;color:var(--navy);line-height:1.2;margin-bottom:20px;}
+.about-content h2 .gold{color:var(--gold);}
+.about-lead{font-size:17px;color:var(--gray-600);line-height:1.8;margin-bottom:16px;font-weight:500;}
+.about-text{font-size:15px;color:var(--gray-500);line-height:1.8;margin-bottom:12px;}
+.about-features{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:24px;}
+.about-features .af-item{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--gray-600);font-weight:500;}
+
+/* ===== Trade Section ===== */
+.trade-section{background:var(--gray-50);}
+.trade-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+.trade-card{background:var(--white);border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-sm);transition:all .3s;border:1px solid var(--gray-100);}
+.trade-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:var(--gold);}
+.trade-card-icon{height:100px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--navy),var(--navy-light));}
+.trade-card-body{padding:24px;}
+.trade-card-body h3{font-size:18px;font-weight:700;color:var(--navy);margin-bottom:10px;}
+.trade-card-body p{font-size:14px;color:var(--gray-500);line-height:1.6;margin-bottom:16px;}
+.trade-list{display:flex;flex-direction:column;gap:8px;}
+.trade-list li{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--gray-600);}
+.trade-list li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;}
+.trade-link-bar{text-align:center;margin-top:40px;}
+
+/* ===== Supply Chain Section ===== */
+.sc-section{background:linear-gradient(135deg,var(--navy),var(--navy-dark));position:relative;overflow:hidden;}
+.sc-section::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 70% 20%,rgba(201,168,76,.08) 0%,transparent 60%);}
+.sc-section .section-head h2{color:var(--white);}
+.sc-section .section-head h2 .gold{color:var(--gold);}
+.sc-section .section-head p{color:var(--gray-300);}
+.sc-section .section-head .label{color:var(--gold);}
+.sc-flow-container{position:relative;z-index:2;margin-bottom:48px;}
+.sc-flow{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;}
+.sc-node{background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.15);border-radius:var(--radius-md);padding:24px;text-align:center;width:180px;transition:all .3s;backdrop-filter:blur(10px);}
+.sc-node:hover{background:rgba(255,255,255,.08);border-color:rgba(201,168,76,.4);transform:translateY(-4px);}
+.sc-node-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;background:rgba(201,168,76,.15);}
+.sc-node h4{font-size:16px;font-weight:700;color:var(--white);margin-bottom:4px;}
+.sc-node p{font-size:12px;color:var(--gray-400);}
+.sc-arrow{color:var(--gold);font-size:24px;font-weight:300;}
+.sc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;position:relative;z-index:2;}
+.sc-card{background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.15);border-radius:var(--radius-md);padding:28px;transition:all .3s;backdrop-filter:blur(10px);}
+.sc-card:hover{background:rgba(255,255,255,.08);border-color:rgba(201,168,76,.4);transform:translateY(-4px);}
+.sc-card h3{font-size:17px;font-weight:700;color:var(--white);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.sc-card p{font-size:14px;color:var(--gray-300);line-height:1.7;}
+
+/* ===== Products Section ===== */
+.prod-section{background:var(--gray-50);}
+.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.prod-card{background:var(--white);border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-sm);transition:all .3s;border:1px solid var(--gray-100);}
+.prod-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:var(--gold);}
+.prod-card-img{height:160px;display:flex;align-items:center;justify-content:center;position:relative;}
+.prod-card:nth-child(6n+1) .prod-card-img{background:linear-gradient(135deg,#e8f4fd,#d1ecf9);}
+.prod-card:nth-child(6n+2) .prod-card-img{background:linear-gradient(135deg,#fff3e0,#ffe0b2);}
+.prod-card:nth-child(6n+3) .prod-card-img{background:linear-gradient(135deg,#fce4ec,#f8bbd0);}
+.prod-card:nth-child(6n+4) .prod-card-img{background:linear-gradient(135deg,#e0f2f1,#b2dfdb);}
+.prod-card:nth-child(6n+5) .prod-card-img{background:linear-gradient(135deg,#ede7f6,#d1c4e9);}
+.prod-card:nth-child(6n+6) .prod-card-img{background:linear-gradient(135deg,#fff8e1,#ffecb3);}
+.prod-card-body{padding:24px;}
+.prod-card-body h4{font-size:18px;font-weight:700;color:var(--navy);margin-bottom:8px;}
+.prod-card-body p{font-size:14px;color:var(--gray-500);line-height:1.6;}
+
+/* ===== Partners Section ===== */
+.partner-section{background:var(--white);}
+.partner-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+.partner-card{background:var(--gray-50);border:2px solid var(--gray-100);border-radius:var(--radius-md);padding:32px 24px;text-align:center;transition:all .3s;}
+.partner-card:hover{border-color:var(--gold);background:var(--white);box-shadow:var(--shadow-md);transform:translateY(-4px);}
+.partner-card h4{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:8px;letter-spacing:1px;}
+.partner-card p{font-size:13px;color:var(--gray-500);}
+
+/* ===== News Section ===== */
+.news-section{background:var(--gray-50);}
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.news-card{background:var(--white);border-radius:var(--radius-md);overflow:hidden;transition:all .3s;border:1px solid var(--gray-100);}
+.news-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:var(--gold);}
+.news-card-body{padding:28px;}
+.news-date{display:flex;align-items:baseline;gap:8px;margin-bottom:12px;}
+.news-day{font-size:28px;font-weight:900;color:var(--gold);}
+.news-month{font-size:13px;color:var(--gray-400);}
+.news-cat{display:inline-block;padding:3px 12px;border-radius:4px;font-size:12px;font-weight:600;margin-bottom:12px;background:rgba(201,168,76,.1);color:var(--gold-dark);}
+.news-card h3{font-size:17px;font-weight:700;color:var(--navy);line-height:1.5;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.news-card p{font-size:14px;color:var(--gray-500);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.news-more{display:inline-flex;align-items:center;gap:4px;margin-top:14px;font-size:13px;font-weight:600;color:var(--gold-dark);transition:gap .2s;}
+.news-card:hover .news-more{gap:8px;}
+
+/* ===== Contact Section ===== */
+.contact-section{background:var(--white);}
+.contact-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:40px;}
+.contact-info{display:flex;flex-direction:column;gap:20px;}
+.contact-item{display:flex;gap:16px;align-items:flex-start;}
+.contact-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(201,168,76,.1);flex-shrink:0;}
+.contact-item h4{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+.contact-item p{font-size:14px;color:var(--gray-500);}
+.contact-map-wrap{margin-top:8px;border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-sm);border:1px solid var(--gray-200);}
+.contact-map{height:260px;width:100%;}
+.contact-form-wrap{background:var(--gray-50);border-radius:var(--radius-lg);padding:36px;border:1px solid var(--gray-100);}
+.contact-form{display:flex;flex-direction:column;gap:16px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+.form-group label{font-size:14px;font-weight:600;color:var(--navy);}
+.form-group input,.form-group select,.form-group textarea{padding:10px 14px;border:1px solid var(--gray-200);border-radius:var(--radius-sm);font-size:14px;color:var(--gray-700);background:var(--white);transition:border-color .2s;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.1);}
+.form-group textarea{resize:vertical;}
+.btn-submit{width:100%;justify-content:center;}
+
+/* ===== Footer ===== */
+.footer{background:var(--navy-dark);color:var(--gray-400);padding:60px 0 0;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:40px;margin-bottom:40px;}
+.footer-brand .logo{margin-bottom:16px;}
+.footer-brand .logo-name{color:var(--white);}
+.footer-brand p{font-size:14px;line-height:1.7;margin-bottom:16px;}
+.footer-col h4{font-size:15px;font-weight:700;color:var(--white);margin-bottom:16px;}
+.footer-col ul{display:flex;flex-direction:column;gap:10px;}
+.footer-col ul a{font-size:14px;color:var(--gray-400);transition:color .2s;}
+.footer-col ul a:hover{color:var(--gold);}
+.footer-col p{font-size:14px;line-height:1.7;}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.06);padding:20px 0;text-align:center;font-size:13px;}
+.footer-bottom a{color:var(--gray-500);}
+.footer-bottom a:hover{color:var(--gold);}
+.footer-bottom .sep{margin:0 8px;opacity:.4;}
+
+/* ===== Back to Top ===== */
+.back-to-top{position:fixed;bottom:24px;right:24px;width:48px;height:48px;border-radius:50%;background:var(--navy);color:var(--gold);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-lg);opacity:0;visibility:hidden;transition:all .3s;z-index:800;}
+.back-to-top.visible{opacity:1;visibility:visible;}
+.back-to-top:hover{background:var(--gold);color:var(--navy);transform:translateY(-4px);}
+
+/* ===== Mobile Call Bar ===== */
+.mobile-call-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--white);box-shadow:0 -4px 20px rgba(0,0,0,.08);z-index:800;padding:8px;}
+.mobile-call-bar a{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px;font-size:12px;font-weight:600;color:var(--navy);}
+.mobile-call-bar a:first-child{color:var(--gold-dark);}
+
+/* ===== Responsive ===== */
+@media(max-width:1024px){
+  .hero h1{font-size:40px;}
+  .adv-grid{grid-template-columns:repeat(2,1fr);gap:24px;}
+  .about-grid{grid-template-columns:1fr;gap:40px;}
+  .trade-grid{grid-template-columns:repeat(2,1fr);}
+  .sc-grid{grid-template-columns:repeat(2,1fr);}
+  .prod-grid{grid-template-columns:repeat(2,1fr);}
+  .partner-grid{grid-template-columns:repeat(2,1fr);}
+  .news-grid{grid-template-columns:repeat(2,1fr);}
+  .contact-grid{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:repeat(2,1fr);}
+  .hero-tags{display:none;}
+  .sc-flow{flex-wrap:wrap;}
+}
+@media(max-width:768px){
+  .nav{display:none;position:fixed;top:72px;left:0;right:0;background:var(--navy-dark);flex-direction:column;padding:16px;gap:4px;box-shadow:var(--shadow-lg);z-index:800;}
+  .nav.open{display:flex;}
+  .nav-link{display:block;padding:12px 16px;}
+  .mobile-toggle{display:flex;}
+  .hero{padding:60px 0 80px;}
+  .hero h1{font-size:32px;}
+  .hero .sub{font-size:16px;}
+  .hero-stats{gap:24px;}
+  .hero-stat .num{font-size:30px;}
+  .adv-bar{padding:28px 20px;margin:-40px 16px 0;}
+  .adv-grid{grid-template-columns:1fr;gap:20px;}
+  .section{padding:56px 0;}
+  .section-head h2{font-size:28px;}
+  .about-content h2{font-size:26px;}
+  .trade-grid{grid-template-columns:1fr;}
+  .sc-grid{grid-template-columns:1fr;}
+  .prod-grid{grid-template-columns:1fr;}
+  .partner-grid{grid-template-columns:1fr;}
+  .news-grid{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr;gap:28px;}
+  .form-row{grid-template-columns:1fr;}
+  .top-bar .container{flex-direction:column;}
+  .top-bar .top-links{font-size:12px;}
+  .mobile-call-bar{display:flex;}
+  .back-to-top{bottom:72px;}
+  .sc-node{width:140px;}
+}
+@media(max-width:400px){
+  .hero h1{font-size:26px;}
+  .sc-node{width:100%;}
+  .sc-arrow{transform:rotate(90deg);}
+}
+</style>
 </head>
 <body>
 
-<!-- 顶部信息栏 -->
+<!-- Top Bar -->
 <div class="top-bar">
-    <div class="container top-bar-inner">
-        <span class="top-contact">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-            <a href="tel:13363031515" style="color:inherit;text-decoration:none">13363031515</a>
-        </span>
-        <span class="top-contact">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4l-10 7L2 4"/></svg>
-            <span data-i18n="top.email">info@tuodalian.com</span>
-        </span>
-        <span class="top-right" id="langSwitcher">
-            <a href="javascript:void(0)" data-lang="zh" class="active-lang">中文</a>
-            <span class="sep">|</span>
-            <a href="javascript:void(0)" data-lang="en">English</a>
-        </span>
+  <div class="container">
+    <div class="top-links">
+      <span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        <a href="tel:13363031515" style="color:inherit;">13363031515</a>
+      </span>
+      <span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4l-10 7L2 4"/></svg>
+        <span data-i18n="top.email">info@tuodalian.com</span>
+      </span>
     </div>
+    <div class="top-right" id="langSwitcher">
+      <a href="javascript:void(0)" data-lang="zh" class="active-lang">中文</a>
+      <span class="sep">|</span>
+      <a href="javascript:void(0)" data-lang="en">English</a>
+    </div>
+  </div>
 </div>
 
-<!-- 主导航 -->
+<!-- Header -->
 <header class="header" id="header">
-    <div class="container header-inner">
-        <a href="#home" class="logo">
-            <div class="logo-icon">
-                <img src="assets/logo.png" alt="上海拓达联国际贸易有限公司" width="50" height="50">
-            </div>
-            <div class="logo-text">
-                <span class="logo-name">上海拓达联</span>
-                <span class="logo-divider"></span>
-                <span class="logo-sub">国际贸易有限公司</span>
-            </div>
-        </a>
-        <nav class="nav" id="nav">
-            <ul class="nav-list">
-                <li><a href="#home"        class="nav-link active" data-i18n="nav.home">首页</a></li>
-                <li><a href="#about"       class="nav-link" data-i18n="nav.about">关于我们</a></li>
-                <li><a href="/guojimaoyi"    class="nav-link" data-i18n="nav.trade">国际贸易</a></li>
-                <li><a href="/gongyinglian" class="nav-link" data-i18n="nav.supplychain">供应链管理</a></li>
-                <li><a href="/kuajingdianshang" class="nav-link" data-i18n="nav.ecommerce">跨境电商</a></li>
-                <li><a href="#products"    class="nav-link" data-i18n="nav.products">产品服务</a></li>
-                <li><a href="#news"        class="nav-link" data-i18n="nav.news">新闻资讯</a></li>
-                <li><a href="#contact"     class="nav-link" data-i18n="nav.contact">联系我们</a></li>
-            </ul>
-        </nav>
-        <button class="mobile-toggle" id="mobileToggle" aria-label="菜单">
-            <span></span><span></span><span></span>
-        </button>
+  <div class="container">
+    <a href="#home" class="logo">
+      <div class="logo-icon"><img src="assets/logo.png" alt="上海拓达联国际贸易有限公司"></div>
+      <div class="logo-text">
+        <span class="logo-name">上海拓达联</span>
+        <span class="logo-sub">国际贸易有限公司</span>
+      </div>
+    </a>
+    <nav class="nav" id="nav">
+      <a href="#home"           class="nav-link active" data-i18n="nav.home">首页</a>
+      <a href="#about"          class="nav-link" data-i18n="nav.about">关于我们</a>
+      <a href="/guojimaoyi"     class="nav-link" data-i18n="nav.trade">国际贸易</a>
+      <a href="/gongyinglian"   class="nav-link" data-i18n="nav.supplychain">供应链管理</a>
+      <a href="/kuajingdianshang" class="nav-link" data-i18n="nav.ecommerce">跨境电商</a>
+      <a href="#products"       class="nav-link" data-i18n="nav.products">产品服务</a>
+      <a href="#news"           class="nav-link" data-i18n="nav.news">新闻资讯</a>
+      <a href="#contact"        class="nav-link nav-cta" data-i18n="nav.contact">联系我们</a>
+    </nav>
+    <div class="mobile-toggle" id="mobileToggle">
+      <span></span><span></span><span></span>
     </div>
+  </div>
 </header>
 
-<!-- 首页 Hero -->
+<!-- Hero -->
 <section class="hero" id="home">
-    <div class="hero-overlay"></div>
-    <div class="hero-particles" id="particles"></div>
-    <div class="container hero-content">
-        <div class="hero-badge" data-i18n="hero.badge">SINCE 2015 · 立足上海 连接全球</div>
-        <h1 class="hero-title">
-            <span data-i18n="hero.title1 hero.title2">全球贸易<span class="gold">解决方案</span><br>值得信赖的<span class="gold">国际合作伙伴</span></span>
-        </h1>
-        <p class="hero-desc" data-i18n="hero.desc">
-            上海拓达联国际贸易有限公司深耕国际贸易与供应链管理领域，
-            为客户提供进出口代理、跨境物流、仓储配送、贸易咨询等一站式专业服务，
-            助力企业扬帆出海，链接全球市场。
-        </p>
-        <div class="hero-btns">
-            <a href="#contact" class="btn btn-gold"  data-i18n="hero.cta1">立即咨询</a>
-            <a href="#about"   class="btn btn-outline" data-i18n="hero.cta2">了解更多</a>
-        </div>
-        <div class="hero-stats">
-            <div class="stat-item">
-                <span class="stat-number" data-target="50">0</span>
-                <span class="stat-label" data-i18n="hero.stat1">覆盖国家/地区</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number" data-target="200">0</span>
-                <span class="stat-label" data-i18n="hero.stat2">合作企业</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number" data-target="1000">0</span>
-                <span class="stat-label" data-i18n="hero.stat3">服务品类 SKU</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number" data-target="99">0</span>
-                <span class="stat-percent">%</span>
-                <span class="stat-label" data-i18n="hero.stat4">客户满意度</span>
-            </div>
-        </div>
+  <div class="container">
+    <div class="hero-badge" data-i18n="hero.badge">SINCE 2015 · 立足上海 连接全球</div>
+    <h1>
+      <span data-i18n="hero.title1 hero.title2">全球贸易<span class="gold">解决方案</span><br>值得信赖的<span class="gold">国际合作伙伴</span></span>
+    </h1>
+    <p class="sub" data-i18n="hero.desc">上海拓达联国际贸易有限公司深耕国际贸易与供应链管理领域，为客户提供进出口代理、跨境物流、仓储配送、贸易咨询等一站式专业服务，助力企业扬帆出海，链接全球市场。</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num" data-count="50">0</div><div class="label" data-i18n="hero.stat1">覆盖国家/地区</div></div>
+      <div class="hero-stat"><div class="num" data-count="200">0</div><div class="label" data-i18n="hero.stat2">合作企业</div></div>
+      <div class="hero-stat"><div class="num" data-count="1000">0</div><div class="label" data-i18n="hero.stat3">服务品类 SKU</div></div>
+      <div class="hero-stat"><div class="num" data-count="99" data-suffix="%">0</div><div class="label" data-i18n="hero.stat4">客户满意度</div></div>
     </div>
-    <div class="hero-wave">
-        <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path fill="#ffffff" d="M0,64L60,53.3C120,43,240,21,360,26.7C480,32,600,64,720,74.7C840,85,960,75,1080,58.7C1200,43,1320,21,1380,10.7L1440,0L1440,120L1380,120C1320,120,1200,120,1080,120C960,120,840,120,720,120C600,120,480,120,360,120C240,120,120,120,60,120L0,120Z"/></svg>
+    <div class="hero-actions">
+      <a href="#contact" class="btn btn-gold" data-i18n="hero.cta1">立即咨询</a>
+      <a href="#about" class="btn btn-outline" data-i18n="hero.cta2">了解更多</a>
     </div>
+  </div>
+  <div class="hero-tags">
+    <span>进出口代理</span><span>全球采购</span><span>跨境物流</span><span>仓储配送</span>
+    <span>贸易咨询</span><span>跨境电商</span><span>报关清关</span><span>供应链金融</span>
+    <span>货运代理</span><span>品牌出海</span><span>海外仓</span><span>一件代发</span>
+  </div>
 </section>
 
-<!-- 核心优势 -->
-<section class="advantages">
-    <div class="container">
-        <div class="section-header">
-            <span class="section-tag" data-i18n="adv.tag">为什么选择我们</span>
-            <h2 class="section-title" data-i18n="adv.title">核心<span class="gold">优势</span></h2>
-            <p class="section-desc" data-i18n="adv.desc">以专业铸就信任，以服务创造价值</p>
-        </div>
-        <div class="adv-grid">
-            <div class="adv-card">
-                <div class="adv-icon"><svg width="40" height="40" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" fill="#e8e0cc"/><path d="M14 20l4 4 8-8" stroke="#c9a84c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="24" r="22" stroke="#c9a84c" stroke-width="1.5"/></svg></div>
-                <h3 data-i18n="adv1.title">资质齐全</h3>
-                <p data-i18n="adv1.desc">具备进出口经营权、海关备案、检验检疫备案等全套资质，合规经营让您无忧合作。</p>
-            </div>
-            <div class="adv-card">
-                <div class="adv-icon"><svg width="40" height="40" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" fill="#e8e0cc"/><path d="M24 6l4 12h12l-10 8 4 12-10-8-10 8 4-12-10-8h12l4-12z" fill="#c9a84c" stroke="#c9a84c" stroke-width="1"/></svg></div>
-                <h3 data-i18n="adv2.title">专业团队</h3>
-                <p data-i18n="adv2.desc">拥有经验丰富的国际贸易专家团队，精通海关法规、国际结算、信用证操作等专业领域。</p>
-            </div>
-            <div class="adv-card">
-                <div class="adv-icon"><svg width="40" height="40" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" fill="#e8e0cc"/><rect x="8" y="12" width="32" height="24" rx="2" stroke="#c9a84c" stroke-width="2"/><path d="M8 18h32M18 12v30" stroke="#c9a84c" stroke-width="2"/></svg></div>
-                <h3 data-i18n="adv3.title">全球网络</h3>
-                <p data-i18n="adv3.desc">覆盖50多个国家和地区的供应链网络，与全球主要港口、航运公司和仓储企业深度合作。</p>
-            </div>
-            <div class="adv-card">
-                <div class="adv-icon"><svg width="40" height="40" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" fill="#e8e0cc"/><circle cx="24" cy="24" r="6" fill="#c9a84c"/><circle cx="24" cy="12" r="2.5" fill="#c9a84c"/><circle cx="24" cy="36" r="2.5" fill="#c9a84c"/><circle cx="36" cy="24" r="2.5" fill="#c9a84c"/><circle cx="12" cy="24" r="2.5" fill="#c9a84c"/><line x1="24" y1="12" x2="24" y2="18" stroke="#c9a84c" stroke-width="2"/><line x1="24" y1="30" x2="24" y2="36" stroke="#c9a84c" stroke-width="2"/><line x1="36" y1="24" x2="30" y2="24" stroke="#c9a84c" stroke-width="2"/><line x1="18" y1="24" x2="12" y2="24" stroke="#c9a84c" stroke-width="2"/></svg></div>
-                <h3 data-i18n="adv4.title">一站式服务</h3>
-                <p data-i18n="adv4.desc">从采购寻源、质量管控到国际物流、清关配送，全链路一站式解决您的贸易需求。</p>
-            </div>
-        </div>
+<!-- Core Advantages -->
+<div class="adv-bar">
+  <div class="container" style="padding:0;">
+    <div class="adv-grid">
+      <div class="adv-item">
+        <div class="adv-icon"><svg width="28" height="28" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" stroke-width="2"/><path d="M14 20l4 4 8-8" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="adv-content"><h3 data-i18n="adv1.title">资质齐全</h3><p data-i18n="adv1.desc">具备进出口经营权、海关备案、检验检疫备案等全套资质，合规经营让您无忧合作。</p></div>
+      </div>
+      <div class="adv-item">
+        <div class="adv-icon"><svg width="28" height="28" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" stroke-width="2"/><path d="M24 6l4 12h12l-10 8 4 12-10-8-10 8 4-12-10-8h12l4-12z" fill="currentColor" stroke="currentColor" stroke-width="1"/></svg></div>
+        <div class="adv-content"><h3 data-i18n="adv2.title">专业团队</h3><p data-i18n="adv2.desc">拥有经验丰富的国际贸易专家团队，精通海关法规、国际结算、信用证操作等专业领域。</p></div>
+      </div>
+      <div class="adv-item">
+        <div class="adv-icon"><svg width="28" height="28" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" stroke-width="2"/><rect x="8" y="12" width="32" height="24" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 18h32M18 12v30" stroke="currentColor" stroke-width="2"/></svg></div>
+        <div class="adv-content"><h3 data-i18n="adv3.title">全球网络</h3><p data-i18n="adv3.desc">覆盖50多个国家和地区的供应链网络，与全球主要港口、航运公司和仓储企业深度合作。</p></div>
+      </div>
+      <div class="adv-item">
+        <div class="adv-icon"><svg width="28" height="28" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="24" cy="24" r="6" fill="currentColor"/><circle cx="24" cy="12" r="2.5" fill="currentColor"/><circle cx="24" cy="36" r="2.5" fill="currentColor"/><circle cx="36" cy="24" r="2.5" fill="currentColor"/><circle cx="12" cy="24" r="2.5" fill="currentColor"/><line x1="24" y1="12" x2="24" y2="18" stroke="currentColor" stroke-width="2"/><line x1="24" y1="30" x2="24" y2="36" stroke="currentColor" stroke-width="2"/><line x1="36" y1="24" x2="30" y2="24" stroke="currentColor" stroke-width="2"/><line x1="18" y1="24" x2="12" y2="24" stroke="currentColor" stroke-width="2"/></svg></div>
+        <div class="adv-content"><h3 data-i18n="adv4.title">一站式服务</h3><p data-i18n="adv4.desc">从采购寻源、质量管控到国际物流、清关配送，全链路一站式解决您的贸易需求。</p></div>
+      </div>
     </div>
+  </div>
+</div>
+
+<!-- About Us -->
+<section class="section about-section" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-image">
+        <div class="about-img-main">
+          <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+            <circle cx="60" cy="60" r="50" stroke="#c9a84c" stroke-width="2" opacity="0.3"/>
+            <circle cx="60" cy="60" r="35" stroke="#c9a84c" stroke-width="2" opacity="0.5"/>
+            <path d="M60 20L80 50L60 80L40 50Z" stroke="#c9a84c" stroke-width="2" fill="none"/>
+            <circle cx="60" cy="50" r="8" fill="#c9a84c" opacity="0.8"/>
+            <text x="60" y="105" text-anchor="middle" fill="#c9a84c" font-size="10" font-weight="700">TUODALIAN</text>
+          </svg>
+        </div>
+        <div class="about-badge-float">
+          <span class="badge-year">2015</span>
+          <span class="badge-text" data-i18n="about.badge">创立至今</span>
+        </div>
+        <div class="about-experience">
+          <span class="exp-label" data-i18n="about.exp.label">服务覆盖</span>
+          <span class="exp-value">50+</span>
+          <span class="exp-unit" data-i18n="about.exp.unit">国家和地区</span>
+        </div>
+      </div>
+      <div class="about-content">
+        <span class="section-tag" data-i18n="about.tag">关于我们</span>
+        <h2 data-i18n="about.title">上海拓达联<span class="gold">国际贸易有限公司</span></h2>
+        <p class="about-lead" data-i18n="about.lead">上海拓达联国际贸易有限公司（Shanghai Tuodalian International Trade Co., Ltd.）是经上海市市场监督管理局批准成立的专业国际贸易企业，坐落于中国经济的桥头堡——上海。</p>
+        <p class="about-text" data-i18n="about.text1">公司秉承"诚信为本、合作共赢"的经营理念，致力于为全球客户提供高品质的国际贸易与供应链管理服务。业务范围涵盖技术进出口、货物进出口代理、国内贸易代理、货运代理、仓储物流、跨境电商等全链条服务。</p>
+        <p class="about-text" data-i18n="about.text2">我们拥有丰富的行业经验和专业的服务团队，经营品类覆盖服装鞋帽、电子产品、珠宝首饰、化工产品、农产品、针纺织品、皮革制品、日用消费品等多个领域。依托上海自贸区的政策优势和港口便利，我们能够为客户提供高效、安全、合规的全球贸易解决方案。</p>
+        <div class="about-features">
+          <div class="af-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#c9a84c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="about.f1">合法合规经营，资质齐全</span></div>
+          <div class="af-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#c9a84c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="about.f2">专业清关团队，通关效率高</span></div>
+          <div class="af-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#c9a84c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="about.f3">全球物流网络，配送及时可靠</span></div>
+          <div class="af-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#c9a84c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="about.f4">一对一专属客户经理服务</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- 关于我们 -->
-<section class="about" id="about">
-    <div class="container">
-        <div class="about-grid">
-            <div class="about-image">
-                <div class="about-img-main"></div>
-                <div class="about-badge-float">
-                    <span class="badge-year">2015</span>
-                    <span class="badge-text" data-i18n="about.badge">创立至今</span>
-                </div>
-                <div class="about-experience">
-                    <span class="exp-label" data-i18n="about.exp.label">服务覆盖</span>
-                    <span class="exp-value">50+</span>
-                    <span class="exp-unit" data-i18n="about.exp.unit">国家和地区</span>
-                </div>
-            </div>
-            <div class="about-content">
-                <span class="section-tag" data-i18n="about.tag">关于我们</span>
-                <h2 class="section-title" data-i18n="about.title">上海拓达联<span class="gold">国际贸易有限公司</span></h2>
-                <p class="about-lead" data-i18n="about.lead">上海拓达联国际贸易有限公司（Shanghai Tuodalian International Trade Co., Ltd.）是经上海市市场监督管理局批准成立的专业国际贸易企业，坐落于中国经济的桥头堡——上海。</p>
-                <p class="about-text" data-i18n="about.text1">公司秉承"诚信为本、合作共赢"的经营理念，致力于为全球客户提供高品质的国际贸易与供应链管理服务。业务范围涵盖技术进出口、货物进出口代理、国内贸易代理、货运代理、仓储物流、跨境电商等全链条服务。</p>
-                <p class="about-text" data-i18n="about.text2">我们拥有丰富的行业经验和专业的服务团队，经营品类覆盖服装鞋帽、电子产品、珠宝首饰、化工产品、农产品、针纺织品、皮革制品、日用消费品等多个领域。依托上海自贸区的政策优势和港口便利，我们能够为客户提供高效、安全、合规的全球贸易解决方案。</p>
-                <div class="about-features">
-                    <div class="af-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#c9a84c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="about.f1">合法合规经营，资质齐全</span></div>
-                    <div class="af-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#c9a84c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="about.f2">专业清关团队，通关效率高</span></div>
-                    <div class="af-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#c9a84c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="about.f3">全球物流网络，配送及时可靠</span></div>
-                    <div class="af-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#c9a84c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="about.f4">一对一专属客户经理服务</span></div>
-                </div>
-            </div>
-        </div>
+<!-- International Trade -->
+<section class="section trade-section" id="trade">
+  <div class="container">
+    <div class="section-head">
+      <div class="label" data-i18n="trade.tag">核心业务</div>
+      <h2 data-i18n="trade.title">国际<span class="gold">贸易服务</span></h2>
+      <p data-i18n="trade.desc">全方位进出口解决方案，助力企业拓展全球市场</p>
     </div>
+    <div class="trade-grid">
+      <div class="trade-card">
+        <div class="trade-card-icon"><svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="4" y="14" width="40" height="24" rx="2" stroke="#c9a84c" stroke-width="2"/><line x1="4" y1="20" x2="44" y2="20" stroke="#c9a84c" stroke-width="2"/><circle cx="14" cy="35" r="5" stroke="#c9a84c" stroke-width="2"/><circle cx="34" cy="35" r="5" stroke="#c9a84c" stroke-width="2"/><line x1="14" y1="35" x2="24" y2="35" stroke="#c9a84c" stroke-width="2"/></svg></div>
+        <div class="trade-card-body">
+          <h3 data-i18n="trade1.title">进出口代理</h3>
+          <p data-i18n="trade1.desc">提供一站式进出口代理服务，涵盖报关、报检、外汇结算、退税等全流程操作，确保合规高效。</p>
+          <ul class="trade-list">
+            <li data-i18n="trade1.l1">海关报关清关</li>
+            <li data-i18n="trade1.l2">商检/动植检代理</li>
+            <li data-i18n="trade1.l3">外汇收付与管理</li>
+            <li data-i18n="trade1.l4">出口退税代办</li>
+          </ul>
+        </div>
+      </div>
+      <div class="trade-card">
+        <div class="trade-card-icon"><svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" stroke="#c9a84c" stroke-width="2"/><circle cx="24" cy="24" r="8" stroke="#c9a84c" stroke-width="2"/><line x1="24" y1="2" x2="24" y2="8" stroke="#c9a84c" stroke-width="2"/><line x1="24" y1="40" x2="24" y2="46" stroke="#c9a84c" stroke-width="2"/><line x1="2" y1="24" x2="8" y2="24" stroke="#c9a84c" stroke-width="2"/><line x1="40" y1="24" x2="46" y2="24" stroke="#c9a84c" stroke-width="2"/></svg></div>
+        <div class="trade-card-body">
+          <h3 data-i18n="trade2.title">全球采购</h3>
+          <p data-i18n="trade2.desc">依托全球供应商网络，为客户进行优质货源寻源、供应商审核、价格谈判及质量控制服务。</p>
+          <ul class="trade-list">
+            <li data-i18n="trade2.l1">供应商开发与审核</li>
+            <li data-i18n="trade2.l2">产品比价与成本优化</li>
+            <li data-i18n="trade2.l3">样品确认与质量管控</li>
+            <li data-i18n="trade2.l4">订单跟踪与交付管理</li>
+          </ul>
+        </div>
+      </div>
+      <div class="trade-card">
+        <div class="trade-card-icon"><svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="6" y="12" width="36" height="28" rx="2" stroke="#c9a84c" stroke-width="2"/><line x1="6" y1="20" x2="42" y2="20" stroke="#c9a84c" stroke-width="2"/><circle cx="16" cy="32" r="3" fill="#c9a84c"/><line x1="20" y1="32" x2="36" y2="32" stroke="#c9a84c" stroke-width="2"/></svg></div>
+        <div class="trade-card-body">
+          <h3 data-i18n="trade3.title">贸易咨询</h3>
+          <p data-i18n="trade3.desc">提供国际贸易政策解读、市场分析、合规咨询、合同审查等专业顾问服务，降低贸易风险。</p>
+          <ul class="trade-list">
+            <li data-i18n="trade3.l1">国际市场调研分析</li>
+            <li data-i18n="trade3.l2">贸易合规咨询</li>
+            <li data-i18n="trade3.l3">合同审查与谈判</li>
+            <li data-i18n="trade3.l4">关税政策解读</li>
+          </ul>
+        </div>
+      </div>
+      <div class="trade-card">
+        <div class="trade-card-icon"><svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="10" y="6" width="28" height="36" rx="3" stroke="#c9a84c" stroke-width="2"/><line x1="20" y1="10" x2="28" y2="10" stroke="#c9a84c" stroke-width="2"/><circle cx="24" cy="22" r="6" stroke="#c9a84c" stroke-width="2"/><path d="M14 34c0-4.4 4.5-8 10-8s10 3.6 10 8" stroke="#c9a84c" stroke-width="2"/></svg></div>
+        <div class="trade-card-body">
+          <h3 data-i18n="trade4.title">跨境电商</h3>
+          <p data-i18n="trade4.desc">提供跨境电商平台运营、海外仓储、跨境支付、品牌出海等数字化贸易解决方案。</p>
+          <ul class="trade-list">
+            <li data-i18n="trade4.l1">平台店铺运营</li>
+            <li data-i18n="trade4.l2">海外仓一件代发</li>
+            <li data-i18n="trade4.l3">多币种跨境结算</li>
+            <li data-i18n="trade4.l4">品牌全球推广</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="trade-link-bar">
+      <a href="/guojimaoyi" class="btn btn-gold">
+        <span data-i18n="trade.detail">查看国际贸易详情</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
 </section>
 
-<!-- 国际贸易 -->
-<section class="trade" id="trade">
-    <div class="container">
-        <div class="section-header">
-            <span class="section-tag" data-i18n="trade.tag">核心业务</span>
-            <h2 class="section-title" data-i18n="trade.title">国际<span class="gold">贸易服务</span></h2>
-            <p class="section-desc" data-i18n="trade.desc">全方位进出口解决方案，助力企业拓展全球市场</p>
-        </div>
-        <div class="trade-grid">
-            <div class="trade-card">
-                <div class="trade-card-icon"><svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="4" y="14" width="40" height="24" rx="2" stroke="#c9a84c" stroke-width="2"/><line x1="4" y1="20" x2="44" y2="20" stroke="#c9a84c" stroke-width="2"/><circle cx="14" cy="35" r="5" stroke="#c9a84c" stroke-width="2"/><circle cx="34" cy="35" r="5" stroke="#c9a84c" stroke-width="2"/><line x1="14" y1="35" x2="24" y2="35" stroke="#c9a84c" stroke-width="2"/></svg></div>
-                <h3 data-i18n="trade1.title">进出口代理</h3>
-                <p data-i18n="trade1.desc">提供一站式进出口代理服务，涵盖报关、报检、外汇结算、退税等全流程操作，确保合规高效。</p>
-                <ul class="trade-list">
-                    <li data-i18n="trade1.l1">海关报关清关</li>
-                    <li data-i18n="trade1.l2">商检/动植检代理</li>
-                    <li data-i18n="trade1.l3">外汇收付与管理</li>
-                    <li data-i18n="trade1.l4">出口退税代办</li>
-                </ul>
-            </div>
-            <div class="trade-card">
-                <div class="trade-card-icon"><svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" stroke="#c9a84c" stroke-width="2"/><circle cx="24" cy="24" r="8" stroke="#c9a84c" stroke-width="2"/><line x1="24" y1="2" x2="24" y2="8" stroke="#c9a84c" stroke-width="2"/><line x1="24" y1="40" x2="24" y2="46" stroke="#c9a84c" stroke-width="2"/><line x1="2" y1="24" x2="8" y2="24" stroke="#c9a84c" stroke-width="2"/><line x1="40" y1="24" x2="46" y2="24" stroke="#c9a84c" stroke-width="2"/><line x1="6.3" y1="6.3" x2="10.5" y2="10.5" stroke="#c9a84c" stroke-width="2"/><line x1="37.5" y1="37.5" x2="41.7" y2="41.7" stroke="#c9a84c" stroke-width="2"/></svg></div>
-                <h3 data-i18n="trade2.title">全球采购</h3>
-                <p data-i18n="trade2.desc">依托全球供应商网络，为客户进行优质货源寻源、供应商审核、价格谈判及质量控制服务。</p>
-                <ul class="trade-list">
-                    <li data-i18n="trade2.l1">供应商开发与审核</li>
-                    <li data-i18n="trade2.l2">产品比价与成本优化</li>
-                    <li data-i18n="trade2.l3">样品确认与质量管控</li>
-                    <li data-i18n="trade2.l4">订单跟踪与交付管理</li>
-                </ul>
-            </div>
-            <div class="trade-card">
-                <div class="trade-card-icon"><svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="6" y="12" width="36" height="28" rx="2" stroke="#c9a84c" stroke-width="2"/><line x1="6" y1="20" x2="42" y2="20" stroke="#c9a84c" stroke-width="2"/><circle cx="16" cy="32" r="3" fill="#c9a84c"/><line x1="20" y1="32" x2="36" y2="32" stroke="#c9a84c" stroke-width="2"/></svg></div>
-                <h3 data-i18n="trade3.title">贸易咨询</h3>
-                <p data-i18n="trade3.desc">提供国际贸易政策解读、市场分析、合规咨询、合同审查等专业顾问服务，降低贸易风险。</p>
-                <ul class="trade-list">
-                    <li data-i18n="trade3.l1">国际市场调研分析</li>
-                    <li data-i18n="trade3.l2">贸易合规咨询</li>
-                    <li data-i18n="trade3.l3">合同审查与谈判</li>
-                    <li data-i18n="trade3.l4">关税政策解读</li>
-                </ul>
-            </div>
-            <div class="trade-card">
-                <div class="trade-card-icon"><svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="10" y="6" width="28" height="36" rx="3" stroke="#c9a84c" stroke-width="2"/><line x1="20" y1="10" x2="28" y2="10" stroke="#c9a84c" stroke-width="2"/><circle cx="24" cy="22" r="6" stroke="#c9a84c" stroke-width="2"/><path d="M14 34c0-4.4 4.5-8 10-8s10 3.6 10 8" stroke="#c9a84c" stroke-width="2"/></svg></div>
-                <h3 data-i18n="trade4.title">跨境电商</h3>
-                <p data-i18n="trade4.desc">提供跨境电商平台运营、海外仓储、跨境支付、品牌出海等数字化贸易解决方案。</p>
-                <ul class="trade-list">
-                    <li data-i18n="trade4.l1">平台店铺运营</li>
-                    <li data-i18n="trade4.l2">海外仓一件代发</li>
-                    <li data-i18n="trade4.l3">多币种跨境结算</li>
-                    <li data-i18n="trade4.l4">品牌全球推广</li>
-                </ul>
-            </div>
-        </div>
-        <div style="text-align:center;margin-top:36px">
-            <a href="/guojimaoyi" class="btn btn-gold">
-                查看国际贸易详情
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-        </div>
+<!-- Supply Chain -->
+<section class="section sc-section" id="supplychain">
+  <div class="container">
+    <div class="section-head">
+      <div class="label" data-i18n="sc.tag">核心业务</div>
+      <h2 data-i18n="sc.title">供应链<span class="gold">管理服务</span></h2>
+      <p data-i18n="sc.desc">整合全链路资源，打造高效、透明、可靠的全球供应链体系</p>
     </div>
+    <div class="sc-flow-container">
+      <div class="sc-flow">
+        <div class="sc-node"><div class="sc-node-icon"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><rect x="6" y="8" width="36" height="32" rx="3" stroke="#c9a84c" stroke-width="2"/><line x1="6" y1="18" x2="42" y2="18" stroke="#c9a84c" stroke-width="2"/><line x1="16" y1="8" x2="16" y2="40" stroke="#c9a84c" stroke-width="2"/><line x1="28" y1="8" x2="28" y2="40" stroke="#c9a84c" stroke-width="2"/></svg></div><h4 data-i18n="sc.node1.t">采购寻源</h4><p data-i18n="sc.node1.p">供应商筛选与评估</p></div>
+        <div class="sc-arrow">→</div>
+        <div class="sc-node"><div class="sc-node-icon"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><path d="M10 12h28l4 10-4 10H10l-4-10 4-10z" stroke="#c9a84c" stroke-width="2"/><circle cx="16" cy="22" r="3" stroke="#c9a84c" stroke-width="2"/><circle cx="32" cy="22" r="3" stroke="#c9a84c" stroke-width="2"/></svg></div><h4 data-i18n="sc.node2.t">质量管控</h4><p data-i18n="sc.node2.p">产品检验与认证</p></div>
+        <div class="sc-arrow">→</div>
+        <div class="sc-node"><div class="sc-node-icon"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><rect x="6" y="14" width="36" height="24" rx="2" stroke="#c9a84c" stroke-width="2"/><circle cx="15" cy="35" r="4" stroke="#c9a84c" stroke-width="2"/><circle cx="33" cy="35" r="4" stroke="#c9a84c" stroke-width="2"/><line x1="15" y1="35" x2="33" y2="35" stroke="#c9a84c" stroke-width="2"/></svg></div><h4 data-i18n="sc.node3.t">国际物流</h4><p data-i18n="sc.node3.p">海陆空铁多式联运</p></div>
+        <div class="sc-arrow">→</div>
+        <div class="sc-node"><div class="sc-node-icon"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><rect x="12" y="4" width="24" height="40" rx="2" stroke="#c9a84c" stroke-width="2"/><rect x="16" y="8" width="16" height="8" rx="1" stroke="#c9a84c" stroke-width="2"/><rect x="16" y="20" width="16" height="16" rx="1" stroke="#c9a84c" stroke-width="2"/></svg></div><h4 data-i18n="sc.node4.t">仓储配送</h4><p data-i18n="sc.node4.p">智能仓储与分拨</p></div>
+        <div class="sc-arrow">→</div>
+        <div class="sc-node"><div class="sc-node-icon"><svg width="32" height="32" viewBox="0 0 48 48" fill="none"><rect x="6" y="10" width="36" height="28" rx="2" stroke="#c9a84c" stroke-width="2"/><line x1="6" y1="18" x2="42" y2="18" stroke="#c9a84c" stroke-width="2"/><path d="M14 26l4 4 8-8" stroke="#c9a84c" stroke-width="2" stroke-linecap="round"/></svg></div><h4 data-i18n="sc.node5.t">清关交付</h4><p data-i18n="sc.node5.p">报关报检与末端配送</p></div>
+      </div>
+    </div>
+    <div class="sc-grid">
+      <div class="sc-card">
+        <h3><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="1" y="1" width="22" height="22" rx="3" stroke="#c9a84c" stroke-width="2"/><line x1="1" y1="7" x2="23" y2="7" stroke="#c9a84c" stroke-width="2"/></svg> <span data-i18n="sc.card1.t">货运代理</span></h3>
+        <p data-i18n="sc.card1.p">提供海运、空运、陆运、铁路等多种运输方式的货运代理服务，与全球主要船公司和航空公司保持紧密合作，确保运力充足、舱位保障。</p>
+      </div>
+      <div class="sc-card">
+        <h3><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="#c9a84c" stroke-width="2"/><rect x="6" y="6" width="5" height="5" stroke="#c9a84c" stroke-width="2"/><rect x="13" y="6" width="5" height="5" stroke="#c9a84c" stroke-width="2"/><rect x="6" y="13" width="5" height="5" stroke="#c9a84c" stroke-width="2"/><rect x="13" y="13" width="5" height="5" stroke="#c9a84c" stroke-width="2"/></svg> <span data-i18n="sc.card2.t">仓储物流</span></h3>
+        <p data-i18n="sc.card2.p">在上海及全国主要港口城市设有合作仓储中心，提供货物暂存、分拣、包装、贴标、配送等一体化仓储物流服务。</p>
+      </div>
+      <div class="sc-card">
+        <h3><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#c9a84c" stroke-width="2"/><path d="M12 6v6l4 2" stroke="#c9a84c" stroke-width="2" stroke-linecap="round"/></svg> <span data-i18n="sc.card3.t">通关服务</span></h3>
+        <p data-i18n="sc.card3.p">专业的报关报检团队，熟悉各国海关法规和流程，提供进出口报关、商品归类、原产地证办理、熏蒸消毒等一站式通关服务。</p>
+      </div>
+      <div class="sc-card">
+        <h3><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="2" stroke="#c9a84c" stroke-width="2"/><path d="M3 8h18M7 4v16" stroke="#c9a84c" stroke-width="2"/></svg> <span data-i18n="sc.card4.t">供应链金融</span></h3>
+        <p data-i18n="sc.card4.p">联合金融机构，为客户提供灵活的供应链融资方案，包括信用证开立、应收账款融资、仓单质押等金融服务。</p>
+      </div>
+    </div>
+    <div class="trade-link-bar">
+      <a href="/gongyinglian" class="btn btn-gold">
+        <span data-i18n="sc.detail">查看完整供应链服务</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
 </section>
 
-<!-- 供应链管理 -->
-<section class="supplychain" id="supplychain">
-    <div class="container">
-        <div class="section-header">
-            <span class="section-tag" data-i18n="sc.tag">核心业务</span>
-            <h2 class="section-title" data-i18n="sc.title">供应链<span class="gold">管理服务</span></h2>
-            <p class="section-desc" data-i18n="sc.desc">整合全链路资源，打造高效、透明、可靠的全球供应链体系</p>
-        </div>
-        <div class="sc-flow-container">
-            <div class="sc-flow">
-                <div class="sc-node"><div class="sc-node-icon"><svg width="36" height="36" viewBox="0 0 48 48" fill="none"><rect x="6" y="8" width="36" height="32" rx="3" stroke="#fff" stroke-width="2"/><line x1="6" y1="18" x2="42" y2="18" stroke="#fff" stroke-width="2"/><line x1="16" y1="8" x2="16" y2="40" stroke="#fff" stroke-width="2"/><line x1="28" y1="8" x2="28" y2="40" stroke="#fff" stroke-width="2"/></svg></div><h4 data-i18n="sc.node1.t">采购寻源</h4><p data-i18n="sc.node1.p">供应商筛选与评估</p></div>
-                <div class="sc-arrow">→</div>
-                <div class="sc-node"><div class="sc-node-icon"><svg width="36" height="36" viewBox="0 0 48 48" fill="none"><path d="M10 12h28l4 10-4 10H10l-4-10 4-10z" stroke="#fff" stroke-width="2"/><circle cx="16" cy="22" r="3" stroke="#fff" stroke-width="2"/><circle cx="32" cy="22" r="3" stroke="#fff" stroke-width="2"/></svg></div><h4 data-i18n="sc.node2.t">质量管控</h4><p data-i18n="sc.node2.p">产品检验与认证</p></div>
-                <div class="sc-arrow">→</div>
-                <div class="sc-node"><div class="sc-node-icon"><svg width="36" height="36" viewBox="0 0 48 48" fill="none"><rect x="6" y="14" width="36" height="24" rx="2" stroke="#fff" stroke-width="2"/><circle cx="15" cy="35" r="4" stroke="#fff" stroke-width="2"/><circle cx="33" cy="35" r="4" stroke="#fff" stroke-width="2"/><line x1="15" y1="35" x2="33" y2="35" stroke="#fff" stroke-width="2"/></svg></div><h4 data-i18n="sc.node3.t">国际物流</h4><p data-i18n="sc.node3.p">海陆空铁多式联运</p></div>
-                <div class="sc-arrow">→</div>
-                <div class="sc-node"><div class="sc-node-icon"><svg width="36" height="36" viewBox="0 0 48 48" fill="none"><rect x="12" y="4" width="24" height="40" rx="2" stroke="#fff" stroke-width="2"/><rect x="16" y="8" width="16" height="8" rx="1" stroke="#fff" stroke-width="2"/><rect x="16" y="20" width="16" height="16" rx="1" stroke="#fff" stroke-width="2"/></svg></div><h4 data-i18n="sc.node4.t">仓储配送</h4><p data-i18n="sc.node4.p">智能仓储与分拨</p></div>
-                <div class="sc-arrow">→</div>
-                <div class="sc-node"><div class="sc-node-icon"><svg width="36" height="36" viewBox="0 0 48 48" fill="none"><rect x="6" y="10" width="36" height="28" rx="2" stroke="#fff" stroke-width="2"/><line x1="6" y1="18" x2="42" y2="18" stroke="#fff" stroke-width="2"/><path d="M14 26l4 4 8-8" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div><h4 data-i18n="sc.node5.t">清关交付</h4><p data-i18n="sc.node5.p">报关报检与末端配送</p></div>
-            </div>
-        </div>
-        <div class="sc-grid">
-            <div class="sc-card">
-                <h3><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="1" y="1" width="22" height="22" rx="3" stroke="#c9a84c" stroke-width="2"/><line x1="1" y1="7" x2="23" y2="7" stroke="#c9a84c" stroke-width="2"/><path d="M1 7l3-3h16l3 3" stroke="#c9a84c" stroke-width="1.5"/></svg> <span data-i18n="sc.card1.t">货运代理</span></h3>
-                <p data-i18n="sc.card1.p">提供海运、空运、陆运、铁路等多种运输方式的货运代理服务，与全球主要船公司和航空公司保持紧密合作，确保运力充足、舱位保障。</p>
-            </div>
-            <div class="sc-card">
-                <h3><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="#c9a84c" stroke-width="2"/><rect x="6" y="6" width="5" height="5" stroke="#c9a84c" stroke-width="2"/><rect x="13" y="6" width="5" height="5" stroke="#c9a84c" stroke-width="2"/><rect x="6" y="13" width="5" height="5" stroke="#c9a84c" stroke-width="2"/><rect x="13" y="13" width="5" height="5" stroke="#c9a84c" stroke-width="2"/></svg> <span data-i18n="sc.card2.t">仓储物流</span></h3>
-                <p data-i18n="sc.card2.p">在上海及全国主要港口城市设有合作仓储中心，提供货物暂存、分拣、包装、贴标、配送等一体化仓储物流服务。</p>
-            </div>
-            <div class="sc-card">
-                <h3><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#c9a84c" stroke-width="2"/><path d="M12 6v6l4 2" stroke="#c9a84c" stroke-width="2" stroke-linecap="round"/></svg> <span data-i18n="sc.card3.t">通关服务</span></h3>
-                <p data-i18n="sc.card3.p">专业的报关报检团队，熟悉各国海关法规和流程，提供进出口报关、商品归类、原产地证办理、熏蒸消毒等一站式通关服务。</p>
-            </div>
-            <div class="sc-card">
-                <h3><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="2" stroke="#c9a84c" stroke-width="2"/><path d="M3 8h18M7 4v16" stroke="#c9a84c" stroke-width="2"/><circle cx="18" cy="6" r="1" fill="#c9a84c"/><circle cx="18" cy="10" r="1" fill="#c9a84c"/><circle cx="18" cy="14" r="1" fill="#c9a84c"/></svg> <span data-i18n="sc.card4.t">供应链金融</span></h3>
-                <p data-i18n="sc.card4.p">联合金融机构，为客户提供灵活的供应链融资方案，包括信用证开立、应收账款融资、仓单质押等金融服务。</p>
-            </div>
-        </div>
-        <div style="text-align:center;margin-top:36px">
-            <a href="/gongyinglian" class="btn btn-gold">
-                查看完整供应链服务
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-        </div>
+<!-- Products -->
+<section class="section prod-section" id="products">
+  <div class="container">
+    <div class="section-head">
+      <div class="label" data-i18n="prod.tag">业务范围</div>
+      <h2 data-i18n="prod.title">产品<span class="gold">与服务品类</span></h2>
+      <p data-i18n="prod.desc">多品类覆盖，满足全球客户的多样化贸易需求</p>
     </div>
+    <div class="prod-grid">
+      <div class="prod-card">
+        <div class="prod-card-img"><svg width="64" height="64" viewBox="0 0 80 80" fill="none"><path d="M20 50h40M20 55h40M20 60h40" stroke="#c9a84c" stroke-width="2" stroke-linecap="round"/><rect x="24" y="15" width="32" height="35" rx="3" stroke="#c9a84c" stroke-width="2"/><line x1="28" y1="22" x2="52" y2="22" stroke="#c9a84c" stroke-width="1.5"/></svg></div>
+        <div class="prod-card-body"><h4 data-i18n="prod1.t">服装服饰</h4><p data-i18n="prod1.p">服装、鞋帽、皮革制品、服装辅料、针纺织品等</p></div>
+      </div>
+      <div class="prod-card">
+        <div class="prod-card-img"><svg width="64" height="64" viewBox="0 0 80 80" fill="none"><rect x="15" y="20" width="50" height="35" rx="3" stroke="#c9a84c" stroke-width="2"/><circle cx="40" cy="37" r="8" stroke="#c9a84c" stroke-width="2"/><rect x="20" y="58" width="40" height="6" rx="3" stroke="#c9a84c" stroke-width="2"/></svg></div>
+        <div class="prod-card-body"><h4 data-i18n="prod2.t">电子产品</h4><p data-i18n="prod2.p">电子产品、互联网设备、人工智能硬件等</p></div>
+      </div>
+      <div class="prod-card">
+        <div class="prod-card-img"><svg width="64" height="64" viewBox="0 0 80 80" fill="none"><circle cx="40" cy="30" r="15" stroke="#c9a84c" stroke-width="2"/><circle cx="40" cy="30" r="7" stroke="#c9a84c" stroke-width="2"/><line x1="40" y1="45" x2="40" y2="65" stroke="#c9a84c" stroke-width="2"/><line x1="32" y1="58" x2="48" y2="58" stroke="#c9a84c" stroke-width="2"/></svg></div>
+        <div class="prod-card-body"><h4 data-i18n="prod3.t">珠宝首饰</h4><p data-i18n="prod3.p">珠宝首饰批发与零售，设计精美、品质保证</p></div>
+      </div>
+      <div class="prod-card">
+        <div class="prod-card-img"><svg width="64" height="64" viewBox="0 0 80 80" fill="none"><rect x="18" y="15" width="18" height="24" rx="2" stroke="#c9a84c" stroke-width="2"/><rect x="42" y="15" width="18" height="24" rx="2" stroke="#c9a84c" stroke-width="2"/><rect x="18" y="45" width="18" height="24" rx="2" stroke="#c9a84c" stroke-width="2"/><rect x="42" y="45" width="18" height="24" rx="2" stroke="#c9a84c" stroke-width="2"/></svg></div>
+        <div class="prod-card-body"><h4 data-i18n="prod4.t">化工产品</h4><p data-i18n="prod4.p">化工原料、食品用洗涤剂、消毒剂、日用化学产品</p></div>
+      </div>
+      <div class="prod-card">
+        <div class="prod-card-img"><svg width="64" height="64" viewBox="0 0 80 80" fill="none"><ellipse cx="40" cy="30" rx="25" ry="15" stroke="#c9a84c" stroke-width="2"/><path d="M15 30c0 10 11 20 25 20s25-10 25-20" stroke="#c9a84c" stroke-width="2"/><path d="M30 40l10 15 10-15" stroke="#c9a84c" stroke-width="2"/></svg></div>
+        <div class="prod-card-body"><h4 data-i18n="prod5.t">农产品</h4><p data-i18n="prod5.p">初级农产品收购、食用农产品批发与零售</p></div>
+      </div>
+      <div class="prod-card">
+        <div class="prod-card-img"><svg width="64" height="64" viewBox="0 0 80 80" fill="none"><rect x="10" y="25" width="60" height="30" rx="4" stroke="#c9a84c" stroke-width="2"/><circle cx="30" cy="40" r="5" stroke="#c9a84c" stroke-width="2"/><circle cx="50" cy="40" r="5" stroke="#c9a84c" stroke-width="2"/><line x1="30" y1="25" x2="50" y2="55" stroke="#c9a84c" stroke-width="1.5"/></svg></div>
+        <div class="prod-card-body"><h4 data-i18n="prod6.t">日用品</h4><p data-i18n="prod6.p">厨具卫具、日用品、消毒剂、模具销售等</p></div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- 产品服务 -->
-<section class="products" id="products">
-    <div class="container">
-        <div class="section-header">
-            <span class="section-tag" data-i18n="prod.tag">业务范围</span>
-            <h2 class="section-title" data-i18n="prod.title">产品<span class="gold">与服务品类</span></h2>
-            <p class="section-desc" data-i18n="prod.desc">多品类覆盖，满足全球客户的多样化贸易需求</p>
-        </div>
-        <div class="product-grid">
-            <div class="product-card"><div class="product-img" style="background:linear-gradient(135deg,#1a1a2e,#16213e)"><svg width="64" height="64" viewBox="0 0 80 80" fill="none"><path d="M20 50h40M20 55h40M20 60h40" stroke="#c9a84c" stroke-width="2" stroke-linecap="round"/><rect x="24" y="15" width="32" height="35" rx="3" stroke="#c9a84c" stroke-width="2"/><line x1="28" y1="22" x2="52" y2="22" stroke="#c9a84c" stroke-width="1.5"/></svg></div><div class="product-info"><h4 data-i18n="prod1.t">服装服饰</h4><p data-i18n="prod1.p">服装、鞋帽、皮革制品、服装辅料、针纺织品等</p></div></div>
-            <div class="product-card"><div class="product-img" style="background:linear-gradient(135deg,#16213e,#0f3460)"><svg width="64" height="64" viewBox="0 0 80 80" fill="none"><rect x="15" y="20" width="50" height="35" rx="3" stroke="#c9a84c" stroke-width="2"/><circle cx="40" cy="37" r="8" stroke="#c9a84c" stroke-width="2"/><rect x="20" y="58" width="40" height="6" rx="3" stroke="#c9a84c" stroke-width="2"/></svg></div><div class="product-info"><h4 data-i18n="prod2.t">电子产品</h4><p data-i18n="prod2.p">电子产品、互联网设备、人工智能硬件等</p></div></div>
-            <div class="product-card"><div class="product-img" style="background:linear-gradient(135deg,#0f3460,#1a1a2e)"><svg width="64" height="64" viewBox="0 0 80 80" fill="none"><circle cx="40" cy="30" r="15" stroke="#c9a84c" stroke-width="2"/><circle cx="40" cy="30" r="7" stroke="#c9a84c" stroke-width="2"/><line x1="40" y1="45" x2="40" y2="65" stroke="#c9a84c" stroke-width="2"/><line x1="32" y1="58" x2="48" y2="58" stroke="#c9a84c" stroke-width="2"/></svg></div><div class="product-info"><h4 data-i18n="prod3.t">珠宝首饰</h4><p data-i18n="prod3.p">珠宝首饰批发与零售，设计精美、品质保证</p></div></div>
-            <div class="product-card"><div class="product-img" style="background:linear-gradient(135deg,#1a1a2e,#16213e)"><svg width="64" height="64" viewBox="0 0 80 80" fill="none"><rect x="18" y="15" width="18" height="24" rx="2" stroke="#c9a84c" stroke-width="2"/><rect x="42" y="15" width="18" height="24" rx="2" stroke="#c9a84c" stroke-width="2"/><rect x="18" y="45" width="18" height="24" rx="2" stroke="#c9a84c" stroke-width="2"/><rect x="42" y="45" width="18" height="24" rx="2" stroke="#c9a84c" stroke-width="2"/></svg></div><div class="product-info"><h4 data-i18n="prod4.t">化工产品</h4><p data-i18n="prod4.p">化工原料、食品用洗涤剂、消毒剂、日用化学产品</p></div></div>
-            <div class="product-card"><div class="product-img" style="background:linear-gradient(135deg,#16213e,#0f3460)"><svg width="64" height="64" viewBox="0 0 80 80" fill="none"><ellipse cx="40" cy="30" rx="25" ry="15" stroke="#c9a84c" stroke-width="2"/><path d="M15 30c0 10 11 20 25 20s25-10 25-20" stroke="#c9a84c" stroke-width="2"/><path d="M30 40l10 15 10-15" stroke="#c9a84c" stroke-width="2"/></svg></div><div class="product-info"><h4 data-i18n="prod5.t">农产品</h4><p data-i18n="prod5.p">初级农产品收购、食用农产品批发与零售</p></div></div>
-            <div class="product-card"><div class="product-img" style="background:linear-gradient(135deg,#0f3460,#1a1a2e)"><svg width="64" height="64" viewBox="0 0 80 80" fill="none"><rect x="10" y="25" width="60" height="30" rx="4" stroke="#c9a84c" stroke-width="2"/><circle cx="30" cy="40" r="5" stroke="#c9a84c" stroke-width="2"/><circle cx="50" cy="40" r="5" stroke="#c9a84c" stroke-width="2"/><line x1="30" y1="25" x2="50" y2="55" stroke="#c9a84c" stroke-width="1.5"/></svg></div><div class="product-info"><h4 data-i18n="prod6.t">日用品</h4><p data-i18n="prod6.p">厨具卫具、日用品、消毒剂、模具销售等</p></div></div>
-        </div>
+<!-- Partners -->
+<section class="section partner-section" id="partners">
+  <div class="container">
+    <div class="section-head">
+      <div class="label" data-i18n="partner.tag">信任与合作</div>
+      <h2 data-i18n="partner.title">合作<span class="gold">伙伴</span></h2>
+      <p data-i18n="partner.desc">与全球优秀企业携手并进，共创价值</p>
     </div>
+    <div class="partner-grid">
+      <div class="partner-card"><h4 data-i18n="partner1.t">亚 太 地 区</h4><p data-i18n="partner1.p">日本、韩国、东南亚各国贸易伙伴</p></div>
+      <div class="partner-card"><h4 data-i18n="partner2.t">欧 洲 地 区</h4><p data-i18n="partner2.p">德国、法国、英国、意大利等欧洲市场</p></div>
+      <div class="partner-card"><h4 data-i18n="partner3.t">北 美 地 区</h4><p data-i18n="partner3.p">美国、加拿大、墨西哥贸易网络</p></div>
+      <div class="partner-card"><h4 data-i18n="partner4.t">中 东 非 洲</h4><p data-i18n="partner4.p">中东、非洲等新兴市场合作伙伴</p></div>
+    </div>
+  </div>
 </section>
 
-<!-- 合作伙伴 -->
-<section class="partners">
-    <div class="container">
-        <div class="section-header">
-            <span class="section-tag" data-i18n="partner.tag">信任与合作</span>
-            <h2 class="section-title" data-i18n="partner.title">合作<span class="gold">伙伴</span></h2>
-            <p class="section-desc" data-i18n="partner.desc">与全球优秀企业携手并进，共创价值</p>
-        </div>
-        <div class="partner-grid">
-            <div class="partner-card"><h4 data-i18n="partner1.t">亚 太 地 区</h4><p data-i18n="partner1.p">日本、韩国、东南亚各国贸易伙伴</p></div>
-            <div class="partner-card"><h4 data-i18n="partner2.t">欧 洲 地 区</h4><p data-i18n="partner2.p">德国、法国、英国、意大利等欧洲市场</p></div>
-            <div class="partner-card"><h4 data-i18n="partner3.t">北 美 地 区</h4><p data-i18n="partner3.p">美国、加拿大、墨西哥贸易网络</p></div>
-            <div class="partner-card"><h4 data-i18n="partner4.t">中 东 非 洲</h4><p data-i18n="partner4.p">中东、非洲等新兴市场合作伙伴</p></div>
-        </div>
+<!-- News -->
+<section class="section news-section" id="news">
+  <div class="container">
+    <div class="section-head">
+      <div class="label" data-i18n="news.tag">动态资讯</div>
+      <h2 data-i18n="news.title">新闻<span class="gold">资讯</span></h2>
+      <p data-i18n="news.desc">关注行业动态，掌握最新贸易政策与市场趋势</p>
     </div>
+    <div class="news-grid">
+      <article class="news-card">
+        <div class="news-card-body">
+          <div class="news-date"><span class="news-day">13</span><span class="news-month">2026.07</span></div>
+          <span class="news-cat" data-i18n="news1.cat">公司动态</span>
+          <h3 data-i18n="news1.title">上海拓达联国际贸易有限公司官网正式上线</h3>
+          <p data-i18n="news1.desc">经过精心筹备，公司官方网站于今日正式上线运行，全面展示公司业务范围与核心优势...</p>
+          <a href="#" class="news-more" data-i18n="news.readmore">阅读全文 →</a>
+        </div>
+      </article>
+      <article class="news-card">
+        <div class="news-card-body">
+          <div class="news-date"><span class="news-day">01</span><span class="news-month">2026.07</span></div>
+          <span class="news-cat" data-i18n="news2.cat">行业资讯</span>
+          <h3 data-i18n="news2.title">RCEP协定持续深化，亚太贸易迎来新机遇</h3>
+          <p data-i18n="news2.desc">区域全面经济伙伴关系协定（RCEP）实施以来，亚太地区贸易便利化水平显著提升...</p>
+          <a href="#" class="news-more" data-i18n="news.readmore">阅读全文 →</a>
+        </div>
+      </article>
+      <article class="news-card">
+        <div class="news-card-body">
+          <div class="news-date"><span class="news-day">25</span><span class="news-month">2026.06</span></div>
+          <span class="news-cat" data-i18n="news3.cat">政策解读</span>
+          <h3 data-i18n="news3.title">海关总署出台新举措优化口岸营商环境</h3>
+          <p data-i18n="news3.desc">海关总署近日发布系列便利化措施，进一步简化进出口通关流程，降低企业贸易成本...</p>
+          <a href="#" class="news-more" data-i18n="news.readmore">阅读全文 →</a>
+        </div>
+      </article>
+    </div>
+  </div>
 </section>
 
-<!-- 新闻资讯 -->
-<section class="news" id="news">
-    <div class="container">
-        <div class="section-header">
-            <span class="section-tag" data-i18n="news.tag">动态资讯</span>
-            <h2 class="section-title" data-i18n="news.title">新闻<span class="gold">资讯</span></h2>
-            <p class="section-desc" data-i18n="news.desc">关注行业动态，掌握最新贸易政策与市场趋势</p>
-        </div>
-        <div class="news-grid">
-            <article class="news-card">
-                <div class="news-date"><span class="news-day">13</span><span class="news-month">2026.07</span></div>
-                <div class="news-content"><span class="news-cat" data-i18n="news1.cat">公司动态</span><h4 data-i18n="news1.title">上海拓达联国际贸易有限公司官网正式上线</h4><p data-i18n="news1.desc">经过精心筹备，公司官方网站于今日正式上线运行，全面展示公司业务范围与核心优势...</p><a href="#" class="news-link" data-i18n="news.readmore">阅读全文 →</a></div>
-            </article>
-            <article class="news-card">
-                <div class="news-date"><span class="news-day">01</span><span class="news-month">2026.07</span></div>
-                <div class="news-content"><span class="news-cat" data-i18n="news2.cat">行业资讯</span><h4 data-i18n="news2.title">RCEP协定持续深化，亚太贸易迎来新机遇</h4><p data-i18n="news2.desc">区域全面经济伙伴关系协定（RCEP）实施以来，亚太地区贸易便利化水平显著提升...</p><a href="#" class="news-link" data-i18n="news.readmore">阅读全文 →</a></div>
-            </article>
-            <article class="news-card">
-                <div class="news-date"><span class="news-day">25</span><span class="news-month">2026.06</span></div>
-                <div class="news-content"><span class="news-cat" data-i18n="news3.cat">政策解读</span><h4 data-i18n="news3.title">海关总署出台新举措优化口岸营商环境</h4><p data-i18n="news3.desc">海关总署近日发布系列便利化措施，进一步简化进出口通关流程，降低企业贸易成本...</p><a href="#" class="news-link" data-i18n="news.readmore">阅读全文 →</a></div>
-            </article>
-        </div>
+<!-- Contact -->
+<section class="section contact-section" id="contact">
+  <div class="container">
+    <div class="section-head">
+      <div class="label" data-i18n="contact.tag">联系我们</div>
+      <h2 data-i18n="contact.title">即刻<span class="gold">联络</span></h2>
+      <p data-i18n="contact.desc">期待与您合作，共创美好未来</p>
     </div>
-</section>
-
-<!-- 联系我们 -->
-<section class="contact" id="contact">
-    <div class="container">
-        <div class="section-header">
-            <span class="section-tag" data-i18n="contact.tag">联系我们</span>
-            <h2 class="section-title" data-i18n="contact.title">即刻<span class="gold">联络</span></h2>
-            <p class="section-desc" data-i18n="contact.desc">期待与您合作，共创美好未来</p>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" stroke="#c9a84c" stroke-width="2"/><circle cx="12" cy="10" r="3" stroke="#c9a84c" stroke-width="2"/></svg></div>
+          <div><h4 data-i18n="contact.addr">公司地址</h4><p data-i18n="contact.addrv">上海市浦东新区自由贸易试验区</p></div>
         </div>
-        <div class="contact-grid">
-            <div class="contact-info">
-                <div class="contact-item"><div class="contact-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" stroke="#c9a84c" stroke-width="2"/><circle cx="12" cy="10" r="3" stroke="#c9a84c" stroke-width="2"/></svg></div><div><h4 data-i18n="contact.addr">公司地址</h4><p data-i18n="contact.addrv">上海市浦东新区自由贸易试验区</p></div></div>
-                <div class="contact-item"><div class="contact-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke="#c9a84c" stroke-width="2"/></svg></div><div><h4 data-i18n="contact.phone">联系电话</h4><p><a href="tel:13363031515" style="color:var(--navy);text-decoration:none">13363031515</a></p></div></div>
-                <div class="contact-item"><div class="contact-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" stroke="#c9a84c" stroke-width="2"/><path d="M22 4l-10 7L2 4" stroke="#c9a84c" stroke-width="2"/></svg></div><div><h4 data-i18n="contact.email.t">电子邮箱</h4><p>info@tuodalian.com</p></div></div>
-                <div class="contact-item"><div class="contact-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#c9a84c" stroke-width="2"/><path d="M12 6v6l4 2" stroke="#c9a84c" stroke-width="2" stroke-linecap="round"/></svg></div><div><h4 data-i18n="contact.hours.t">工作时间</h4><p data-i18n="contact.hours.v">周一至周五 9:00 - 18:00</p></div></div>
-                <!-- 可拖动地图 -->
-                <div class="contact-map-wrap">
-                    <div id="contactMap" class="contact-map"></div>
-                </div>
+        <div class="contact-item">
+          <div class="contact-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke="#c9a84c" stroke-width="2"/></svg></div>
+          <div><h4 data-i18n="contact.phone">联系电话</h4><p><a href="tel:13363031515" style="color:inherit;">13363031515</a></p></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" stroke="#c9a84c" stroke-width="2"/><path d="M22 4l-10 7L2 4" stroke="#c9a84c" stroke-width="2"/></svg></div>
+          <div><h4 data-i18n="contact.email.t">电子邮箱</h4><p>info@tuodalian.com</p></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#c9a84c" stroke-width="2"/><path d="M12 6v6l4 2" stroke="#c9a84c" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <div><h4 data-i18n="contact.hours.t">工作时间</h4><p data-i18n="contact.hours.v">周一至周五 9:00 - 18:00</p></div>
+        </div>
+        <div class="contact-map-wrap">
+          <div id="contactMap" class="contact-map"></div>
+        </div>
+      </div>
+      <div class="contact-form-wrap">
+        <form class="contact-form" id="contactForm" action="https://formsubmit.co/423883213@qq.com" method="POST">
+          <input type="hidden" name="_subject" value="【网站咨询】新客户留言 - 拓达联国际贸易">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_next" value="https://www.tuodalian.com?sent=success">
+          <input type="hidden" name="_autoresponse" value="感谢您的咨询！上海拓达联国际贸易有限公司已收到您的留言，我们将在24小时内与您联系。电话：13363031515">
+          <input type="text" name="_honey" style="display:none">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name" data-i18n="form.name">您的姓名 *</label>
+              <input type="text" id="name" name="姓名" data-i18n-placeholder="form.name.placeholder" placeholder="请输入您的姓名" required>
             </div>
-            <div class="contact-form-wrap">
-                <form class="contact-form" id="contactForm" action="https://formsubmit.co/423883213@qq.com" method="POST">
-                    <input type="hidden" name="_subject" value="【网站咨询】新客户留言 - 拓达联国际贸易">
-                    <input type="hidden" name="_template" value="table">
-                    <input type="hidden" name="_captcha" value="false">
-                    <input type="hidden" name="_next" value="https://www.tuodalian.com?sent=success">
-                    <input type="hidden" name="_autoresponse" value="感谢您的咨询！上海拓达联国际贸易有限公司已收到您的留言，我们将在24小时内与您联系。电话：13363031515">
-                    <input type="text" name="_honey" style="display:none">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="name" data-i18n="form.name">您的姓名 *</label>
-                            <input type="text" id="name" name="姓名" data-i18n-placeholder="form.name.placeholder" placeholder="请输入您的姓名" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="company" data-i18n="form.company">公司名称</label>
-                            <input type="text" id="company" name="公司名称" data-i18n-placeholder="form.company.placeholder" placeholder="请输入您的公司名称">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="email" data-i18n="form.email">电子邮箱 *</label>
-                            <input type="email" id="email" name="电子邮箱" data-i18n-placeholder="form.email.placeholder" placeholder="请输入您的电子邮箱" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone" data-i18n="form.phone">联系电话</label>
-                            <input type="tel" id="phone" name="联系电话" data-i18n-placeholder="form.phone.placeholder" placeholder="请输入您的联系电话">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="service" data-i18n="form.service">感兴趣的服务</label>
-                        <select id="service" name="感兴趣的服务">
-                            <option value="" data-i18n-option="form.service.o0">请选择您感兴趣的服务</option>
-                            <option value="进出口代理" data-i18n-option="form.service.o1">进出口代理</option>
-                            <option value="全球采购"   data-i18n-option="form.service.o2">全球采购</option>
-                            <option value="国际物流"   data-i18n-option="form.service.o3">国际物流</option>
-                            <option value="仓储配送"   data-i18n-option="form.service.o4">仓储配送</option>
-                            <option value="贸易咨询"   data-i18n-option="form.service.o5">贸易咨询</option>
-                            <option value="跨境电商"   data-i18n-option="form.service.o6">跨境电商</option>
-                            <option value="其他服务"   data-i18n-option="form.service.o7">其他服务</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="message" data-i18n="form.message">留言内容 *</label>
-                        <textarea id="message" name="留言内容" rows="4" data-i18n-placeholder="form.message.p" placeholder="请描述您的需求，我们将尽快与您联系..." required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-gold btn-submit" id="submitBtn">
-                        <span data-i18n="form.submit">提交咨询</span>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </button>
-                </form>
+            <div class="form-group">
+              <label for="company" data-i18n="form.company">公司名称</label>
+              <input type="text" id="company" name="公司名称" data-i18n-placeholder="form.company.placeholder" placeholder="请输入您的公司名称">
             </div>
-        </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email" data-i18n="form.email">电子邮箱 *</label>
+              <input type="email" id="email" name="电子邮箱" data-i18n-placeholder="form.email.placeholder" placeholder="请输入您的电子邮箱" required>
+            </div>
+            <div class="form-group">
+              <label for="phone" data-i18n="form.phone">联系电话</label>
+              <input type="tel" id="phone" name="联系电话" data-i18n-placeholder="form.phone.placeholder" placeholder="请输入您的联系电话">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="service" data-i18n="form.service">感兴趣的服务</label>
+            <select id="service" name="感兴趣的服务">
+              <option value="" data-i18n-option="form.service.o0">请选择您感兴趣的服务</option>
+              <option value="进出口代理" data-i18n-option="form.service.o1">进出口代理</option>
+              <option value="全球采购" data-i18n-option="form.service.o2">全球采购</option>
+              <option value="国际物流" data-i18n-option="form.service.o3">国际物流</option>
+              <option value="仓储配送" data-i18n-option="form.service.o4">仓储配送</option>
+              <option value="贸易咨询" data-i18n-option="form.service.o5">贸易咨询</option>
+              <option value="跨境电商" data-i18n-option="form.service.o6">跨境电商</option>
+              <option value="其他服务" data-i18n-option="form.service.o7">其他服务</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message" data-i18n="form.message">留言内容 *</label>
+            <textarea id="message" name="留言内容" rows="4" data-i18n-placeholder="form.message.p" placeholder="请描述您的需求，我们将尽快与您联系..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-gold btn-submit" id="submitBtn">
+            <span data-i18n="form.submit">提交咨询</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </form>
+      </div>
     </div>
+  </div>
 </section>
 
-<!-- 底部 -->
+<!-- Footer -->
 <footer class="footer">
-    <div class="container">
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <h3 data-i18n="footer.brand">上海拓达联国际贸易有限公司</h3>
-                <p style="color:var(--gold);font-size:12px;letter-spacing:.5px;margin-bottom:12px">Shanghai Tuodalian International Trade Co., Ltd.</p>
-                <p class="footer-desc" data-i18n="footer.desc">专业国际贸易与供应链管理服务商，致力于为全球客户提供高效、安全、合规的一站式贸易解决方案。</p>
-            </div>
-            <div class="footer-links">
-                <h4 data-i18n="footer.nav">快速导航</h4>
-                <ul>
-                    <li><a href="#home" data-i18n="nav.home">首页</a></li>
-                    <li><a href="#about" data-i18n="nav.about">关于我们</a></li>
-                    <li><a href="/guojimaoyi" data-i18n="nav.trade">国际贸易</a></li>
-                    <li><a href="/gongyinglian" data-i18n="nav.supplychain">供应链管理</a></li>
-                    <li><a href="/kuajingdianshang" data-i18n="nav.ecommerce">跨境电商</a></li>
-                    <li><a href="#products" data-i18n="nav.products">产品服务</a></li>
-                    <li><a href="#news" data-i18n="nav.news">新闻资讯</a></li>
-                    <li><a href="#contact" data-i18n="nav.contact">联系我们</a></li>
-                </ul>
-            </div>
-            <div class="footer-links">
-                <h4 data-i18n="footer.services">核心服务</h4>
-                <ul>
-                    <li><a href="/guojimaoyi" data-i18n="trade1.title">进出口代理</a></li>
-                    <li><a href="/guojimaoyi" data-i18n="trade2.title">全球采购</a></li>
-                    <li><a href="#supplychain" data-i18n="sc.card1.t">货运代理</a></li>
-                    <li><a href="#supplychain" data-i18n="sc.card2.t">仓储物流</a></li>
-                    <li><a href="/guojimaoyi" data-i18n="trade4.title">跨境电商</a></li>
-                    <li><a href="#supplychain" data-i18n="sc.card4.t">供应链金融</a></li>
-                </ul>
-            </div>
-            <div class="footer-contact">
-                <h4 data-i18n="footer.contact.t">联系方式</h4>
-                <div class="footer-contact-body">
-                    <div class="footer-contact-info">
-                        <p data-i18n="contact.addrv">📍 上海市浦东新区自由贸易试验区</p>
-                        <p>📞 <a href="tel:13363031515" style="color:inherit;text-decoration:none">13363031515</a></p>
-                        <p>📧 info@tuodalian.com</p>
-                        <p data-i18n="contact.hours.v">🕐 周一至周五 9:00-18:00</p>
-                    </div>
-                    <div class="footer-qr">
-                        <img src="assets/wechat-qr.png" alt="微信二维码">
-                        <span class="qr-label" data-i18n="contact.wechat">微信咨询</span>
-                        <span data-i18n="contact.wechat.scan">扫一扫添加微信</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p data-i18n="footer.copy">&copy; 2025-2026 上海拓达联国际贸易有限公司 版权所有</p>
-            <p>
-                <a href="#" data-i18n="footer.icp">沪ICP备2025130866号-1</a>
-                <span class="sep">|</span>
-                <a href="#" data-i18n="footer.privacy">隐私政策</a>
-                <span class="sep">|</span>
-                <a href="#" data-i18n="footer.terms">服务条款</a>
-            </p>
-        </div>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#home" class="logo">
+          <div class="logo-icon"><img src="assets/logo.png" alt="上海拓达联"></div>
+          <div class="logo-text">
+            <span class="logo-name">上海拓达联</span>
+            <span class="logo-sub">国际贸易有限公司</span>
+          </div>
+        </a>
+        <p data-i18n="footer.desc">专业国际贸易与供应链管理服务商，致力于为全球客户提供高效、安全、合规的一站式贸易解决方案。</p>
+        <p style="color:var(--gold);font-size:12px;letter-spacing:.5px;">Shanghai Tuodalian International Trade Co., Ltd.</p>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer.nav">快速导航</h4>
+        <ul>
+          <li><a href="#home" data-i18n="nav.home">首页</a></li>
+          <li><a href="#about" data-i18n="nav.about">关于我们</a></li>
+          <li><a href="/guojimaoyi" data-i18n="nav.trade">国际贸易</a></li>
+          <li><a href="/gongyinglian" data-i18n="nav.supplychain">供应链管理</a></li>
+          <li><a href="/kuajingdianshang" data-i18n="nav.ecommerce">跨境电商</a></li>
+          <li><a href="#news" data-i18n="nav.news">新闻资讯</a></li>
+          <li><a href="#contact" data-i18n="nav.contact">联系我们</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer.services">核心服务</h4>
+        <ul>
+          <li><a href="/guojimaoyi" data-i18n="trade1.title">进出口代理</a></li>
+          <li><a href="/guojimaoyi" data-i18n="trade2.title">全球采购</a></li>
+          <li><a href="#supplychain" data-i18n="sc.card1.t">货运代理</a></li>
+          <li><a href="#supplychain" data-i18n="sc.card2.t">仓储物流</a></li>
+          <li><a href="/kuajingdianshang" data-i18n="trade4.title">跨境电商</a></li>
+          <li><a href="#supplychain" data-i18n="sc.card4.t">供应链金融</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer.contact.t">联系方式</h4>
+        <p data-i18n="contact.addrv">📍 上海市浦东新区自由贸易试验区</p>
+        <p>📞 <a href="tel:13363031515" style="color:inherit;">13363031515</a></p>
+        <p>📧 info@tuodalian.com</p>
+        <p data-i18n="contact.hours.v">🕐 周一至周五 9:00-18:00</p>
+      </div>
     </div>
+    <div class="footer-bottom">
+      <p>&copy; 2015-2026 上海拓达联国际贸易有限公司 版权所有 | <a href="https://beian.miit.gov.cn/" target="_blank">沪ICP备2025130866号-1</a></p>
+    </div>
+  </div>
 </footer>
 
-<!-- 回到顶部 -->
+<!-- Back to Top -->
 <a href="#home" class="back-to-top" id="backToTop" aria-label="回到顶部">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M18 15l-6-6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M18 15l-6-6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </a>
 
-<!-- 移动端底部栏 -->
+<!-- Mobile Call Bar -->
 <div class="mobile-call-bar">
-    <a href="tel:13363031515">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-        <span data-i18n="mobile.call">拨打电话</span>
-    </a>
-    <a href="#contact">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4l-10 7L2 4"/></svg>
-        <span data-i18n="mobile.inquiry">在线咨询</span>
-    </a>
+  <a href="tel:13363031515">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+    <span data-i18n="mobile.call">拨打电话</span>
+  </a>
+  <a href="#contact">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4l-10 7L2 4"/></svg>
+    <span data-i18n="mobile.inquiry">在线咨询</span>
+  </a>
 </div>
 
 <script src="js/i18n.js"></script>
-<script src="js/main.js"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
+// Header scroll effect
+var header = document.getElementById('header');
+var backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', function() {
+  if (window.scrollY > 50) {
+    header.classList.add('scrolled');
+    backToTop.classList.add('visible');
+  } else {
+    header.classList.remove('scrolled');
+    backToTop.classList.remove('visible');
+  }
+  updateActiveNav();
+}, { passive: true });
+
+// Mobile menu toggle
+var mobileToggle = document.getElementById('mobileToggle');
+var nav = document.getElementById('nav');
+mobileToggle.addEventListener('click', function() {
+  mobileToggle.classList.toggle('active');
+  nav.classList.toggle('open');
+  document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+});
+document.querySelectorAll('.nav-link').forEach(function(link) {
+  link.addEventListener('click', function() {
+    mobileToggle.classList.remove('active');
+    nav.classList.remove('open');
+    document.body.style.overflow = '';
+  });
+});
+
+// Count-up animation
+function animateCount(el) {
+  var target = parseInt(el.getAttribute('data-count'));
+  var suffix = el.getAttribute('data-suffix') || '';
+  var duration = 1500;
+  var startTime = null;
+  function step(ts) {
+    if (!startTime) startTime = ts;
+    var progress = Math.min((ts - startTime) / duration, 1);
+    var eased = 1 - Math.pow(1 - progress, 3);
+    var current = Math.floor(eased * target);
+    el.textContent = current.toLocaleString() + suffix;
+    if (progress < 1) {
+      requestAnimationFrame(step);
+    } else {
+      el.textContent = target.toLocaleString() + suffix;
+    }
+  }
+  requestAnimationFrame(step);
+}
+
+// Trigger count-up when hero is visible
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      document.querySelectorAll('[data-count]').forEach(function(el) {
+        animateCount(el);
+      });
+      observer.disconnect();
+    }
+  });
+}, { threshold: 0.3 });
+observer.observe(document.querySelector('.hero'));
+
+// Active nav highlighting
+var sections = document.querySelectorAll('section[id]');
+function updateActiveNav() {
+  var scrollY = window.scrollY;
+  var current = '';
+  sections.forEach(function(section) {
+    var top = section.offsetTop - 100;
+    if (scrollY >= top) current = section.id;
+  });
+  document.querySelectorAll('.nav-link').forEach(function(link) {
+    link.classList.remove('active');
+    var href = link.getAttribute('href');
+    if (href === '#' + current) link.classList.add('active');
+  });
+}
+
+// Leaflet Map
 (function(){
-  const mapEl = document.getElementById('contactMap');
+  var mapEl = document.getElementById('contactMap');
   if (!mapEl) return;
-
-  // 上海市浦东新区自由贸易试验区 坐标
-  const lat = 31.2241;
-  const lng = 121.5437;
-
-  const map = L.map('contactMap', {
+  var lat = 31.2241;
+  var lng = 121.5437;
+  var map = L.map('contactMap', {
     center: [lat, lng],
     zoom: 13,
     zoomControl: true,
     scrollWheelZoom: false,
     attributionControl: false
   });
-
-  // 高德地图瓦片（公开访问，无需 key，国内加载稳定）
   L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {
     subdomains: '1234',
     maxZoom: 18
   }).addTo(map);
-
-  const customIcon = L.divIcon({
+  var customIcon = L.divIcon({
     className: 'contact-map-marker',
     html: '<svg width="32" height="40" viewBox="0 0 24 24" fill="#c9a84c" stroke="#0a1f3f" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3" fill="#0a1f3f"/></svg>',
     iconSize: [32, 40],
     iconAnchor: [16, 40]
   });
-
-  const marker = L.marker([lat, lng], { icon: customIcon }).addTo(map);
-  const popup = L.popup({ closeButton: false, offset: [0, -34] })
+  var marker = L.marker([lat, lng], { icon: customIcon }).addTo(map);
+  var popup = L.popup({ closeButton: false, offset: [0, -34] })
     .setLatLng([lat, lng])
     .setContent('<div style="font-family:system-ui,-apple-system,sans-serif;font-size:14px;color:#0a1f3f"><strong style="color:#c9a84c">上海拓达联国际贸易有限公司</strong><br>上海市浦东新区自由贸易试验区</div>')
     .openOn(map);
-
   marker.bindPopup(popup);
-
-  // 移动端：地图区域内双指/单指可拖动，不影响页面滚动
-  mapEl.addEventListener('touchstart', function(e){
+  mapEl.addEventListener('touchstart', function(e) {
     if (e.touches && e.touches.length > 1) {
       map.scrollWheelZoom.enable();
-    }
-  });
-
-  // 页面不可见时暂停瓦片加载，节省流量
-  document.addEventListener('visibilitychange', function(){
-    if (document.hidden) {
-      map.stopDrag();
     }
   });
 })();
