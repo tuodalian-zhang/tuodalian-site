@@ -326,6 +326,38 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:17px;heigh
 .pdcopy:hover{border-color:var(--brand2);color:var(--brand2)}
 .pdtoggle{margin-left:auto;width:34px;height:34px;border-radius:9px;background:var(--panel2);border:1px solid var(--line2);color:var(--txt2);cursor:pointer;display:grid;place-items:center;font-size:15px;flex-shrink:0}
 .pdtoggle:hover{border-color:var(--brand2);color:var(--brand2)}
+/* ===== 角色 AI 自动规划 ===== */
+.role-out{margin-top:14px}
+.rp-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.rp-head b{font-size:15px;color:var(--txt)}
+.tier-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.tb{background:var(--bg);border:1px solid var(--line2);border-radius:10px;padding:10px;text-align:center}
+.tb b{display:block;font-size:20px;line-height:1.1}
+.tb span{font-size:11px;color:var(--txt3)}
+.tb-S{border-color:rgba(255,45,85,.55)} .tb-S b{color:#ff2d55}
+.tb-A{border-color:rgba(255,149,0,.55)} .tb-A b{color:#ff9500}
+.tb-B{border-color:rgba(90,141,238,.55)} .tb-B b{color:#5a8dee}
+.tb-C{border-color:rgba(150,160,180,.55)} .tb-C b{color:#9aa3b5}
+.role-sec{margin-bottom:16px}
+.role-sec-t{font-weight:800;font-size:13.5px;margin-bottom:9px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.role-sec-t small{font-weight:500;color:var(--txt3);font-size:11px}
+.role-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:11px}
+.rcard{background:var(--bg);border:1px solid var(--line2);border-left:3px solid var(--line2);border-radius:10px;padding:11px 12px}
+.rt-S{border-left-color:#ff2d55}.rt-A{border-left-color:#ff9500}.rt-B{border-left-color:#5a8dee}.rt-C{border-left-color:#9aa3b5}
+.rc-top{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.rtier{font-size:11px;font-weight:800;color:#fff;border-radius:5px;padding:1px 7px}
+.rtier.rt-S{background:#ff2d55}.rtier.rt-A{background:#ff9500}.rtier.rt-B{background:#5a8dee}.rtier.rt-C{background:#9aa3b5}
+.rname{font-weight:800;font-size:14px;color:var(--txt)}
+.rrole{font-size:11.5px;color:var(--txt2);margin-bottom:8px}
+.rlabels div{font-size:11.5px;color:var(--txt2);margin:3px 0;line-height:1.45}
+.rlabels i{display:inline-block;width:30px;color:var(--txt3);font-style:normal;font-weight:700}
+.rmeta{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;font-size:11px;color:var(--txt3);border-top:1px dashed var(--line2);padding-top:7px}
+.rsteps{margin-top:6px;background:var(--bg);border:1px solid var(--line2);border-radius:10px;padding:13px}
+.rsteps h4{margin:0 0 4px;font-size:13px;color:var(--txt)}
+.rstep{display:flex;gap:10px;margin:9px 0;font-size:12.5px;line-height:1.55}
+.rstep>b{display:flex;color:#fff;background:var(--grad);border-radius:50%;width:22px;height:22px;align-items:center;justify-content:center;font-size:12px;flex:none}
+.rstep .rtx{color:var(--txt2)}
+.rstep .rtx>b{display:inline;width:auto;height:auto;background:none;color:var(--txt);font-size:12.5px;margin-right:4px}
 </style>
 </head>
 <body>
@@ -452,6 +484,31 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:17px;heigh
               <h3>💻 生成日志 <span class="tag" id="logCount">0 条</span></h3>
               <div class="desc"></div>
               <div class="term" id="term"><div class="l t"># 等待任务启动...</div></div>
+            </div>
+
+            <!-- 角色 AI 自动规划 -->
+            <div class="card">
+              <h3>🎭 角色 AI 自动规划 <span class="tag">按剧名智能生成</span></h3>
+              <div class="desc">输入短剧 / 影视剧名，AI 依据「剧情功能 + 戏份权重 + 题材模板」自动规划完整角色架构</div>
+              <div class="field">
+                <label>短剧 / 影视剧名</label>
+                <input class="inp" id="roleTitle" placeholder="例如：错爱成婚之总裁的隐婚妻" value="错爱成婚之总裁的隐婚妻">
+              </div>
+              <div class="field">
+                <label>题材人设模板 <span class="hint">· 可选自动识别</span></label>
+                <select class="inp" id="roleGenre">
+                  <option value="auto">🤖 自动识别（按剧名推断）</option>
+                  <option value="逆袭复仇类">逆袭复仇类（赘婿/弃妇/千金归来/神医）</option>
+                  <option value="甜宠霸总类">甜宠霸总类（冷面总裁 × 小白花）</option>
+                  <option value="古风穿越仙侠类">古风穿越 / 仙侠短打</option>
+                  <option value="家庭婆媳现实类">家庭婆媳现实短剧</option>
+                </select>
+              </div>
+              <button class="btn" id="roleGenBtn"><span>🤖</span> AI 自动规划角色</button>
+              <button class="btn ghost" id="roleCopyBtn" style="margin-top:8px">📋 复制角色方案</button>
+              <div id="roleOut" class="role-out">
+                <div class="empty" style="grid-column:1/-1"><div class="ee">🎭</div><p>输入剧名并选择题材，点击「AI 自动规划角色」生成完整角色架构</p></div>
+              </div>
             </div>
           </div>
         </div>
@@ -959,6 +1016,125 @@ document.getElementById('catlist').addEventListener('click',e=>{
 
 document.getElementById('genBtn').onclick=generate;
 document.getElementById('stopBtn').onclick=()=>{stopFlag=true};
+
+/* ============ 角色 AI 自动规划（按短剧剧名自动规划角色人物） ============ */
+const ROLE_TEMPLATES={
+ '逆袭复仇类':{label:'逆袭复仇类',roles:[
+   {func:'主角',tier:'S',arc:'成长型',stage:'全剧贯穿',names:['沈清雪','顾晚辞','苏念'],role:'女主（正主）· 落魄千金归来',identity:['落魄千金','被逐家主之女'],char:['冷静隐忍','外柔内刚'],act:['暗中布局逆袭','黑化打脸反派']},
+   {func:'主角',tier:'S',arc:'成长型',stage:'全剧贯穿',names:['霍司宴','陆霆深'],role:'男主 · 隐世大佬 / 首富',identity:['隐藏战神','首富干爹'],char:['深不可测','护短'],act:['降维打击反派','为女主撑腰']},
+   {func:'反派',tier:'A',arc:'不变型',stage:'大结局对决',names:['沈曼妮','顾长海'],role:'核心反派 · 幕后黑手',identity:['豪门继母','毒姐妹'],char:['刻薄拜金','心狠手辣'],act:['侵吞家产','设局陷害']},
+   {func:'反派',tier:'B',arc:'不变型',stage:'前中期反复找事',names:['赵丽娟','孙倩'],role:'中层反派 · 恶毒情敌',identity:['白莲花青梅','出轨前夫'],char:['绿茶做作','趋炎附势'],act:['每集制造小冲突','抢资源搞事情']},
+   {func:'反派',tier:'C',arc:'不变型',stage:'单集打脸',names:['王经理','李主管'],role:'工具反派 · 一次性炮灰',identity:['势利服务员','眼瞎亲戚'],char:['狗眼看人低','嚣张'],act:['嘲讽主角','1-2集被打脸']},
+   {func:'助攻',tier:'A',arc:'不变型',stage:'中后期上线',names:['老太爷','秦神医'],role:'强力金手指 · 隐世高人',identity:['大佬爷爷','隐世神医'],char:['深藏不露','惜才'],act:['降维打击反派','传授绝技']},
+   {func:'助攻',tier:'B',arc:'不变型',stage:'全程',names:['林小满','陈浩'],role:'闺蜜 / 兄弟 · 情感倾诉',identity:['真心闺蜜','发小'],char:['仗义','毒舌'],act:['通风报信','帮收证据']},
+   {func:'助攻',tier:'B',arc:'不变型',stage:'中期',names:['阿杰','周特助'],role:'忠诚下属 / 保镖',identity:['贴身保镖','执行助理'],char:['忠心','寡言'],act:['挡刀跑腿','执行计划']},
+   {func:'助攻',tier:'C',arc:'不变型',stage:'调剂',names:['胖虎','豆豆'],role:'搞笑喜剧助攻',identity:['邻居逗比','憨厚跟班'],char:['憨直','搞笑'],act:['提供笑点','缓和压抑']},
+   {func:'摇摆中立',tier:'B',arc:'转变型',stage:'中期制造误会',names:['顾父','未婚夫'],role:'摇摆亲人 / 长辈',identity:['偏心父母','立场模糊长辈'],char:['和稀泥','易被动摇'],act:['先倒戈后醒悟','临时帮主角']},
+   {func:'摇摆中立',tier:'B',arc:'转变型',stage:'后期反水',names:['阿青','副手'],role:'敌方卧底',identity:['反派亲信','墙头草'],char:['识时务','纠结'],act:['传递情报','倒戈助攻']},
+   {func:'悲情工具人',tier:'C',arc:'不变型',stage:'前期下线',names:['沈父','弟弟'],role:'受害亲人 · 复仇引子',identity:['被害父亲','重病弟弟'],char:['善良','令人心疼'],act:['被害触发主角动机']},
+   {func:'悲情工具人',tier:'C',arc:'不变型',stage:'前期',names:['白月光','恩师'],role:'旧爱白月光 · 制造误会',identity:['逝去恩师','前任'],char:['温柔','意难平'],act:['制造三角虐恋']},
+   {func:'路人功能性配角',tier:'C',arc:'不变型',stage:'单集',names:['张律师','医院主任'],role:'功能性配角',identity:['律师','医生','保安'],char:['专业','中立'],act:['完成单次剧情任务']}
+ ]},
+ '甜宠霸总类':{label:'甜宠霸总类',roles:[
+   {func:'主角',tier:'S',arc:'成长型',stage:'全剧贯穿',names:['苏暖','夏小星'],role:'女主（正主）· 小白花设计师',identity:['落魄设计师','元气少女'],char:['甜软倔强','心地纯善'],act:['误惹总裁','双向奔赴']},
+   {func:'主角',tier:'S',arc:'成长型',stage:'全剧贯穿',names:['霍廷枭','顾景深'],role:'男主 · 冷面总裁',identity:['集团掌权人','禁欲系大佬'],char:['外冷内热','占有欲强'],act:['强势护短','宠溺无下限']},
+   {func:'反派',tier:'A',arc:'不变型',stage:'大结局对决',names:['林婉儿','白薇薇'],role:'核心反派 · 白莲花青梅',identity:['青梅竹马','豪门千金'],char:['伪善绿茶','嫉妒心强'],act:['设计离间','争夺男主']},
+   {func:'反派',tier:'B',arc:'不变型',stage:'前中期',names:['继母','渣前任'],role:'中层反派 · 反对长辈',identity:['反对婚事长辈','势利前任'],char:['刻薄','控制欲强'],act:['棒打鸳鸯','施压逼迫']},
+   {func:'反派',tier:'C',arc:'不变型',stage:'单集',names:['相亲渣男','势利经理'],role:'工具反派 · 炮灰',identity:['相亲渣男','势利眼'],char:['油腻','自大'],act:['骚扰女主','被打脸']},
+   {func:'助攻',tier:'A',arc:'不变型',stage:'全程',names:['特助小陈','秦助理'],role:'总裁特助 · 搞笑担当',identity:['全能特助','吐槽役'],char:['敬业','嘴碎'],act:['神助攻','提供笑点']},
+   {func:'助攻',tier:'B',arc:'不变型',stage:'全程',names:['闺蜜圆圆','兄弟大壮'],role:'闺蜜 / 兄弟',identity:['铁杆闺蜜','发小'],char:['仗义','八卦'],act:['出谋划策','情感支持']},
+   {func:'助攻',tier:'B',arc:'不变型',stage:'中期',names:['明理爷爷','管家叔'],role:'明理长辈',identity:['开明长辈','老管家'],char:['通透','慈爱'],act:['撮合助攻','点醒男主']},
+   {func:'摇摆中立',tier:'B',arc:'转变型',stage:'中期',names:['婆婆','公公'],role:'摇摆长辈',identity:['观望婆婆','和稀泥公公'],char:['起初不满','可被说服'],act:['制造误会','最终接纳']},
+   {func:'悲情工具人',tier:'C',arc:'不变型',stage:'前期',names:['白月光前任','逝去姐姐'],role:'旧爱白月光',identity:['男主白月光','已故亲人'],char:['温柔','意难平'],act:['制造误会','推动虐恋']},
+   {func:'路人功能性配角',tier:'C',arc:'不变型',stage:'单集',names:['记者','医生'],role:'功能性配角',identity:['八卦记者','私人医生'],char:['敬业','中立'],act:['推进剧情','提供线索']}
+ ]},
+ '古风穿越仙侠类':{label:'古风穿越 / 仙侠',roles:[
+   {func:'主角',tier:'S',arc:'成长型',stage:'全剧贯穿',names:['云浅','楚瑶'],role:'女主（正主）· 现代穿越者',identity:['穿越医女','废柴皇子'],char:['机敏聪慧','现代思维'],act:['搅动朝堂','逆天改命']},
+   {func:'主角',tier:'S',arc:'成长型',stage:'全剧贯穿',names:['夜凌霄','萧珩'],role:'男主 · 隐世强者',identity:['冷傲战神','腹黑王爷'],char:['清冷孤傲','护短'],act:['护女主周全','权谋争锋']},
+   {func:'反派',tier:'A',arc:'不变型',stage:'大结局对决',names:['淑妃','赵王'],role:'核心反派 · 谋反王爷 / 毒妃',identity:['祸国毒妃','谋逆王爷'],char:['蛇蝎心肠','野心勃勃'],act:['祸乱宫闱','起兵谋反']},
+   {func:'反派',tier:'B',arc:'不变型',stage:'前中期',names:['宗门恶徒','刁蛮郡主'],role:'中层反派',identity:['宗门恶人','骄横郡主'],char:['跋扈','嫉妒'],act:['比武挑衅','处处刁难']},
+   {func:'反派',tier:'C',arc:'不变型',stage:'单集',names:['贪官','山贼'],role:'工具反派 · 炮灰',identity:['贪腐县令','拦路山贼'],char:['贪婪','愚蠢'],act:['欺压百姓','被反杀']},
+   {func:'助攻',tier:'A',arc:'不变型',stage:'中后期',names:['隐世高人','国师'],role:'强力金手指 · 隐世高人',identity:['世外高人','丹道宗师'],char:['仙风道骨','惜才'],act:['传功授艺','关键时刻出手']},
+   {func:'助攻',tier:'B',arc:'不变型',stage:'全程',names:['阿绾','石将军'],role:'贴身侍卫 / 忠仆',identity:['忠心侍女','铁血护卫'],char:['忠勇','默默守护'],act:['挡刀护主','执行密令']},
+   {func:'助攻',tier:'C',arc:'不变型',stage:'调剂',names:['小灵兽','搞笑道士'],role:'搞笑喜剧助攻',identity:['呆萌灵宠','不靠谱道友'],char:['呆萌','贪吃'],act:['提供笑点','误打误撞']},
+   {func:'摇摆中立',tier:'B',arc:'转变型',stage:'中期',names:['墙头草同门','摇摆太监'],role:'摇摆中立',identity:['势利同门','见风使舵太监'],char:['圆滑','易叛'],act:['先助反派','后投主角']},
+   {func:'悲情工具人',tier:'C',arc:'不变型',stage:'前期',names:['原主','恩师'],role:'惨死原主 / 逝去恩师',identity:['被害原主','授业恩师'],char:['善良','令人扼腕'],act:['惨死触发复仇','遗志传承']},
+   {func:'路人功能性配角',tier:'C',arc:'不变型',stage:'单集',names:['药店掌柜','科举考官'],role:'功能性配角',identity:['药铺掌柜','朝堂考官'],char:['市井','严谨'],act:['提供物资','推进线索']}
+ ]},
+ '家庭婆媳现实类':{label:'家庭婆媳现实',roles:[
+   {func:'主角',tier:'S',arc:'成长型',stage:'全剧贯穿',names:['林悦','周婷'],role:'女主（正主）· 受委屈儿媳',identity:['职场女性','清醒儿媳'],char:['隐忍清醒','有底线'],act:['周旋婆家','逆风翻盘']},
+   {func:'主角',tier:'S',arc:'成长型',stage:'全剧贯穿',names:['陈昊','李强'],role:'男主 · 清醒女婿 / 老公',identity:['明理老公','护妻女婿'],char:['憨厚','关键时刻清醒'],act:['调解矛盾','站队妻子']},
+   {func:'反派',tier:'A',arc:'不变型',stage:'大结局爆发',names:['王秀芝','张凤英'],role:'核心反派 · 恶婆婆',identity:['控制欲婆婆','扶弟魔妈'],char:['刻薄挑剔','重男轻女'],act:['处处刁难','搅乱家庭']},
+   {func:'反派',tier:'B',arc:'不变型',stage:'前中期',names:['小姑子','出轨配偶'],role:'中层反派',identity:['扶弟魔小姑','出轨丈夫'],char:['自私','贪婪'],act:['吸血婆家','制造危机']},
+   {func:'反派',tier:'C',arc:'不变型',stage:'单集',names:['势利邻居','八卦亲戚'],role:'工具反派 · 炮灰',identity:['爱显摆邻居','长舌亲戚'],char:['刻薄','爱挑事'],act:['嘲讽打压','被打脸']},
+   {func:'助攻',tier:'A',arc:'不变型',stage:'全程',names:['娘家妈妈','明理公公'],role:'明理长辈助攻',identity:['护女娘亲','通透公公'],char:['通透','慈爱'],act:['撑腰女主','点醒家人']},
+   {func:'助攻',tier:'B',arc:'不变型',stage:'全程',names:['闺蜜小敏','兄弟阿强'],role:'闺蜜 / 兄弟',identity:['知心闺蜜','义气兄弟'],char:['仗义','直爽'],act:['倾诉开导','出主意']},
+   {func:'助攻',tier:'C',arc:'不变型',stage:'调剂',names:['搞笑同事','段子手'],role:'搞笑喜剧助攻',identity:['欢乐同事','吐槽王'],char:['乐观','贫嘴'],act:['缓和压抑','提供笑点']},
+   {func:'摇摆中立',tier:'B',arc:'转变型',stage:'中期',names:['和稀泥公公','犹豫长辈'],role:'摇摆中立',identity:['中立公公','犹豫亲戚'],char:['怕老婆','和稀泥'],act:['先偏袒后醒悟','临时帮主角']},
+   {func:'悲情工具人',tier:'C',arc:'不变型',stage:'前期',names:['早逝家公','患病孩子'],role:'悲情引子',identity:['早逝长辈','患病子女'],char:['令人心疼','善良'],act:['触发主角觉醒','推动剧情']},
+   {func:'路人功能性配角',tier:'C',arc:'不变型',stage:'单集',names:['调解员','社区医生'],role:'功能性配角',identity:['居委会大妈','社区医生'],char:['热心','中立'],act:['调解矛盾','提供线索']}
+ ]}
+};
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function hashSeed(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return ((t^t>>>14)>>>0)/4294967296;};}
+function detectGenre(t){
+  if(/总裁|霸总|豪门|少爷|老公|宠|甜|契约/.test(t))return '甜宠霸总类';
+  if(/妃|王爷|皇子|宗门|修仙|穿越|古代|师|仙|江湖/.test(t))return '古风穿越仙侠类';
+  if(/婆媳|家庭|媳妇|婿|嫁|妈|亲子/.test(t))return '家庭婆媳现实类';
+  return '逆袭复仇类';
+}
+function secDesc(f){return {'主角':'承担核心目标与成长线，全剧每集必出场','反派':'冲突发动机，分核心/中层/工具三档','助攻':'服务主角的队友，提供信息/解围/笑点','摇摆中立':'立场不固定，用于反转与悬念','悲情工具人':'触发主角动机，多前期下线','路人功能性配角':'单集工具人，完成任务即下线'}[f]||'';}
+function rcard(r){return '<div class="rcard rt-'+r.tier+'"><div class="rc-top"><span class="rtier rt-'+r.tier+'">'+r.tier+'</span><span class="rname">'+esc(r.name)+'</span></div><div class="rrole">'+esc(r.role)+'</div><div class="rlabels"><div><i>身份</i>'+esc(r.identity)+'</div><div><i>性格</i>'+esc(r.char)+'</div><div><i>行为</i>'+esc(r.act)+'</div></div><div class="rmeta"><span>弧光：'+r.arc+'</span><span>出场：'+r.stage+'</span></div></div>';}
+function renderSteps(title,roles){
+  const zhuren=roles.find(r=>r.func==='主角');
+  const boss=roles.find(r=>r.func==='反派'&&r.tier==='A');
+  const help=roles.find(r=>r.func==='助攻'&&r.tier==='A');
+  const bei=roles.find(r=>r.func==='悲情工具人');
+  let s1='主线目标：'+(zhuren?zhuren.role:'主角')+' 在《'+esc(title)+'》中完成逆袭与成长，最终对决 '+(boss?boss.role:'核心反派');
+  if(help)s1+='；'+help.role+' 提供关键助力';
+  if(bei)s1+='；'+bei.role+' 的遭遇构成主角动机起点。';else s1+='。';
+  const ex=roles.slice(0,3).map(r=>r.name+'（'+r.identity+'＋'+r.char+'＋'+r.act+'）').join('；');
+  const arcs=[...new Set(roles.map(r=>r.arc))];
+  const ph={'前期出场':[],'中期出场':[],'后期/大结局':[],'贯穿全剧':[]};
+  roles.forEach(r=>{const s=r.stage;if(s.indexOf('全剧')>=0||s.indexOf('全程')>=0)ph['贯穿全剧'].push(r.name);else if(s.indexOf('前期')>=0)ph['前期出场'].push(r.name);else if(s.indexOf('后期')>=0||s.indexOf('大结局')>=0)ph['后期/大结局'].push(r.name);else ph['中期出场'].push(r.name);});
+  const phTxt=Object.keys(ph).map(k=>'<div class="rstep"><b>•</b><div class="rtx"><b>'+k+'：</b>'+(ph[k].join('、')||'—')+'</div></div>').join('');
+  return '<div class="rsteps"><h4>📐 角色规划落地步骤（按《'+esc(title)+'》推演）</h4>'
+    +'<div class="rstep"><b>1</b><div class="rtx"><b>定主线目标：</b>'+s1+'</div></div>'
+    +'<div class="rstep"><b>2</b><div class="rtx"><b>定 3 个核心标签：</b>'+ex+'</div></div>'
+    +'<div class="rstep"><b>3</b><div class="rtx"><b>划分人物弧光：</b>'+arcs.join(' / ')+'（成长型=软弱→觉醒→强大；不变型=纯反派无洗白；转变型=中立角色敌对→醒悟→帮主角）</div></div>'
+    +'<div class="rstep"><b>4</b><div class="rtx"><b>分配每阶段出场分工：</b></div></div>'+phTxt+'</div>';
+}
+function renderRolePlan(title,gk,tpl,roles){
+  const order=['主角','反派','助攻','摇摆中立','悲情工具人','路人功能性配角'];
+  const icons={'主角':'⭐','反派':'😈','助攻':'🤝','摇摆中立':'🔀','悲情工具人':'💔','路人功能性配角':'👥'};
+  const cnt={S:0,A:0,B:0,C:0};roles.forEach(r=>cnt[r.tier]++);
+  let h='<div class="rp-head"><div><b>《'+esc(title)+'》</b> · 角色 AI 规划方案</div><span class="tag">题材：'+tpl.label+'</span></div>';
+  h+='<div class="tier-bar">'+['S','A','B','C'].map(t=>'<div class="tb tb-'+t+'"><b>'+cnt[t]+'</b><span>'+t+' 级</span></div>').join('')+'</div>';
+  order.forEach(func=>{const rs=roles.filter(r=>r.func===func);if(!rs.length)return;h+='<div class="role-sec"><div class="role-sec-t">'+icons[func]+' '+func+' <small>'+secDesc(func)+'</small></div><div class="role-grid">'+rs.map(rcard).join('')+'</div></div>';});
+  h+=renderSteps(title,roles);
+  document.getElementById('roleOut').innerHTML=h;
+}
+function genRolePlan(){
+  const btn=document.getElementById('roleGenBtn');
+  const title=document.getElementById('roleTitle').value.trim();
+  if(!title){document.getElementById('roleOut').innerHTML='<div class="empty" style="grid-column:1/-1"><div class="ee">✏️</div><p>请先输入短剧 / 影视剧名</p></div>';return;}
+  let gk=document.getElementById('roleGenre').value;if(gk==='auto')gk=detectGenre(title);
+  const tpl=ROLE_TEMPLATES[gk]||ROLE_TEMPLATES['逆袭复仇类'];
+  const r=mulberry32(hashSeed(title+gk));
+  const pick=a=>a[Math.floor(r()*a.length)];
+  const roles=tpl.roles.map(d=>({func:d.func,tier:d.tier,arc:d.arc,stage:d.stage,role:d.role,name:pick(d.names),identity:pick(d.identity),char:pick(d.char),act:pick(d.act)}));
+  btn.disabled=true;const old=btn.innerHTML;btn.innerHTML='<span>⏳</span> AI 规划中...';
+  setTimeout(()=>{renderRolePlan(title,gk,tpl,roles);btn.disabled=false;btn.innerHTML=old;},650);
+}
+document.getElementById('roleGenBtn').onclick=genRolePlan;
+document.getElementById('roleCopyBtn').onclick=function(){
+  const t=document.getElementById('roleOut').innerText;
+  const btn=this;const o=btn.innerHTML;
+  if(!t||t.indexOf('输入剧名')>=0){btn.innerHTML='📋 暂无方案';setTimeout(()=>btn.innerHTML=o,1200);return;}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(()=>{btn.innerHTML='✓ 已复制';setTimeout(()=>btn.innerHTML=o,1400);}).catch(()=>{btn.innerHTML='复制失败';setTimeout(()=>btn.innerHTML=o,1400);});}
+  else{btn.innerHTML='复制失败';setTimeout(()=>btn.innerHTML=o,1400);}
+};
 
 /* ============ player modal ============ */
 /* 字幕台词按细分题材从 ALL_CATS 取,见 catSubs() */
