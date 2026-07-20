@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>短剧工厂 · 真人短剧伪原创短视频自动生成系统</title>
+<style>
+:root{
+  --bg:#0b0d17; --panel:#151827; --panel2:#1b1f31;
+  --line:#262b40; --line2:#333a55;
+  --txt:#e8eaf2; --txt2:#9aa0bd; --txt3:#5f6684;
+  --brand:#ff2d55; --brand2:#ff5e7e; --cyan:#22d3ee; --pink:#f472b6;
+  --green:#34d399; --amber:#fbbf24; --red:#fb7185; --blue:#60a5fa;
+  --grad:linear-gradient(135deg,#ff2d55,#ff5e7e 55%,#ff9a8b);
+  --grad2:linear-gradient(135deg,#22d3ee,#ff5e7e);
+  --shadow:0 10px 40px -12px rgba(0,0,0,.6);
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:"PingFang SC","Microsoft YaHei",-apple-system,"Segoe UI",Roboto,sans-serif;
+  background:radial-gradient(1200px 700px at 85% -10%,#2a0f1c 0,transparent 55%),
+             radial-gradient(1000px 600px at -10% 110%,#0f2233 0,transparent 55%),
+             var(--bg);
+  color:var(--txt); overflow:hidden;
+}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-thumb{background:#2a3048;border-radius:6px}
+::-webkit-scrollbar-thumb:hover{background:#39415f}
+::-webkit-scrollbar-track{background:transparent}
+
+.app{display:grid;grid-template-columns:236px 1fr;height:100vh}
+
+/* ---------- Sidebar ---------- */
+.side{
+  background:linear-gradient(180deg,#0e1120,#0b0d17);
+  border-right:1px solid var(--line);
+  display:flex;flex-direction:column;padding:18px 14px;gap:6px;
+}
+.brand{display:flex;align-items:center;gap:11px;padding:6px 8px 18px}
+.logo{
+  width:40px;height:40px;border-radius:11px;background:var(--grad);
+  display:grid;place-items:center;font-size:21px;box-shadow:0 6px 18px -4px rgba(255,45,85,.6);
+  position:relative;overflow:hidden;
+}
+.logo::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 40%,rgba(255,255,255,.35) 50%,transparent 60%);
+  transform:translateX(-100%);animation:sheen 4s infinite}
+@keyframes sheen{0%,60%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+.brand h1{font-size:15px;font-weight:800;letter-spacing:.5px;line-height:1.2}
+.brand p{font-size:10.5px;color:var(--txt3);margin-top:2px;letter-spacing:2px}
+.nav-t{font-size:10px;color:var(--txt3);letter-spacing:1.5px;padding:12px 10px 6px;font-weight:700}
+.nav-i{
+  display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;
+  color:var(--txt2);cursor:pointer;font-size:13.5px;font-weight:600;transition:.16s;position:relative;
+}
+.nav-i .ic{font-size:16px;width:20px;text-align:center}
+.nav-i:hover{background:var(--panel2);color:var(--txt)}
+.nav-i.on{background:linear-gradient(90deg,rgba(255,45,85,.22),rgba(255,45,85,.04));color:#fff}
+.nav-i.on::before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:3px;border-radius:3px;background:var(--grad)}
+.side-foot{margin-top:auto;padding:12px 8px 4px;border-top:1px solid var(--line)}
+.gpu{font-size:11px;color:var(--txt2);display:flex;justify-content:space-between;margin:7px 2px}
+.gpu b{color:var(--txt);font-weight:700}
+.bar{height:5px;border-radius:4px;background:#20263c;overflow:hidden;margin:3px 0 2px}
+.bar>i{display:block;height:100%;border-radius:4px;background:var(--grad2);transition:width .6s}
+
+/* ---------- Main ---------- */
+.main{display:flex;flex-direction:column;overflow:hidden}
+.top{
+  height:60px;border-bottom:1px solid var(--line);display:flex;align-items:center;
+  padding:0 24px;gap:16px;background:rgba(11,13,23,.6);backdrop-filter:blur(8px)
+}
+.top h2{font-size:16px;font-weight:800}
+.top .sub{font-size:12px;color:var(--txt3)}
+.top .spacer{flex:1}
+.chip{
+  display:flex;align-items:center;gap:7px;font-size:12px;color:var(--txt2);
+  background:var(--panel);border:1px solid var(--line);padding:7px 12px;border-radius:20px;font-weight:600
+}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px rgba(52,211,153,.15)}
+.dot.busy{background:var(--amber);box-shadow:0 0 0 3px rgba(251,191,36,.15);animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.4}}
+.content{flex:1;overflow-y:auto;padding:24px}
+.view{display:none;animation:fade .35s}
+.view.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.card h3{font-size:14px;font-weight:800;display:flex;align-items:center;gap:9px;margin-bottom:2px}
+.card h3 .tag{margin-left:auto;font-size:10.5px;color:var(--txt3);font-weight:600}
+.card .desc{font-size:12px;color:var(--txt3);margin-bottom:14px}
+
+/* ---------- Console layout ---------- */
+.console{display:grid;grid-template-columns:340px 1fr;gap:18px;align-items:start}
+@media(max-width:1200px){.console{grid-template-columns:1fr}}
+
+.field{margin-bottom:15px}
+.field label{display:block;font-size:12px;font-weight:700;color:var(--txt2);margin-bottom:7px}
+.field .hint{font-size:10.5px;color:var(--txt3);font-weight:500}
+.inp{
+  width:100%;background:var(--bg);border:1px solid var(--line2);color:var(--txt);
+  padding:11px 13px;border-radius:10px;font-size:13.5px;font-family:inherit;transition:.15s
+}
+.inp:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(255,45,85,.15)}
+select.inp{cursor:pointer}
+/* AI 配音 · 自动角色匹配指示 */
+.voice-auto{display:flex;gap:11px;align-items:flex-start;background:linear-gradient(135deg,rgba(255,45,85,.14),rgba(124,58,237,.06));border:1px solid rgba(255,45,85,.35);border-radius:11px;padding:11px 13px}
+.voice-auto .vain{font-size:22px;line-height:1;flex:0 0 auto;filter:drop-shadow(0 2px 5px rgba(0,0,0,.3))}
+.voice-auto .vatext b{display:block;font-size:12.5px;color:var(--txt);margin-bottom:2px}
+.voice-auto .vatext small{font-size:10.5px;color:var(--txt3);line-height:1.45;display:block}
+.pdn{font-size:10px;color:var(--txt3);margin-top:5px;display:block;line-height:1.4}
+.styles{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.st{
+  border:1px solid var(--line2);border-radius:10px;padding:10px;cursor:pointer;text-align:center;
+  font-size:12px;font-weight:700;transition:.15s;background:var(--bg);color:var(--txt2)
+}
+.st .e{font-size:20px;display:block;margin-bottom:4px}
+.st .stags{display:block;font-size:9.5px;font-weight:600;color:var(--txt3);margin-top:4px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.st:hover{border-color:var(--brand)}
+.st.on{border-color:var(--brand);background:linear-gradient(135deg,rgba(255,45,85,.2),rgba(255,94,126,.06));color:#fff}
+.st.on .stags{color:rgba(255,255,255,.72)}
+.seg.chan span{font-size:13px;font-weight:800;padding:9px}
+.seg.chan span.on{background:var(--grad);color:#fff;box-shadow:0 3px 10px -2px rgba(255,45,85,.5)}
+.row{display:flex;gap:8px}
+.row .field{flex:1}
+.seg{display:flex;background:var(--bg);border:1px solid var(--line2);border-radius:10px;padding:3px}
+.seg span{flex:1;text-align:center;padding:8px;font-size:12.5px;font-weight:700;color:var(--txt2);border-radius:7px;cursor:pointer;transition:.15s}
+.seg span.on{background:var(--grad);color:#fff}
+.slider-wrap{display:flex;align-items:center;gap:12px}
+input[type=range]{flex:1;-webkit-appearance:none;height:5px;border-radius:4px;background:#20263c;outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:17px;height:17px;border-radius:50%;background:var(--brand);cursor:pointer;box-shadow:0 0 0 4px rgba(255,45,85,.2)}
+.sval{font-size:13px;font-weight:800;color:var(--brand2);min-width:52px;text-align:right}
+.btn{
+  width:100%;border:none;border-radius:11px;padding:14px;font-size:14.5px;font-weight:800;
+  cursor:pointer;background:var(--grad);color:#fff;font-family:inherit;transition:.15s;
+  box-shadow:0 8px 24px -8px rgba(255,45,85,.7);display:flex;align-items:center;justify-content:center;gap:8px
+}
+.btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;filter:grayscale(.4)}
+.btn.ghost{background:var(--panel2);border:1px solid var(--line2);box-shadow:none;color:var(--txt2);font-size:13px;padding:11px}
+
+/* ---------- Pipeline ---------- */
+.stage-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.stage-head .big{font-size:26px;font-weight:900;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.prog-outer{flex:1;height:8px;background:#20263c;border-radius:6px;overflow:hidden}
+.prog-inner{height:100%;width:0;background:var(--grad);border-radius:6px;transition:width .5s;position:relative}
+.prog-inner::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);animation:flow 1.2s infinite}
+@keyframes flow{100%{transform:translateX(100%)}}
+
+.steps{display:flex;flex-direction:column;gap:9px}
+.step{
+  display:flex;align-items:center;gap:14px;padding:13px 15px;border-radius:12px;
+  background:var(--bg);border:1px solid var(--line);transition:.3s;position:relative;overflow:hidden
+}
+.step .no{
+  width:34px;height:34px;border-radius:9px;background:var(--panel2);display:grid;place-items:center;
+  font-weight:800;font-size:14px;color:var(--txt3);flex-shrink:0;border:1px solid var(--line2);transition:.3s
+}
+.step .info{flex:1;min-width:0}
+.step .info b{font-size:13.5px;font-weight:700;display:block}
+.step .info small{font-size:11.5px;color:var(--txt3);display:block;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.step .stt{font-size:11px;font-weight:700;color:var(--txt3);flex-shrink:0}
+.step.active{border-color:var(--brand);background:linear-gradient(90deg,rgba(255,45,85,.12),var(--bg))}
+.step.active .no{background:var(--grad);color:#fff;border-color:transparent;animation:beat 1s infinite}
+.step.active .stt{color:var(--brand2)}
+@keyframes beat{50%{box-shadow:0 0 0 6px rgba(255,45,85,.18)}}
+.step.done{border-color:rgba(52,211,153,.4)}
+.step.done .no{background:rgba(52,211,153,.15);color:var(--green);border-color:rgba(52,211,153,.4)}
+.step.done .stt{color:var(--green)}
+.step .minibar{position:absolute;bottom:0;left:0;height:2px;background:var(--grad);width:0;transition:width .3s}
+
+/* ---------- Console log ---------- */
+.term{
+  background:#080a12;border:1px solid var(--line);border-radius:12px;padding:14px 16px;
+  height:210px;overflow-y:auto;font-family:"SF Mono","Consolas",monospace;font-size:11.5px;line-height:1.85
+}
+.term .l{white-space:nowrap}
+.term .t{color:var(--txt3)}
+.term .g{color:var(--green)}.term .c{color:var(--cyan)}.term .p{color:var(--pink)}
+.term .a{color:var(--amber)}.term .m{color:var(--txt2)}.term .r{color:var(--red)}
+
+/* ---------- Modules ---------- */
+.mods{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+@media(max-width:1400px){.mods{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:900px){.mods{grid-template-columns:1fr 1fr}}
+.mod{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:15px;transition:.3s}
+.mod .mh{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.mod .mi{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font-size:16px;background:var(--panel2)}
+.mod b{font-size:12.5px;font-weight:700}
+.mod .load{font-size:10.5px;color:var(--txt3);margin-top:9px;display:flex;justify-content:space-between}
+.mod.run{border-color:var(--brand)}
+.mod.run .mi{background:var(--grad)}
+.led{width:7px;height:7px;border-radius:50%;background:var(--txt3);margin-left:auto}
+.mod.run .led{background:var(--amber);animation:pulse 1s infinite}
+.mod.ok .led{background:var(--green)}
+
+/* ---------- Douyin-style library ---------- */
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:16px 14px}
+.vid{cursor:pointer;transition:.2s}
+.vid:hover{transform:translateY(-4px)}
+.vid .thumb{aspect-ratio:9/16;border-radius:12px;position:relative;overflow:hidden;box-shadow:0 6px 18px -8px rgba(0,0,0,.7);display:block}
+.vid .thumb>img{width:100%;height:100%;object-fit:cover;display:block;z-index:1;position:relative}
+.vid .thumb .grain{position:absolute;inset:0;opacity:.5;background-image:radial-gradient(rgba(255,255,255,.09) 1px,transparent 1px);background-size:4px 4px}
+.vid .thumb .pe{font-size:56px;filter:drop-shadow(0 4px 10px rgba(0,0,0,.4));opacity:.92;z-index:1}
+.vid .thumb .play{position:absolute;width:42px;height:42px;border-radius:50%;background:rgba(0,0,0,.4);backdrop-filter:blur(4px);display:grid;place-items:center;font-size:15px;color:#fff;z-index:2;border:1px solid rgba(255,255,255,.35)}
+.vid .thumb .dur{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,.65);color:#fff;font-size:10.5px;font-weight:700;padding:3px 7px;border-radius:6px;z-index:2}
+.vid .thumb .srctag{position:absolute;top:8px;left:8px;font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;background:rgba(255,45,85,.85);color:#fff;z-index:2;display:flex;align-items:center;gap:3px}
+.vid .vfoot{padding:9px 3px 0}
+.vid .vtitle{font-size:12.5px;font-weight:700;line-height:1.38;color:var(--txt);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;height:34px}
+.vid .vauthor{display:flex;align-items:center;gap:6px;margin-top:8px}
+.vid .vavatar{width:18px;height:18px;border-radius:50%;background:var(--grad2);flex-shrink:0}
+.vid .vname{font-size:11px;color:var(--txt3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
+.vid .vplays{font-size:11px;color:var(--txt3);display:flex;align-items:center;gap:3px;flex-shrink:0}
+.vid .vplays b{color:var(--brand2);font-weight:800}
+
+/* ---------- Library category layout ---------- */
+.lib-layout{display:grid;grid-template-columns:210px 1fr;gap:18px;align-items:start}
+@media(max-width:800px){.lib-layout{grid-template-columns:1fr}}
+.catlist{display:flex;flex-direction:column;gap:9px;max-height:600px;overflow-y:auto;padding-right:5px}
+.cat{border:1px solid var(--line);border-radius:11px;padding:12px 13px;cursor:pointer;background:var(--bg);transition:.15s}
+.cat:hover{border-color:var(--brand2)}
+.cat.on{border-color:var(--brand);background:linear-gradient(135deg,rgba(255,45,85,.16),var(--bg))}
+.cat b{font-size:12.5px;font-weight:700;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cat small{font-size:11px;color:var(--txt3);display:block;margin-top:4px}
+.cat .ctag{display:inline-block;font-size:10.5px;font-weight:700;color:var(--brand2);margin-top:7px}
+
+/* ---------- Stat cards ---------- */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media(max-width:900px){.stats{grid-template-columns:1fr 1fr}}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px;position:relative;overflow:hidden}
+.stat .sv{font-size:30px;font-weight:900;letter-spacing:-1px;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.stat .sl{font-size:12px;color:var(--txt2);font-weight:600;margin-top:3px}
+.stat .si{position:absolute;top:14px;right:16px;font-size:22px;opacity:.25}
+.stat .trend{font-size:11px;color:var(--green);font-weight:700;margin-top:8px}
+
+/* compliance */
+.checklist{display:flex;flex-direction:column;gap:11px}
+.chk{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--bg);border:1px solid var(--line);border-radius:11px}
+.chk .cb{width:24px;height:24px;border-radius:7px;background:rgba(52,211,153,.15);color:var(--green);display:grid;place-items:center;font-size:13px;font-weight:800;flex-shrink:0}
+.chk .cb.warn{background:rgba(251,191,36,.15);color:var(--amber)}
+.chk b{font-size:13px;font-weight:700}
+.chk small{font-size:11.5px;color:var(--txt3);display:block;margin-top:2px}
+.chk .pct{margin-left:auto;font-size:13px;font-weight:800;color:var(--green)}
+
+.notice{
+  background:linear-gradient(135deg,rgba(251,191,36,.1),rgba(251,113,133,.06));
+  border:1px solid rgba(251,191,36,.3);border-radius:12px;padding:14px 16px;font-size:12.5px;color:var(--txt2);line-height:1.7;margin-top:18px
+}
+.notice b{color:var(--amber)}
+
+.empty{text-align:center;padding:50px 20px;color:var(--txt3)}
+.empty .ee{font-size:44px;opacity:.4;margin-bottom:12px}
+.empty p{font-size:13px}
+
+.arch{display:flex;flex-direction:column;gap:14px}
+.layer{border:1px dashed var(--line2);border-radius:12px;padding:14px;background:var(--bg)}
+.layer .lt{font-size:11px;font-weight:800;letter-spacing:1px;color:var(--brand2);margin-bottom:10px}
+.layer .lm{display:flex;gap:10px;flex-wrap:wrap}
+.lbox{flex:1;min-width:150px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:11px 13px}
+.lbox b{font-size:12.5px;display:block}
+.lbox small{font-size:11px;color:var(--txt3)}
+.flow-arrow{text-align:center;color:var(--txt3);font-size:14px}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--panel);border:1px solid var(--brand);border-radius:12px;padding:13px 22px;font-size:13px;font-weight:700;box-shadow:var(--shadow);z-index:99;transition:.4s;display:flex;align-items:center;gap:10px}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ---------- Player modal ---------- */
+.player{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:200}
+.player.show{display:flex;animation:fade .25s}
+.pwrap{position:relative;padding-top:34px}
+.pframe{width:min(360px,82vw);aspect-ratio:9/16;border-radius:18px;position:relative;overflow:hidden;box-shadow:0 30px 80px -18px rgba(0,0,0,.9);background:#000}
+.pframe .pl{position:absolute;inset:0;z-index:1}
+.pframe .pl img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:opacity .28s ease}
+/* 胶片颗粒 */
+.pframe .grain{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:128px 128px;mix-blend-mode:overlay;animation:fGrain .4s steps(6) infinite}
+@keyframes fGrain{0%{transform:translate(0,0)}33%{transform:translate(1px,-1px)}66%{transform:translate(-1px,1px)}100%{transform:translate(1px,1px)}}
+/* 暗角 */
+.pframe .vignette{position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.45) 100%)}
+/* AI水印 */
+.pframe .aiwm{position:absolute;bottom:8px;right:10px;z-index:3;font-size:9px;color:rgba(255,255,255,.35);pointer-events:none;letter-spacing:.5px}
+/* 视频播放器样式 */
+.pemoji{font-size:92px;filter:drop-shadow(0 6px 14px rgba(0,0,0,.5));opacity:.92;z-index:3;position:absolute;transition:opacity .3s}
+.player.hasimg .pemoji{opacity:0}
+.player.playing.hasimg .pemoji{animation:none}
+@keyframes bob{50%{transform:translateY(-10px) scale(1.05)}}
+.pbar{position:absolute;top:12px;left:12px;z-index:3;font-size:11px;font-weight:700;color:#fff;background:rgba(255,45,85,.9);padding:3px 9px;border-radius:7px}
+.pauth{position:absolute;top:12px;right:12px;z-index:3;font-size:11px;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.8);text-align:right;max-width:55%}
+.pauth b{display:block;font-weight:700}
+.psub{position:absolute;bottom:66px;left:0;right:0;z-index:3;text-align:center;padding:0 22px;font-size:14px;font-weight:700;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.95);line-height:1.5;transition:opacity .25s}
+.pcontrols{position:absolute;bottom:0;left:0;right:0;z-index:3;padding:26px 16px 14px;background:linear-gradient(transparent,rgba(0,0,0,.65))}
+.pprogress{height:4px;background:rgba(255,255,255,.22);border-radius:4px;overflow:hidden;margin-bottom:11px;cursor:pointer}
+.pprogress>i{display:block;height:100%;background:#ff2d55;width:0;border-radius:4px}
+.prow{display:flex;align-items:center;gap:12px;color:#fff;font-size:12px}
+.pplay{width:36px;height:36px;border-radius:50%;background:#ff2d55;border:none;color:#fff;cursor:pointer;font-size:15px;display:grid;place-items:center;flex-shrink:0}
+.ptime{font-variant-numeric:tabular-nums;font-weight:700;font-size:11.5px}
+.peq{margin-left:auto;display:flex;gap:3px;align-items:flex-end;height:16px}
+.peq i{width:3px;background:#fff;height:6px;border-radius:2px;animation:eq .8s ease-in-out infinite}
+.peq i:nth-child(2){animation-delay:.2s}.peq i:nth-child(3){animation-delay:.4s}.peq i:nth-child(4){animation-delay:.1s}
+@keyframes eq{50%{height:16px}}
+.player:not(.playing) .peq i{animation-play-state:paused;height:6px}
+.pclose{position:absolute;top:0;right:0;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.12);border:none;color:#fff;font-size:17px;cursor:pointer;display:grid;place-items:center}
+.pclose:hover{background:rgba(255,45,85,.8)}
+
+/* ---------- Detail / Copywrite panel ---------- */
+.pdetail{
+  position:absolute;top:0;bottom:0;right:0;width:min(340px,60vw);
+  background:var(--panel);border-left:1px solid var(--line);overflow-y:auto;
+  padding:20px 18px;display:none;flex-direction:column;gap:14px;z-index:5;
+}
+.player.showDetail .pdetail{display:flex;animation:slideL .3s ease}
+@keyframes slideL{from{transform:translateX(30px);opacity:0}}
+.pdetail .pdh{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.pdetail .pdh b{font-size:15px;font-weight:800}
+.pdetail .pdh span{font-size:10px;color:var(--txt3);background:var(--brand2);color:#fff;padding:2px 7px;border-radius:6px;font-weight:700}
+.pdsec{background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:13px 14px}
+.pdsec h4{font-size:11.5px;color:var(--brand2);font-weight:800;letter-spacing:.5px;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.pdsec p{font-size:12.5px;color:var(--txt2);line-height:1.75}
+.pdsec .kws{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.kw{font-size:10.5px;padding:4px 9px;border-radius:7px;background:rgba(124,92,255,.14);color:#c4b5fd;font-weight:700}
+.pdcopy{width:100%;border:none;border-radius:8px;padding:8px 12px;font-size:11.5px;font-family:inherit;
+  cursor:pointer;background:linear-gradient(135deg,var(--panel2),var(--panel));color:var(--txt2);
+  border:1px solid var(--line2);transition:.15s;font-weight:600}
+.pdcopy:hover{border-color:var(--brand2);color:var(--brand2)}
+.pdtoggle{margin-left:auto;width:34px;height:34px;border-radius:9px;background:var(--panel2);border:1px solid var(--line2);color:var(--txt2);cursor:pointer;display:grid;place-items:center;font-size:15px;flex-shrink:0}
+.pdtoggle:hover{border-color:var(--brand2);color:var(--brand2)}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- Sidebar -->
+  <aside class="side">
+    <div class="brand">
+      <div class="logo">🎬</div>
+      <div><h1>短剧工厂</h1><p>DRAMA FACTORY</p></div>
+    </div>
+    <div class="nav-t">生产</div>
+    <div class="nav-i on" data-v="console"><span class="ic">🎛️</span>创作工作台</div>
+    <div class="nav-i" data-v="library"><span class="ic">🎞️</span>真人短剧库</div>
+    <div class="nav-t">监控</div>
+    <div class="nav-i" data-v="modules"><span class="ic">🧩</span>模块架构</div>
+    <div class="nav-i" data-v="compliance"><span class="ic">🛡️</span>风控合规</div>
+    <div class="nav-i" data-v="data"><span class="ic">📊</span>量产数据</div>
+    <div class="side-foot">
+      <div class="gpu"><span>GPU RTX 3060</span><b id="gpuPct">18%</b></div>
+      <div class="bar"><i id="gpuBar" style="width:18%"></i></div>
+      <div class="gpu"><span>显存 12G</span><b id="vramTxt">2.1 / 12G</b></div>
+      <div class="bar"><i id="vramBar" style="width:17%"></i></div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="top">
+      <div>
+        <h2 id="topTitle">创作工作台</h2>
+        <div class="sub" id="topSub">输入剧名，一键全自动生成真人短剧伪原创短视频</div>
+      </div>
+      <div class="spacer"></div>
+      <div class="chip"><span class="dot" id="engineDot"></span><span id="engineTxt">引擎就绪</span></div>
+      <div class="chip">⚙️ 模型 4/4 已加载</div>
+      <div class="chip">📥 队列 <b style="color:var(--txt);margin-left:4px" id="queueTxt">0</b></div>
+    </div>
+
+    <div class="content">
+      <!-- ===== Console ===== -->
+      <section class="view on" id="view-console">
+        <div class="console">
+          <!-- Input panel -->
+          <div class="card">
+            <h3>⚡ 生成参数</h3>
+            <div class="desc">配置后点击开始，全流程自动执行</div>
+            <div class="field">
+              <label>短剧 / 影视剧名</label>
+              <input class="inp" id="inTitle" placeholder="例如：错爱成婚之总裁的隐婚妻" value="错爱成婚之总裁的隐婚妻">
+              <div class="hint" style="margin-top:6px">仅支持公开合规、可二创真人短剧素材</div>
+            </div>
+            <div class="field">
+              <label>短剧频道</label>
+              <div class="seg chan" id="chanBox">
+                <span class="on" data-c="女频爆款">👩 女频爆款</span>
+                <span data-c="男频爆款">👨 男频爆款</span>
+              </div>
+              <div class="hint" id="chanHint" style="margin-top:6px">女性受众 · 占市场约70% · 情感 / 逆袭 / 宅斗为主</div>
+            </div>
+            <div class="field">
+              <label>细分题材 <span style="font-weight:600;color:var(--txt3);font-size:11px">（点击选择爆款类目）</span></label>
+              <div class="styles" id="styleBox"></div>
+            </div>
+            <div class="row">
+              <div class="field">
+                <label>单集时长</label>
+                <select class="inp" id="inDur">
+                  <option>30s</option><option selected>45s</option><option>60s</option><option>90s</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>画幅</label>
+                <div class="seg" id="ratioBox">
+                  <span class="on" data-r="9:16">竖屏</span><span data-r="16:9">横屏</span>
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label>AI 配音音色 <span class="hint">· 智能自动</span></label>
+              <div class="voice-auto" id="voiceAuto">
+                <span class="vain">🤖</span>
+                <div class="vatext">
+                  <b>按画面实际角色自动配音</b>
+                  <small>系统逐镜识别出场角色（如 男主·总裁 / 女主·甜宠），自动分配匹配音色分轨 AI 配音，无需手动选择</small>
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label>批量生成数量 <span class="hint" id="batchHint">· 200 条差异化</span></label>
+              <div class="slider-wrap">
+                <input type="range" id="inBatch" min="1" max="200" value="200" step="1">
+                <span class="sval" id="batchVal">200 条</span>
+              </div>
+            </div>
+            <div class="field">
+              <label>伪原创强度 <span class="hint" id="ppHint">· 推荐 高</span></label>
+              <div class="slider-wrap">
+                <input type="range" id="inPP" min="60" max="99" value="88">
+                <span class="sval" id="ppVal">88%</span>
+              </div>
+            </div>
+            <button class="btn" id="genBtn"><span>🚀</span> 开始全自动生成</button>
+            <button class="btn ghost" id="stopBtn" style="margin-top:8px;display:none">■ 停止任务</button>
+          </div>
+
+          <!-- Pipeline + modules -->
+          <div class="grid" style="gap:18px">
+            <div class="card">
+              <div class="stage-head">
+                <div class="big" id="progPct">0%</div>
+                <div class="prog-outer"><div class="prog-inner" id="progBar"></div></div>
+                <div class="stt" id="stageName" style="font-size:12px;color:var(--txt3);font-weight:700;min-width:90px;text-align:right">待机中</div>
+              </div>
+              <div class="steps" id="steps"></div>
+            </div>
+
+            <div class="card">
+              <h3>🧠 核心模块实时状态 <span class="tag">5 大模块</span></h3>
+              <div class="desc"></div>
+              <div class="mods" id="mods"></div>
+            </div>
+
+            <div class="card">
+              <h3>💻 生成日志 <span class="tag" id="logCount">0 条</span></h3>
+              <div class="desc"></div>
+              <div class="term" id="term"><div class="l t"># 等待任务启动...</div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Library (Douyin-style) ===== -->
+      <section class="view" id="view-library">
+        <div class="card" style="margin-bottom:18px">
+          <h3>🎞️ 真人短剧成片库 <span class="tag" id="libCount">0 条</span></h3>
+          <div class="desc">每次生成自动归入独立类目 · 点击左侧类目筛选，点击成片即可播放</div>
+          <div class="lib-layout">
+            <div class="catlist" id="catlist">
+              <div class="cat on" data-b="all"><b>全部成片</b><span class="ctag" id="allCount">0 条 · 0 个类目</span></div>
+            </div>
+            <div class="gallery" id="gallery">
+              <div class="empty" style="grid-column:1/-1"><div class="ee">🎬</div><p>暂无成片，请到「创作工作台」启动生成任务</p></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Modules / Arch ===== -->
+      <section class="view" id="view-modules">
+        <div class="card">
+          <h3>🧩 系统模块架构（三层九步）</h3>
+          <div class="desc">基础搭建层 → 智能生成层 → 成品输出层，全程自动化闭环</div>
+          <div class="arch" id="archBox"></div>
+        </div>
+        <div class="notice">
+          <b>⚙️ 技术原理：</b> 系统核心 = AI视觉重构(去水印/细节重绘/画质增强) + 智能语义解析(NLP) + 视频帧重构 + 音频合成 + 非线性剪辑。对真人短剧素材做像素级伪原创重构，从根源实现原创化与去重。
+        </div>
+      </section>
+
+      <!-- ===== Compliance ===== -->
+      <section class="view" id="view-compliance">
+        <div class="grid" style="grid-template-columns:1.4fr 1fr;gap:18px" id="compGrid">
+          <div class="card">
+            <h3>🛡️ 风控合规检测 <span class="tag" id="compScore">综合 96 分</span></h3>
+            <div class="desc">针对平台原创审核机制的多维度自动风控</div>
+            <div class="checklist" id="checklist"></div>
+          </div>
+          <div class="card">
+            <h3>📉 查重规避维度</h3>
+            <div class="desc">全维度差异化，每条视频独立原创</div>
+            <div id="dedup"></div>
+          </div>
+        </div>
+        <div class="notice">
+          <b>⚠️ 合规红线：</b> 仅可使用公开合规、可二创真人短剧素材；禁止抓取院线未下架、独家版权、付费专属内容。AI 重构仅解决平台搬运查重，不等同于完全商用版权，禁止用于广告带货、付费售卖等商用场景。内置敏感内容过滤模型自动拦截涉政/涉暴/低俗/违禁画面。
+        </div>
+      </section>
+
+      <!-- ===== Data ===== -->
+      <section class="view" id="view-data">
+        <div class="stats" style="margin-bottom:18px">
+          <div class="stat"><div class="si">🎬</div><div class="sv" id="d1">327</div><div class="sl">今日已生成(条)</div><div class="trend">▲ 全自动无人值守</div></div>
+          <div class="stat"><div class="si">⏱️</div><div class="sv" id="d2">3.8</div><div class="sl">平均单集约耗时(分)</div><div class="trend">▲ 多线程并行</div></div>
+          <div class="stat"><div class="si">✅</div><div class="sv" id="d3">98.6%</div><div class="sl">质检通过率</div><div class="trend">▲ AI 自动剔除劣质</div></div>
+          <div class="stat"><div class="si">🛡️</div><div class="sv" id="d4">96</div><div class="sl">平均原创合规分</div><div class="trend">▲ 全维度去重</div></div>
+        </div>
+        <div class="grid" style="grid-template-columns:1fr 1fr;gap:18px">
+          <div class="card">
+            <h3>📊 近 7 日产量趋势</h3>
+            <div class="desc"></div>
+            <div id="chart" style="height:180px;display:flex;align-items:flex-end;gap:10px;padding-top:10px"></div>
+          </div>
+          <div class="card">
+            <h3>🎭 题材分布</h3>
+            <div class="desc"></div>
+            <div id="styleDist" style="display:flex;flex-direction:column;gap:14px;padding-top:6px"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+<div class="player" id="player">
+  <div class="pwrap">
+    <button class="pclose" id="pClose">✕</button>
+    <div class="pframe" id="pFrame">
+      <video id="pVideo" muted playsinline preload="auto" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;z-index:1;background:#000"></video>
+      <div class="grain"></div>
+      <div class="vignette"></div>
+      <div class="pemoji" id="pEmoji">🌆</div>
+      <span class="aiwm">图片由AI生成</span>
+      <div class="pbar">🔥 真人短剧</div>
+      <div class="pauth" id="pAuth"><b>剧情放映厅</b>12.3w 播放</div>
+      <div class="psub" id="pSub"></div>
+      <div class="pcontrols">
+        <div class="pprogress" id="pProgress"><i id="pProg"></i></div>
+        <div class="prow">
+          <button class="pplay" id="pPlay">▶</button>
+          <span class="ptime" id="pTime">0:00 / 0:45</span>
+          <div class="peq"><i></i><i></i><i></i><i></i></div>
+          <button class="pdtoggle" id="pToggleDetail" title="查看文案详情">📋</button>
+        </div>
+      </div>
+    </div>
+    <!-- Detail / Copywrite panel -->
+    <div class="pdetail" id="pdetail">
+      <div class="pdh"><b id="pdTitle">剧名</b><span id="pdTag">原创 96%</span></div>
+      <div id="pdBody"></div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"><span>✅</span><span id="toastMsg"></span></div>
+
+<script>
+/* ============ data ============ */
+const STEPS=[
+ {t:"环境与模块部署",d:"加载视频重构/去水印/NLP文案/语音合成模型",m:0},
+ {t:"剧名检索 & 高清素材爬取",d:"匹配合规真人短剧片源，智能截取高光片段 30-60s",m:0},
+ {t:"真人画面 AI 重构优化",d:"逐帧去水印/细节重绘/画质增强，伪原创化处理",m:1},
+ {t:"多层伪原创去重处理",d:"画面/结构/细节三层全维度重构规避查重",m:2},
+ {t:"智能剧情文案生成改写",d:"NLP解析剧情，生成钩子式原创解说文案",m:3},
+ {t:"AI 音频全自动合成",d:"语音合成配音 + 无版权BGM + 情绪音效",m:3},
+ {t:"智能字幕与特效合成",d:"逐句对齐字幕 + 动态特效 + 片头片尾包装",m:3},
+ {t:"视频合成与画质压制",d:"多轨对齐合成，1080P高清压制，画幅适配",m:4},
+ {t:"智能质检 & 批量导出归档",d:"AI质检剔除劣质，差异化批量输出分类存档",m:4},
+];
+const MODS=[
+ {i:"📥",n:"素材采集解析"},
+ {i:"🎬",n:"AI重构优化"},
+ {i:"🔀",n:"伪原创去重"},
+ {i:"📝",n:"智能内容包装"},
+ {i:"📦",n:"合成输出质检"},
+];
+const LOGS=[
+ ["加载模型: video_refine_v3 / nlp_script / tts_hifi / subtitle_fx","g"],
+ ["✓ 4个核心模型部署完成，本地离线推理就绪","g"],
+ ["检索片源: 匹配到合规真人短剧高清片源 1080P","c"],
+ ["内容识别: 分割正片，剔除片头/广告/注水片段","m"],
+ ["✓ 智能截取高光片段 × {N} (冲突/反转/名场面)","c"],
+ ["帧拆解: 按24帧/秒拆解为单帧图片序列","p"],
+ ["AI重构: 逐帧去水印 + 细节重绘 [{STYLE}]...","p"],
+ ["✓ 画质增强完成，无残留水印/无崩坏","g"],
+ ["去重-画面层: 帧率微调/变速0.9-1.1x/色温偏移","a"],
+ ["去重-结构层: 重排片段/微转场/时间线重构","a"],
+ ["去重-细节层: 粒子特效/光影滤镜/边框叠加","a"],
+ ["NLP解析: 抓取剧情梗概/人物关系/冲突亮点","m"],
+ ["文案生成: 开头钩子 + 剧情讲解 + 结尾互动","c"],
+ ["✓ 多版本剧情文案改写完成，规避查重","g"],
+ ["TTS配音: 🤖 自动识别画面角色 → {ROLES}，分轨智能配音","p"],
+ ["BGM匹配: 无版权曲库自动配乐 + 音量平衡","m"],
+ ["字幕: 语音转字幕逐句对齐 + 动态特效","c"],
+ ["合成: 视频/音频/字幕/特效多轨对齐...","m"],
+ ["压制: 1080P {RATIO} 高清输出","c"],
+ ["质检: 画质/音画同步/字幕/合规 全部通过","g"],
+ ["✓ 批量导出 {N} 条差异化真人短剧，分类归档完成","g"],
+];
+const CHECKS=[
+ ["画面原创兜底","AI细节重绘+去水印，全新生成画面内容",99],
+ ["文案去重","多版本同义改写 / 句式重构",97],
+ ["音频差异化","音色 + BGM + 音效随机组合",95],
+ ["剪辑节奏差异","片段重排 / 变速 / 时间线重构",96],
+ ["敏感内容过滤","涉政/涉暴/低俗/违禁自动拦截",100,"warn"],
+];
+const DEDUP=[["画面层","帧率·变速·色温·裁剪·动态模糊",92],["结构层","片段重排·微转场·过渡帧",88],["细节层","粒子·光影·边框·质感",90],["文案层","同义替换·句式重构·语序",94],["音频层","音色·BGM·音效混搭",89]];
+const GRAD_BG=[
+ "linear-gradient(160deg,#3b0764,#ff2d55,#fda4af)",
+ "linear-gradient(160deg,#1e3a8a,#7c3aed,#c4b5fd)",
+ "linear-gradient(160deg,#831843,#be123c,#fecdd3)",
+ "linear-gradient(160deg,#164e63,#0ea5e9,#bae6fd)",
+ "linear-gradient(160deg,#7c2d12,#ea580c,#fed7aa)",
+ "linear-gradient(160deg,#134e4a,#10b981,#a7f3d0)",
+];
+/* ===== 双频道爆款题材库(女频占市场约70% / 男频爽感流) ===== */
+const GENRE_DATA={
+  "女频爆款":[
+    {name:"豪门总裁",emoji:"💍",tags:["闪婚总裁","替嫁新娘","契约婚姻","先婚后爱","豪门弃妇","真假千金","高冷霸总","豪门恩怨"],
+     subs:["闪婚三个月，我竟是他藏了五年的白月光。","替嫁进豪门，冷面总裁却对我百般宠溺。","这份契约，从一开始就是他布下的局。","傅太太，其实先动心的人，是我。","真假千金的身份，今天当众揭穿。"]},
+    {name:"重生逆袭",emoji:"🔥",tags:["重生虐渣","重生千金","重生宝妈","重回十八岁","嫡女重生","侯府重生","手撕渣男","搞事业复仇"],
+     subs:["重活一世，这一次换我手撕渣男贱女。","前世你害我家破人亡，今生我加倍奉还。","重生回到十八岁，我要改写整个人生。","这一世，我再也不会为你低头。","上天给我重来一次的机会，我绝不浪费。"]},
+    {name:"穿越古风",emoji:"🏯",tags:["庶女逆袭","王妃逆袭","冷宫废后","神医王妃","毒妃","锦绣宅斗","古今穿越","凤鸣天下"],
+     subs:["一朝穿越，我从庶女一步步走上凤位。","冷宫废后又如何，本宫照样翻手为云。","王爷，你的毒，只有我能解。","这后宅深深，我便自己闯出一条生路。","从今往后，我的命由我不由天。"]},
+    {name:"神医女强",emoji:"⚕️",tags:["隐世神医","天才医女","随身空间","鬼手神医","玄学风水","一针救命","下山打脸","异能女主"],
+     subs:["一根银针，救回了所有人放弃的病人。","隐世下山，权贵却要排队求我出手。","看不起我？今天让你们跪着求医。","我的随身空间，装得下整座灵药山。","天机不可泄露，但你的命，我保了。"]},
+    {name:"婆媳家庭",emoji:"🏠",tags:["恶婆婆","重男轻女","凤凰男","全职主妇逆袭","彩礼矛盾","娘家吸血","二婚家庭","原生家庭"],
+     subs:["这个家，我忍够了，今天必须说清楚。","重男轻女的下场，就是老无所依。","全职主妇怎么了？离开你我活得更好。","我的付出，不该被你们视作理所当然。","这一次，我只为自己而活。"]},
+    {name:"娱乐圈甜虐",emoji:"🎬",tags:["小花逆袭","影帝隐婚","黑粉变真爱","顶流甜宠","经纪人陷害","翻盘打脸","隐藏大佬","一夜爆红"],
+     subs:["十八线小花，一夜之间杀成顶流。","影帝的隐婚妻子，竟然是我。","黑我最狠的那个人，最后爱我最深。","被陷害又如何，我照样华丽翻盘。","这个圈子，我杀回来了。"]},
+    {name:"年代怀旧",emoji:"📻",tags:["八零辣妈","九零致富","下乡知青","改革开放","重回年代","搞钱逆袭","万元户","供销社"],
+     subs:["八零年代，我这个辣妈要带全家发家致富。","抓住这波改革开放，我就是第一个万元户。","下乡的日子苦，可我偏要活出个样子。","这个年代，遍地都是黄金机会。","重回八零，我要把失去的都赚回来。"]}
+  ],
+  "男频爆款":[
+    {name:"战神回归",emoji:"⚔️",tags:["龙王归来","战神赘婿","五年隐忍","修罗王","身份曝光","全城下跪","入赘打脸","王者归来"],
+     subs:["五年隐忍，龙王归来，这座城我说了算。","入赘被羞辱？我的真实身份足以让你们跪下。","当年赶我走的人，如今求我回来。","一声令下，全城大佬俯首称臣。","这一次，谁也别想动我的家人。"]},
+    {name:"神医圣手",emoji:"🩺",tags:["隐世神医","下山救人","权贵求医","打脸势利","医道无双","起死回生","前女友悔","圣手回春"],
+     subs:["隐世神医出山，权贵排队也要求我一诊。","当年瞧不起我的人，如今跪着求医。","这条命，我救定了。","医术无双，你们的病，只有我能治。","看清楚了，这才是真正的圣手。"]},
+    {name:"都市异能",emoji:"👁️",tags:["透视鉴宝","赌石暴富","古玩捡漏","预知未来","异能觉醒","一夜暴富","慧眼识珠","逆天神眼"],
+     subs:["一双透视眼，这块石头里藏着宝。","别人眼里的废石，在我这里价值连城。","我能看见的，远不止这些。","这一眼，我就知道你输定了。","财富和真相，都逃不过我的眼睛。"]},
+    {name:"修仙玄幻",emoji:"🐉",tags:["上古传承","现代修真","碾压富二代","武道世家","逆天改命","一朝觉醒","仙帝归来","天骄陨落"],
+     subs:["落魄少年得上古传承，从此逆天改命。","你们的家世，在绝对实力面前不值一提。","这一拳，碾碎你所有的骄傲。","修炼一日，胜你苦练十年。","这天地，容得下我的野心。"]},
+    {name:"商战逆袭",emoji:"💼",tags:["破产重生","草根创业","拿捏资本","反击对手","首富归来","商界枭雄","逆风翻盘","资本猎手"],
+     subs:["破产又如何，我要拿回属于我的一切。","这场商战，我赌上了全部。","资本的游戏，我才是规则制定者。","当年逼我破产的人，今天换我收购你。","草根又怎样，我照样问鼎商界之巅。"]},
+    {name:"武道江湖",emoji:"🥊",tags:["武道世家","隐世武尊","地下拳王","上门武赘","一战封神","江湖恩怨","拳镇八方","武道至尊"],
+     subs:["地下拳王擂台，我从未败过。","隐世武尊出手，江湖再无对手。","上门女婿？我一拳打服所有看不起我的人。","这一战，就此封神。","江湖恩怨，今日一并了结。"]}
+  ]
+};
+/* 扁平索引: 类目名 -> {emoji,tags,subs,channel} */
+const ALL_CATS={};
+Object.entries(GENRE_DATA).forEach(([ch,cats])=>cats.forEach(c=>ALL_CATS[c.name]={...c,channel:ch}));
+function catEmoji(name){return (ALL_CATS[name]||{}).emoji||"🎬";}
+function catSubs(name){return (ALL_CATS[name]||{}).subs||["剧情高能，一触即发。","真相揭开的那一刻，所有人都愣住了。","这一次，我不会再退缩。","命运的齿轮，开始转动。","故事，才刚刚开始。"];}
+const AUTHORS=["剧情放映厅","深夜剧场","短剧精选官","影视研究所","热剧速递","追剧小助手","名场面合集","高能剧场"];
+/* 真人动态视频片段池(VideoGen生成,竖版9:16) — 路径相对于html所在目录 */
+const VIDEO_POOL=[
+  "videos/Cinematic_Chinese_CEO_romance__2026-07-20T06-56-48.mp4",
+  "videos/Chinese_urban_romance_drama__E_2026-07-20T06-55-45.mp4",
+  "videos/Chinese_CEO_romance_drama_conf_2026-07-20T06-55-40.mp4",
+  "videos/Chinese_urban_romance_close_up_2026-07-20T06-56-21.mp4",
+  "videos/Chinese_romance_drama_reunion__2026-07-20T06-55-39.mp4",
+];
+/* 缩略图池(用于卡片封面) */
+const THUMB_POOL=[
+ "images/Chinese_urban_romance_CEO_dram_2026-07-20T06-03-39.png",
+ "images/Chinese_urban_romance_short_dr_2026-07-20T06-04-53.png",
+ "images/Chinese_urban_drama_scene__mod_2026-07-20T06-05-50.png",
+ "images/Elegant_Chinese_woman_in_white_2026-07-20T06-06-43.png",
+ "images/Close_up_portrait_of_young_Chi_2026-07-20T06-08-22.png",
+];
+/* 每个视频片段实际出场的角色 → 匹配配音音色（自动角色识别） */
+const CLIP_ROLES={
+ "Cinematic_Chinese_CEO_romance__2026-07-20T06-56-48.mp4":[{role:"男主·总裁",voice:"磁性男声"}],
+ "Chinese_urban_romance_drama__E_2026-07-20T06-55-45.mp4":[{role:"女主·甜宠",voice:"清甜少女"}],
+ "Chinese_CEO_romance_drama_conf_2026-07-20T06-55-40.mp4":[{role:"男主·总裁",voice:"磁性男声"},{role:"女主·甜宠",voice:"清甜少女"}],
+ "Chinese_urban_romance_close_up_2026-07-20T06-56-21.mp4":[{role:"女主·甜宠",voice:"清甜少女"}],
+ "Chinese_romance_drama_reunion__2026-07-20T06-55-39.mp4":[{role:"男主·总裁",voice:"磁性男声"},{role:"女主·甜宠",voice:"清甜少女"}]
+};
+const baseName=p=>p.split('/').pop().split('\\').pop();
+function rolesOf(clips){const set=[];clips.forEach(c=>{(CLIP_ROLES[baseName(c)]||[]).forEach(r=>{if(!set.find(x=>x.role===r.role))set.push({role:r.role,voice:r.voice});})});return set;}
+const ALL_ROLES=rolesOf(VIDEO_POOL);
+function rolesText(){return ALL_ROLES.map(r=>r.role+'（'+r.voice+'）').join(' / ');}
+
+/* ============ state ============ */
+let sel={channel:"女频爆款",style:"豪门总裁",ratio:"9:16",running:false};
+let batches=[]; let curBatch='all'; let curVideos=[]; let BID=0;
+
+/* ============ nav ============ */
+const titles={console:["创作工作台","输入剧名，一键全自动生成真人短剧伪原创短视频"],library:["真人短剧库","本次生成的差异化真人短剧成片，抖音搜索流卡片样式"],modules:["模块架构","三层九步全自动化生成流水线"],compliance:["风控合规","多维度原创审核与查重规避"],data:["量产数据","无人值守批量量产运营看板"]};
+document.querySelectorAll('.nav-i').forEach(n=>n.onclick=()=>{
+  document.querySelectorAll('.nav-i').forEach(x=>x.classList.remove('on'));
+  n.classList.add('on');
+  const v=n.dataset.v;
+  document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));
+  document.getElementById('view-'+v).classList.add('on');
+  document.getElementById('topTitle').textContent=titles[v][0];
+  document.getElementById('topSub').textContent=titles[v][1];
+});
+
+/* ============ inputs ============ */
+/* 渲染当前频道下的细分题材卡片 */
+function renderCats(){
+  const cats=GENRE_DATA[sel.channel];
+  document.getElementById('styleBox').innerHTML=cats.map((c,i)=>
+    `<div class="st ${i===0?'on':''}" data-s="${c.name}"><span class="e">${c.emoji}</span>${c.name}<span class="stags">${c.tags.slice(0,3).join(' · ')}</span></div>`
+  ).join('');
+  sel.style=cats[0].name;
+  document.getElementById('chanHint').textContent = sel.channel==='女频爆款'
+    ? '女性受众 · 占市场约70% · 情感 / 逆袭 / 宅斗为主'
+    : '男性受众 · 爽感流 · 战神 / 神医 / 逆袭为主';
+}
+document.getElementById('chanBox').onclick=e=>{
+  const t=e.target.closest('span'); if(!t)return;
+  document.querySelectorAll('#chanBox span').forEach(x=>x.classList.remove('on'));
+  t.classList.add('on'); sel.channel=t.dataset.c; renderCats();
+};
+document.getElementById('styleBox').onclick=e=>{
+  const t=e.target.closest('.st'); if(!t)return;
+  document.querySelectorAll('#styleBox .st').forEach(x=>x.classList.remove('on'));
+  t.classList.add('on'); sel.style=t.dataset.s;
+};
+renderCats();
+document.getElementById('ratioBox').onclick=e=>{
+  const t=e.target.closest('span'); if(!t)return;
+  document.querySelectorAll('#ratioBox span').forEach(x=>x.classList.remove('on'));
+  t.classList.add('on'); sel.ratio=t.dataset.r;
+};
+const batch=document.getElementById('inBatch'),batchVal=document.getElementById('batchVal'),batchHint=document.getElementById('batchHint');
+batch.oninput=()=>{batchVal.textContent=batch.value+' 条';batchHint.textContent='· '+batch.value+' 条差异化'};
+const pp=document.getElementById('inPP'),ppVal=document.getElementById('ppVal'),ppHint=document.getElementById('ppHint');
+pp.oninput=()=>{ppVal.textContent=pp.value+'%';ppHint.textContent=pp.value>=85?'· 推荐 高':pp.value>=72?'· 中等':'· 偏低 慎用'};
+
+/* ============ render steps & mods ============ */
+const stepsEl=document.getElementById('steps');
+STEPS.forEach((s,i)=>{
+  stepsEl.insertAdjacentHTML('beforeend',
+   `<div class="step" id="step${i}"><div class="no">${i+1}</div><div class="info"><b>${s.t}</b><small>${s.d}</small></div><div class="stt">等待</div><div class="minibar" id="mb${i}"></div></div>`);
+});
+const modsEl=document.getElementById('mods');
+MODS.forEach((m,i)=>{
+  modsEl.insertAdjacentHTML('beforeend',
+   `<div class="mod" id="mod${i}"><div class="mh"><div class="mi">${m.i}</div><span class="led"></span></div><b>${m.n}</b><div class="load"><span id="modl${i}">待机</span><span id="modp${i}">0%</span></div></div>`);
+});
+
+/* ============ arch ============ */
+const ARCH=[
+ ["基础搭建层",[["①环境与模块部署","硬件+软件框架+核心模型"],["②剧名检索&素材爬取","合规片源+高光片段截取"]]],
+ ["智能生成层",[["③AI重构优化","去水印/细节重绘/画质增强"],["④多层伪原创去重","画面/结构/细节重构"],["⑤剧情文案生成","NLP解析+原创改写"],["⑥AI音频合成","配音+BGM+音效"],["⑦字幕特效合成","逐句对齐+动态特效"]]],
+ ["成品输出层",[["⑧合成与压制","多轨对齐+1080P压制"],["⑨质检批量导出","AI质检+差异化归档"]]],
+];
+const archBox=document.getElementById('archBox');
+ARCH.forEach((L,i)=>{
+  let boxes=L[1].map(b=>`<div class="lbox"><b>${b[0]}</b><small>${b[1]}</small></div>`).join('');
+  archBox.insertAdjacentHTML('beforeend',`<div class="layer"><div class="lt">${L[0]}</div><div class="lm">${boxes}</div></div>`);
+  if(i<ARCH.length-1)archBox.insertAdjacentHTML('beforeend',`<div class="flow-arrow">▼</div>`);
+});
+
+/* ============ compliance ============ */
+const cl=document.getElementById('checklist');
+CHECKS.forEach(c=>{
+  cl.insertAdjacentHTML('beforeend',
+   `<div class="chk"><div class="cb ${c[3]||''}">${c[3]?'!':'✓'}</div><div><b>${c[0]}</b><small>${c[1]}</small></div><div class="pct" style="${c[3]?'color:var(--amber)':''}">${c[2]}%</div></div>`);
+});
+const dd=document.getElementById('dedup');
+DEDUP.forEach(d=>{
+  dd.insertAdjacentHTML('beforeend',
+   `<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:6px"><b style="font-weight:700">${d[0]}</b><span style="color:var(--txt3)">${d[1]}</span></div><div class="bar" style="height:7px"><i style="width:${d[2]}%"></i></div></div>`);
+});
+
+/* ============ data charts ============ */
+const days=['一','二','三','四','五','六','日'],vals=[210,265,298,240,312,340,327];
+const chart=document.getElementById('chart');
+vals.forEach((v,i)=>{
+  const h=v/340*100;
+  chart.insertAdjacentHTML('beforeend',
+   `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end">
+     <span style="font-size:11px;font-weight:700;color:var(--txt2)">${v}</span>
+     <div style="width:100%;background:var(--grad);border-radius:6px 6px 0 0;height:${h}%;transition:.6s"></div>
+     <span style="font-size:11px;color:var(--txt3)">周${days[i]}</span></div>`);
+});
+const dist=[["女·重生逆袭",24,"#ff2d55"],["女·豪门总裁",19,"#f472b6"],["男·战神回归",16,"#22d3ee"],["女·穿越古风",13,"#a855f7"],["男·神医圣手",11,"#fbbf24"],["其他题材",17,"#94a3b8"]];
+const sd=document.getElementById('styleDist');
+dist.forEach(d=>{
+  sd.insertAdjacentHTML('beforeend',
+   `<div><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:6px"><b style="font-weight:700">${d[0]}</b><span style="color:var(--txt3)">${d[1]}%</span></div><div class="bar" style="height:8px"><i style="width:${d[1]*2.8}%;background:${d[2]}"></i></div></div>`);
+});
+
+/* ============ helpers ============ */
+const term=document.getElementById('term');
+let logN=0;
+function log(msg,cls){
+  const now=new Date().toLocaleTimeString('zh-CN',{hour12:false});
+  term.insertAdjacentHTML('beforeend',`<div class="l"><span class="t">[${now}]</span> <span class="${cls}">${msg}</span></div>`);
+  term.scrollTop=term.scrollHeight;
+  logN++; document.getElementById('logCount').textContent=logN+' 条';
+}
+function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
+function toast(msg){const t=document.getElementById('toast');document.getElementById('toastMsg').textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)}
+function setGpu(p){document.getElementById('gpuPct').textContent=p+'%';document.getElementById('gpuBar').style.width=p+'%';
+  const vr=(p/100*10+2).toFixed(1);document.getElementById('vramTxt').textContent=vr+' / 12G';document.getElementById('vramBar').style.width=(vr/12*100)+'%';}
+
+/* ============ generation engine ============ */
+let stopFlag=false;
+async function generate(){
+  if(sel.running)return;
+  const title=document.getElementById('inTitle').value.trim()||'未命名短剧';
+  const n=+batch.value, dur=document.getElementById('inDur').value, voice='🤖 自动角色音色';
+  const rolesStr=rolesText();
+  sel.running=true;stopFlag=false;
+  document.getElementById('genBtn').disabled=true;
+  document.getElementById('stopBtn').style.display='flex';
+  document.getElementById('engineDot').className='dot busy';
+  document.getElementById('engineTxt').textContent='生成中';
+  document.getElementById('queueTxt').textContent=n;
+  term.innerHTML='';logN=0;
+  log(`# 任务启动 → 《${title}》 · ${sel.channel}/${sel.style} · ${dur} · ${sel.ratio} · ${n}条`,'g');
+  STEPS.forEach((s,i)=>{document.getElementById('step'+i).className='step';document.getElementById('step'+i).querySelector('.stt').textContent='等待';document.getElementById('mb'+i).style.width='0'});
+  MODS.forEach((m,i)=>{document.getElementById('mod'+i).className='mod';document.getElementById('modl'+i).textContent='待机';document.getElementById('modp'+i).textContent='0%'});
+
+  const total=STEPS.length;
+  for(let i=0;i<total;i++){
+    if(stopFlag)break;
+    const st=document.getElementById('step'+i);
+    st.className='step active';st.querySelector('.stt').textContent='处理中';
+    document.getElementById('stageName').textContent='步骤 '+(i+1)+' / '+total;
+    const mi=STEPS[i].m;
+    const mod=document.getElementById('mod'+mi);mod.className='mod run';
+    document.getElementById('modl'+mi).textContent='运行中';
+    const heavy=(i===2||i===3);const deven=Math.round(600+Math.random()*700);
+    const dur2=heavy?deven*2:deven;
+    let p=0;
+    while(p<100){
+      if(stopFlag)break;
+      p+=Math.round(8+Math.random()*22);if(p>100)p=100;
+      document.getElementById('mb'+i).style.width=p+'%';
+      document.getElementById('modp'+mi).textContent=p+'%';
+      const overall=Math.min(100,Math.round((i+p/100)/total*100));
+      document.getElementById('progBar').style.width=overall+'%';
+      document.getElementById('progPct').textContent=overall+'%';
+      setGpu(heavy?Math.round(78+Math.random()*18):Math.round(35+Math.random()*30));
+      await sleep(dur2/8);
+    }
+    emitLog(i,{n,voice,roles:rolesStr});
+    st.className='step done';st.querySelector('.stt').textContent='完成';
+    mod.className='mod ok';document.getElementById('modl'+mi).textContent='就绪';
+    await sleep(120);
+  }
+  if(!stopFlag){
+    document.getElementById('progBar').style.width='100%';
+    document.getElementById('progPct').textContent='100%';
+    document.getElementById('stageName').textContent='✓ 全部完成';
+    buildBatch(title,n,dur);
+    log(`# 🎉 任务完成：${n} 条《${title}》真人短剧伪原创视频已生成并归档`,'g');
+    toast(`已生成 ${n} 条真人短剧成片，前往「真人短剧库」查看`);
+  }else{
+    document.getElementById('stageName').textContent='已停止';
+    log('# ⏹ 任务已被用户手动停止','r');
+  }
+  sel.running=false;
+  document.getElementById('genBtn').disabled=false;
+  document.getElementById('stopBtn').style.display='none';
+  document.getElementById('engineDot').className='dot';
+  document.getElementById('engineTxt').textContent='引擎就绪';
+  document.getElementById('queueTxt').textContent='0';
+  setGpu(18);
+  MODS.forEach((m,i)=>document.getElementById('mod'+i).className='mod');
+}
+
+function emitLog(i,ctx){
+  const map={0:[0,1],1:[2,3,4],2:[5,6,7],3:[8,9,10],4:[11,12,13],5:[14,15],6:[16],7:[17,18],8:[19,20]};
+  (map[i]||[]).forEach(idx=>{
+    let [msg,cls]=LOGS[idx];
+    msg=msg.replace('{N}',ctx.n).replace('{STYLE}',sel.style).replace('{VOICE}',ctx.voice).replace('{ROLES}',ctx.roles||'').replace('{RATIO}',sel.ratio);
+    log(msg,cls);
+  });
+}
+
+function cardHTML(v,k){
+  const first=v.thumb||(v.frames?v.frames[0]:'');
+  const imgTag=first?`<img src="${first}" alt="" loading="lazy">`:`<div class="grain"></div><div class="pe">${v.emoji}</div>`;
+  return `<div class="vid" data-i="${k}">
+    <div class="thumb" style="background:${first?'':v.bg}">
+      ${imgTag}
+      <div class="play">▶</div>
+      <div class="srctag">🔥 真人短剧</div>
+      <div class="dur">${v.dur}</div>
+    </div>
+    <div class="vfoot">
+      <div class="vtitle">${v.title}</div>
+      <div class="vauthor"><span class="vavatar"></span><span class="vname">${v.author}</span><span class="vplays">▶ <b>${v.plays}</b></span></div>
+    </div>
+  </div>`;
+}
+
+function buildBatch(title,n,dur){
+  const now=new Date();
+  const tstr=now.toLocaleTimeString('zh-CN',{hour12:false}).slice(0,5);
+  const genres=GENRE_DATA[sel.channel].map(c=>c.name);
+  const fmt=s=>{s=+String(s).replace('s','');return (s>=60?'1:'+String(s-60).padStart(2,'0'):'0:'+String(s).padStart(2,'0'))};
+  const durPool=['30','45','60','38','52'];
+  const hooks=['高能反转名场面','她竟是隐藏大佬','前夫后悔了','霸总破防瞬间','真相大白时刻','甜到上头名场面','虐心诀别片段','逆袭打脸全场'];
+  const videos=[];
+  for(let k=0;k<n;k++){
+    const g=k===0?sel.style:genres[k%genres.length];
+    // each video gets 3-5 video clips from pool, rotated
+    const fCount=3+Math.floor(Math.random()*3);
+    const start=k*2;
+    const frames=[];
+    for(let fi=0;fi<fCount;fi++)frames.push(VIDEO_POOL[(start+fi)%VIDEO_POOL.length]);
+    // thumbnail (first image from pool, rotated)
+    const thumb=THUMB_POOL[(start)%THUMB_POOL.length];
+    // 自动识别本集成片实际出场的角色并匹配配音音色
+    const roles=rolesOf(frames);
+    const voices=[...new Set(roles.map(r=>r.voice))];
+    videos.push({
+      title:`《${title}》第${String(k+1).padStart(2,'0')}集 · ${hooks[k%hooks.length]}`,
+      genre:g,emoji:catEmoji(g),
+      dur:k===0?fmt(dur):fmt(durPool[k%durPool.length]),
+      author:AUTHORS[k%AUTHORS.length],
+      plays:(Math.random()*45+3).toFixed(1)+'w',
+      bg:GRAD_BG[k%GRAD_BG.length],score:94+Math.floor(Math.random()*6),
+      frames,thumb,roles,voices
+    });
+  }
+  const batch={id:++BID,title,channel:sel.channel,genre:sel.style,ratio:sel.ratio,dur,time:tstr,videos};
+  batches.push(batch);
+  curBatch=batch.id;
+  renderLibrary();
+}
+
+function renderLibrary(){
+  const all=batches.flatMap(b=>b.videos);
+  document.getElementById('libCount').textContent=all.length+' 条';
+  document.getElementById('allCount').textContent=all.length+' 条 · '+batches.length+' 个类目';
+  const cl=document.getElementById('catlist');
+  let html=`<div class="cat ${curBatch==='all'?'on':''}" data-b="all"><b>全部成片</b><span class="ctag">${all.length} 条 · 共 ${batches.length} 个类目</span></div>`;
+  batches.slice().reverse().forEach(b=>{
+    html+=`<div class="cat ${curBatch===b.id?'on':''}" data-b="${b.id}"><b>《${b.title}》</b><small>${b.time} · ${b.channel?b.channel.replace('爆款',''):''}·${b.genre} · ${b.videos.length}条</small><span class="ctag">${b.ratio} · ${b.dur}</span></div>`;
+  });
+  cl.innerHTML=html;
+  curVideos = curBatch==='all'?all:batches.find(b=>b.id===curBatch).videos;
+  const g=document.getElementById('gallery');
+  if(curVideos.length===0){
+    g.innerHTML='<div class="empty" style="grid-column:1/-1"><div class="ee">🎬</div><p>暂无成片，请到「创作工作台」启动生成任务</p></div>';
+    return;
+  }
+  g.innerHTML=curVideos.map((v,k)=>cardHTML(v,k)).join('');
+}
+document.getElementById('catlist').addEventListener('click',e=>{
+  const c=e.target.closest('.cat'); if(!c)return;
+  curBatch=c.dataset.b==='all'?'all':+c.dataset.b;
+  renderLibrary();
+});
+
+document.getElementById('genBtn').onclick=generate;
+document.getElementById('stopBtn').onclick=()=>{stopFlag=true};
+
+/* ============ player modal ============ */
+/* 字幕台词按细分题材从 ALL_CATS 取,见 catSubs() */
+const player=document.getElementById('player');
+const pVideo=document.getElementById('pVideo');
+let pState={playing:false,lines:[],lastSub:-1,clips:[],clipIdx:0,clipDurs:[],totalDur:0};
+function fmt(s){s=Math.floor(s);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+function openPlayer(v){
+  // reset state
+  pState.playing=false; pState.clipIdx=0; pState.lastSub=-1; pState.clipDurs=[]; pState.totalDur=0;
+  pState.lines=catSubs(v.genre);
+  pState.clips=v.frames||[];
+  const hasVid=pState.clips.length>0;
+  if(hasVid){
+    pVideo.style.display='';
+    document.getElementById('pEmoji').style.opacity=0;
+    player.classList.add('hasimg');
+    // set poster from thumb if available
+    if(v.thumb) pVideo.poster=v.thumb;
+    // load first clip (muted for Chrome autoplay compatibility)
+    pVideo.muted=true;
+    pVideo.removeAttribute('loop'); // we manage clip sequence ourselves
+    loadClip(0);
+    // preload remaining clips
+    for(let i=1;i<pState.clips.length;i++){const t=document.createElement('video');t.src=pState.clips[i];t.preload='auto';}
+    // error handling
+    pVideo.onerror=()=>{
+      console.warn('Video load error:', pVideo.error, 'src:', pVideo.src);
+      // fallback: try next clip or show poster
+      if(pState.clipIdx<pState.clips.length-1){
+        loadClip(pState.clipIdx+1);
+        playP();
+      }
+    };
+  }else{
+    pVideo.style.display='none';
+    document.getElementById('pFrame').style.background=v.bg;
+    document.getElementById('pEmoji').textContent=v.emoji;
+    document.getElementById('pEmoji').style.opacity='';
+    player.classList.remove('hasimg');
+    pState.totalDur=+v.dur.split(':')[0]*60+ +v.dur.split(':')[1];
+  }
+  document.getElementById('pAuth').innerHTML='<b>'+v.author+'</b>'+v.plays+' 播放';
+  document.getElementById('pProg').style.width='0%';
+  document.getElementById('pTime').textContent='0:00 / '+v.dur;
+  document.getElementById('pSub').textContent=''; document.getElementById('pSub').style.opacity=0;
+  player.classList.add('show');
+  renderDetail(v);
+  // auto-play on open (muted first, Chrome allows muted autoplay)
+  playP();
+}
+
+/* ---- video clip management ---- */
+function loadClip(idx){
+  if(idx>=pState.clips.length){onAllClipsDone(); return;}
+  pState.clipIdx=idx;
+  pVideo.src=pState.clips[idx];
+  pVideo.load();
+  // estimate total duration on first load
+  if(pState.clipDurs.length===0){
+    pVideo.onloadedmetadata=()=>{
+      const est=pVideo.duration||5;
+      pState.totalDur=Math.max(est*pState.clips.length, 15); // at least 15s total
+      document.getElementById('pTime').textContent='0:00 / '+fmt(Math.round(pState.totalDur));
+    };
+  }
+}
+function playP(){
+  if(pState.playing)return;
+  if(pState.clips.length===0){playSim();return;} // fallback sim mode
+  pState.playing=true; player.classList.add('playing');
+  document.getElementById('pPlay').textContent='⏸';
+  // Chrome: keep muted for autoplay, then attempt unmute after play starts (user gesture context)
+  const promise=pVideo.play();
+  if(promise!==undefined){
+    promise.then(()=>{
+      // playing successfully — try to enable sound after a short delay
+      setTimeout(()=>{if(pState.playing){pVideo.muted=false;pVideo.play().catch(()=>{pVideo.muted=true;});}},300);
+    }).catch(e=>{
+      // autoplay blocked — force muted play as last resort
+      console.warn('Autoplay blocked, forcing muted:', e.message);
+      pVideo.muted=true;
+      pVideo.play().catch(()=>{console.error('Even muted playback failed');});
+    });
+  }
+  // bind events once per session
+  pVideo.ontimeupdate=onVTimeUpdate;
+  pVideo.onended=()=>{
+    if(!pState.playing)return;
+    if(pState.clipIdx<pState.clips.length-1){
+      loadClip(pState.clipIdx+1);
+      pVideo.muted=false;
+      pVideo.play().catch(()=>{pVideo.muted=true;pVideo.play();});
+    }else{
+      onAllClipsDone();
+    }
+  };
+}
+function pauseP(){
+  pState.playing=false; player.classList.remove('playing');
+  document.getElementById('pPlay').textContent='▶';
+  if(pState.clips.length>0)pVideo.pause();
+  else clearInterval(pState.timer);
+}
+function onVTimeUpdate(){
+  if(!pState.playing)return;
+  // accumulated time from previous clips + current position
+  let elapsed=0;
+  for(let i=0;i<pState.clipIdx;i++)elapsed+=pState.clipDurs[i]||5;
+  elapsed+=pVideo.currentTime||0;
+  const total=pState.total||(pState.totalDur||45);
+  const frac=Math.min(1,elapsed/total);
+  document.getElementById('pProg').style.width=(frac*100)+'%';
+  document.getElementById('pTime').textContent=fmt(elapsed)+' / '+fmt(total);
+  // subtitles by progress
+  const sIdx=Math.min(pState.lines.length-1,Math.floor(frac*pState.lines.length));
+  if(sIdx!==pState.lastSub){
+    pState.lastSub=sIdx;
+    const s=document.getElementById('pSub'); s.style.opacity=0;
+    setTimeout(()=>{s.textContent=pState.lines[sIdx]; s.style.opacity=1;},120);
+  }
+  // record clip duration after first update
+  if(pState.clipIdx<pState.clipDurs.length && !pState.clipDurs[pState.clipIdx]){
+    pState.clipDurs[pState.clipIdx]=pVideo.duration||5;
+  }
+}
+function onAllClipsDone(){
+  pauseP();
+  document.getElementById('pProg').style.width='100%';
+  const total=pState.total||(pState.totalDur||45);
+  document.getElementById('pTime').textContent=fmt(total)+' / '+fmt(total);
+}
+
+/* ---- fallback simulator (no video clips) ---- */
+function playSim(){
+  pState.playing=true; player.classList.add('playing');
+  document.getElementById('pPlay').textContent='⏸';
+  const total=pState.totalDur||45;
+  const step=total*100/9000;
+  pState.timer=setInterval(()=>{
+    pState._sec=(pState._sec||0)+step;
+    if(pState._sec>=total){pState._sec=total;pauseP();document.getElementById('pProg').style.width='100%';return;}
+    const f=pState._sec/total;
+    document.getElementById('pProg').style.width=(f*100)+'%';
+    document.getElementById('pTime').textContent=fmt(pState._sec)+' / '+fmt(total);
+    const sIdx=Math.min(pState.lines.length-1,Math.floor(f*pState.lines.length));
+    if(sIdx!==pState.lastSub){
+      pState.lastSub=sIdx;
+      const s=document.getElementById('pSub');s.style.opacity=0;
+      setTimeout(()=>{s.textContent=pState.lines[sIdx];s.style.opacity=1;},120);
+    }
+  },100);
+}
+function closePlayer(){pauseP(); player.classList.remove('show','showDetail');}
+
+/* ============ auto copywrite ============ */
+function genCopywrite(v){
+  const title=v.title.replace(/《|》/g,'');
+  const genre=v.genre;
+  const dur=v.dur;
+  const cat=ALL_CATS[genre];
+  const tags=cat?[genre,...cat.tags.slice(0,4)]:["真人短剧","剧情反转","高能名场面"];
+  const shortDescs=[
+    `真人实拍短剧，画面连贯动态播放，自带同步字幕，剧情流畅完整`,
+    `真人演绎动态短剧，带内嵌字幕，完整连贯播放剧情`,
+    `真人出镜短剧视频，画面动态可播放，配有清晰剧情字幕`
+  ];
+  const proDescs=[
+    `本素材为真人实拍短剧成片，视频可正常动态播放，人物、场景动作连贯，内置同步对白字幕，字幕跟随剧情台词实时显示，完整呈现完整故事线，视听完整无需额外加字。`,
+    `真人出演影视短剧动态视频，具备完整动态画面、人物表演、场景切换，内嵌标准剧情字幕，播放时字幕与人物台词同步匹配，观看清晰直观。`
+  ];
+  const socialDescs=[
+    `完整版真人短剧，动态画面流畅播放，自带字幕不用手动加，一口气看完完整剧情`,
+    `真人实拍动态短剧，全程带清晰字幕，人物动作剧情连贯，直接点开就能看`
+  ];
+  return {
+    short: shortDescs[Math.floor(Math.abs(v.score)%shortDescs.length)],
+    pro: proDescs[Math.floor((v.score+1)%proDescs.length)],
+    social: socialDescs[Math.floor((v.score+2)%socialDescs.length)],
+    kws:['真人出演','动态视频','可播放','自带内嵌字幕','连贯剧情','人物实景表演',...tags]
+  };
+}
+function renderDetail(v){
+  document.getElementById('pdTitle').textContent=v.title;
+  document.getElementById('pdTag').textContent='原创 '+v.score+'%';
+  const cw=genCopywrite(v);
+  document.getElementById('pdBody').innerHTML=
+   `<div class="pdsec"><h4>📌 通用简洁描述（标题 / 发作品用）</h4><p>${cw.short}</p><button class="pdcopy" onclick="navigator.clipboard.writeText(this.previousElementSibling.textContent);this.textContent='✓ 已复制'">复制</button></div>
+    <div class="pdsec"><h4>📝 详细专业描述（投稿 / 上架用）</h4><p>${cw.pro}</p><button class="pdcopy" onclick="navigator.clipboard.writeText(this.previousElementSibling.textContent);this.textContent='✓ 已复制'">复制</button></div>
+    <div class="pdsec"><h4>🔥 平台吸睛文案（抖音 / 快手简介）</h4><p>${cw.social}</p><button class="pdcopy" onclick="navigator.clipboard.writeText(this.previousElementSibling.textContent);this.textContent='✓ 已复制'">复制</button></div>
+    <div class="pdsec"><h4>🏷️ 区分关键词</h4><div class="kws">${cw.kws.map(k=>`<span class="kw">${k}</span>`).join('')}</div></div>
+    <div class="pdsec"><h4>🎙️ AI 配音角色（按画面实际角色自动匹配）</h4><div class="kws">${(v.roles&&v.roles.length?v.roles:[{role:'男主·总裁',voice:'磁性男声'},{role:'女主·甜宠',voice:'清甜少女'}]).map(r=>`<span class="kw">${r.role} · <b>${r.voice}</b></span>`).join('')}</div><small class="pdn">系统逐镜识别出场人物，自动分轨分配匹配音色，避免单一嗓音违和</small></div>`;
+}
+document.getElementById('gallery').addEventListener('click',e=>{
+  const card=e.target.closest('.vid'); if(!card)return;
+  const i=+card.dataset.i; if(curVideos[i]) openPlayer(curVideos[i]);
+});
+document.getElementById('pPlay').onclick=()=>{
+  // if at end, restart
+  const prog=document.getElementById('pProg').style.width;
+  if(prog==='100%'||prog==='100%'){
+    pState.clipIdx=0; pState.lastSub=-1;
+    document.getElementById('pProg').style.width='0%';
+    loadClip(0);
+  }
+  pState.playing?pauseP():playP();
+};
+document.getElementById('pClose').onclick=closePlayer;
+document.getElementById('pToggleDetail').onclick=()=>player.classList.toggle('showDetail');
+player.addEventListener('click',e=>{if(e.target===player)closePlayer();});
+document.getElementById('pProgress').onclick=e=>{
+  if(pState.clips.length===0)return;
+  const r=e.currentTarget.getBoundingClientRect();
+  const frac=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));
+  // determine which clip and position within that clip
+  const total=pState.totalDur||45;
+  const targetTime=frac*total;
+  let acc=0;
+  for(let i=0;i<pState.clips.length;i++){
+    const d=pState.clipDurs[i]||5;
+    if(acc+d>=targetTime){
+      if(i!==pState.clipIdx){pState.clipIdx=i;loadClip(i);}
+      pVideo.currentTime=targetTime-acc;
+      break;
+    }
+    acc+=d;
+  }
+};
+
+setInterval(()=>{if(!sel.running)setGpu(15+Math.floor(Math.random()*8))},2500);
+</script>
+</body>
+</html>
