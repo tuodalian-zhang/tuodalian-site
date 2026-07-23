@@ -296,6 +296,11 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:17px;heigh
 .prow{display:flex;align-items:center;gap:12px;color:#fff;font-size:12px}
 .pplay{width:36px;height:36px;border-radius:50%;background:#ff2d55;border:none;color:#fff;cursor:pointer;font-size:15px;display:grid;place-items:center;flex-shrink:0}
 .ptime{font-variant-numeric:tabular-nums;font-weight:700;font-size:11.5px}
+.pvol{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.15);border:none;color:#fff;cursor:pointer;font-size:15px;display:grid;place-items:center;flex-shrink:0;transition:background .2s}
+.pvol:hover{background:rgba(255,255,255,.3)}
+.pmute-hint{position:absolute;inset:0;z-index:8;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.35);cursor:pointer;animation:mhPulse 1.8s ease-in-out infinite}
+.pmute-hint span{padding:10px 22px;border-radius:30px;background:rgba(255,45,85,.9);color:#fff;font-size:14px;font-weight:700;letter-spacing:.5px;pointer-events:none}
+@keyframes mhPulse{0%,100%{opacity:1}50%{opacity:.55}}
 .peq{margin-left:auto;display:flex;gap:3px;align-items:flex-end;height:16px}
 .peq i{width:3px;background:#fff;height:6px;border-radius:2px;animation:eq .8s ease-in-out infinite}
 .peq i:nth-child(2){animation-delay:.2s}.peq i:nth-child(3){animation-delay:.4s}.peq i:nth-child(4){animation-delay:.1s}
@@ -358,6 +363,50 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:17px;heigh
 .rstep>b{display:flex;color:#fff;background:var(--grad);border-radius:50%;width:22px;height:22px;align-items:center;justify-content:center;font-size:12px;flex:none}
 .rstep .rtx{color:var(--txt2)}
 .rstep .rtx>b{display:inline;width:auto;height:auto;background:none;color:var(--txt);font-size:12.5px;margin-right:4px}
+/* ===== 短剧AI批量自动化配置 ===== */
+.auto-ov{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:8px 0 16px}
+.aov{background:var(--bg);border:1px solid var(--line2);border-radius:10px;padding:11px 6px;text-align:center}
+.aov b{display:block;font-size:19px;color:var(--brand);line-height:1.15}
+.aov span{font-size:10.5px;color:var(--txt3);display:block;margin-top:2px}
+.auto-lbl{font-size:12.5px;font-weight:800;color:var(--txt);margin:14px 0 8px;display:flex;align-items:center;gap:6px}
+.auto-lbl small{font-weight:500;color:var(--txt3);font-size:11px}
+.auto-steps{display:flex;flex-direction:column;gap:7px}
+.astep{display:flex;align-items:center;gap:10px;background:var(--bg);border:1px solid var(--line2);border-radius:9px;padding:9px 11px;transition:.15s}
+.astep.off{opacity:.45}
+.astep .ai{font-size:16px;flex:none;width:22px;text-align:center}
+.astep .atx{flex:1;min-width:0}
+.astep .atx b{font-size:12.5px;color:var(--txt);display:block}
+.astep .atx small{font-size:11px;color:var(--txt3);display:block;line-height:1.42;margin-top:1px}
+.astep .alayer{font-size:10px;color:var(--txt3);border:1px solid var(--line2);border-radius:5px;padding:2px 6px;flex:none;white-space:nowrap}
+.sw{position:relative;width:38px;height:21px;flex:none;cursor:pointer}
+.sw input{display:none}
+.sw i{position:absolute;inset:0;background:var(--line2);border-radius:11px;transition:.2s;display:block}
+.sw i:before{content:'';position:absolute;width:17px;height:17px;border-radius:50%;background:#fff;top:2px;left:2px;transition:.2s}
+.sw input:checked+i{background:var(--grad)}
+.sw input:checked+i:before{transform:translateX(17px)}
+.strat-box{display:flex;flex-wrap:wrap;gap:8px}
+.schip{border:1px solid var(--line2);border-radius:8px;padding:7px 10px;cursor:pointer;font-size:11.5px;color:var(--txt2);background:var(--bg);user-select:none;transition:.15s;min-width:96px}
+.schip.on{border-color:var(--brand);color:var(--brand);background:rgba(255,45,85,.08)}
+.schip b{color:inherit;font-weight:700;display:block}
+.schip small{display:block;font-size:10px;color:var(--txt3);margin-top:1px}
+.schip.on small{color:var(--brand)}
+.auto-out{margin-top:16px}
+.ao-sec{margin-bottom:15px}
+.ao-sec h4{font-size:13px;color:var(--txt);margin:0 0 8px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.ao-sec h4 span{font-weight:500;color:var(--txt3);font-size:11px}
+.ao-line{display:flex;justify-content:space-between;gap:12px;font-size:12px;padding:7px 0;border-bottom:1px dashed var(--line2);color:var(--txt2);line-height:1.5}
+.ao-line b{color:var(--txt);font-weight:700;text-align:right}
+.ao-plan{background:var(--bg);border:1px solid var(--line2);border-radius:10px;padding:12px 14px}
+.ao-flow{counter-reset:af;background:var(--bg);border:1px solid var(--line2);border-radius:10px;padding:6px 14px}
+.ao-fstep{display:flex;gap:10px;padding:9px 0;border-bottom:1px dashed var(--line2);font-size:12px;line-height:1.5}
+.ao-fstep:last-child{border-bottom:none}
+.ao-fstep>b{flex:none;width:22px;height:22px;border-radius:50%;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px}
+.ao-fstep .aft b{color:var(--txt)}
+.ao-fstep .aft{color:var(--txt2)}
+.ao-fstep .aft small{color:var(--txt3);display:block;font-size:11px;margin-top:1px}
+.ao-mtx{display:flex;flex-wrap:wrap;gap:7px;margin-top:2px}
+.ao-tag{font-size:11px;background:rgba(255,45,85,.08);border:1px solid rgba(255,45,85,.3);color:var(--brand);border-radius:6px;padding:3px 8px}
+.ao-note{font-size:11px;color:var(--txt3);margin-top:8px;line-height:1.55;padding-left:2px}
 </style>
 </head>
 <body>
@@ -510,6 +559,29 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:17px;heigh
                 <div class="empty" style="grid-column:1/-1"><div class="ee">🎭</div><p>输入剧名并选择题材，点击「AI 自动规划角色」生成完整角色架构</p></div>
               </div>
             </div>
+
+            <!-- 短剧 AI 批量自动化配置 -->
+            <div class="card">
+              <h3>⚙️ 短剧 AI 批量自动化配置 <span class="tag">9 步全流水线</span></h3>
+              <div class="desc">依据《完整制作流程方案》九大步骤，配置无人值守批量量产，与左侧「批量生成数量」实时联动</div>
+              <div class="auto-ov" id="autoOv"></div>
+              <div class="field">
+                <label>GPU 并发线程 <span class="hint" id="thrHint">· 3 线程并行（12G 显存推荐 2-4）</span></label>
+                <div class="slider-wrap">
+                  <input type="range" id="inThreads" min="1" max="6" value="3" step="1">
+                  <span class="sval" id="thrVal">3 线程</span>
+                </div>
+              </div>
+              <div class="auto-lbl">🔧 九步流水线自动化 <small>（开关控制该环节是否参与本批量产）</small></div>
+              <div class="auto-steps" id="autoSteps"></div>
+              <div class="auto-lbl">🔀 批量差异化策略 <small>（步骤4去重核心 · 点选参与轮换的维度，越多越防查重）</small></div>
+              <div class="strat-box" id="stratBox"></div>
+              <button class="btn" id="autoGenBtn" style="margin-top:16px"><span>⚙️</span> 生成批量自动化配置方案</button>
+              <button class="btn ghost" id="autoCopyBtn" style="margin-top:8px">📋 复制配置方案</button>
+              <div id="autoOut" class="auto-out">
+                <div class="empty"><div class="ee">⚙️</div><p>设置并发线程与差异化策略，点击「生成批量自动化配置方案」输出完整量产配置</p></div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -589,7 +661,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:17px;heigh
   <div class="pwrap">
     <button class="pclose" id="pClose">✕</button>
     <div class="pframe" id="pFrame">
-      <video id="pVideo" muted playsinline preload="auto" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;z-index:1;background:#000"></video>
+      <video id="pVideo" playsinline preload="auto" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;z-index:1;background:#000"></video>
       <div class="grain"></div>
       <div class="vignette"></div>
       <div class="pemoji" id="pEmoji">🌆</div>
@@ -597,11 +669,13 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:17px;heigh
       <div class="pbar">🔥 真人短剧</div>
       <div class="pauth" id="pAuth"><b>剧情放映厅</b>12.3w 播放</div>
       <div class="psub" id="pSub"></div>
+      <div class="pmute-hint" id="pMuteHint" style="display:none"><span>🔊 点击开启声音</span></div>
       <div class="pcontrols">
         <div class="pprogress" id="pProgress"><i id="pProg"></i></div>
         <div class="prow">
           <button class="pplay" id="pPlay">▶</button>
           <span class="ptime" id="pTime">0:00 / 0:45</span>
+          <button class="pvol" id="pVol" title="开关声音">🔊</button>
           <div class="peq"><i></i><i></i><i></i><i></i></div>
           <button class="pdtoggle" id="pToggleDetail" title="查看文案详情">📋</button>
         </div>
@@ -1136,6 +1210,148 @@ document.getElementById('roleCopyBtn').onclick=function(){
   else{btn.innerHTML='复制失败';setTimeout(()=>btn.innerHTML=o,1400);}
 };
 
+/* ============ 短剧AI批量自动化配置 ============ */
+/* 九步流水线(对应《完整制作流程方案》三层九步) */
+const PIPE9=[
+  {n:1,ic:'🏗️',t:'系统环境搭建与模块部署',p:'Python+OpenCV+PyTorch 内核 · GAN/文案/语音/字幕 四模型本地离线部署',layer:'基础层'},
+  {n:2,ic:'🔍',t:'剧名智能检索与素材爬取',p:'合规片源精准匹配 · 高光片段自动截取 · 1080P 预处理去水印降噪',layer:'基础层'},
+  {n:3,ic:'🎨',t:'真人短剧 AI 画面重构',p:'按 24 帧/秒拆解 · 逐帧像素级风格化重绘 · 帧连贯性修复 · 多风格切换',layer:'智能生成层'},
+  {n:4,ic:'🔀',t:'多层伪原创去重处理',p:'帧率 24/25/30 · 变速 0.9-1.1× · 色温微调 · 剪辑重构 · 粒子光影叠加',layer:'智能生成层'},
+  {n:5,ic:'✍️',t:'剧情文案自动生成与改写',p:'语义解析看点 · 钩子+讲解+互动 · 多版本同义改写差异化',layer:'智能生成层'},
+  {n:6,ic:'🎙️',t:'AI 音频全自动合成',p:'按画面角色分轨配音 · 氛围 BGM 匹配 · 音效叠加 · 音量平衡',layer:'智能生成层'},
+  {n:7,ic:'💬',t:'字幕与特效自动化合成',p:'语音转字幕逐句对齐 · 动态字幕特效 · 片头片尾+轻量水印',layer:'智能生成层'},
+  {n:8,ic:'🎞️',t:'视频合成与画质压制',p:'视频/音频/字幕/特效多轨对齐 · 1080P 压制 · 横竖屏适配',layer:'成品输出层'},
+  {n:9,ic:'✅',t:'智能质检 · 批量导出归档',p:'AI 质检剔除劣质 · 差异化批量导出 · 按剧名/时间/风格归档',layer:'成品输出层'},
+];
+/* 差异化策略维度(步骤4去重核心),variants=可轮换取值数 */
+const STRATS=[
+  {k:'fps',t:'帧率轮换',v:'24/25/30 帧',variants:3,on:true},
+  {k:'speed',t:'镜头变速',v:'0.9~1.1×',variants:3,on:true},
+  {k:'color',t:'色彩色温微调',v:'冷/中/暖',variants:3,on:true},
+  {k:'style',t:'影调风格轮换',v:'电影感/胶片/冷冽/暖调/港风',variants:5,on:true},
+  {k:'voice',t:'配音音色轮换',v:'按角色自动分配',variants:4,on:true},
+  {k:'bgm',t:'BGM 氛围轮换',v:'热血/虐心/搞笑/悬疑',variants:4,on:true},
+  {k:'cut',t:'剪辑顺序重构',v:'不破坏剧情',variants:2,on:true},
+  {k:'fx',t:'转场特效轮换',v:'粒子/光影/边框',variants:3,on:false},
+];
+let pipeOn=PIPE9.map(()=>true);           // 各步骤开关
+let stratOn=STRATS.map(s=>s.on);          // 各策略开关
+const AUTO_MIN_PER=4;                      // 单条估时(分钟,文档3-5取中)
+
+function renderAutoSteps(){
+  document.getElementById('autoSteps').innerHTML=PIPE9.map((s,i)=>
+    '<div class="astep'+(pipeOn[i]?'':' off')+'" data-i="'+i+'">'
+    +'<span class="ai">'+s.ic+'</span>'
+    +'<span class="atx"><b>步骤'+s.n+'　'+s.t+'</b><small>'+s.p+'</small></span>'
+    +'<span class="alayer">'+s.layer+'</span>'
+    +'<label class="sw"><input type="checkbox" data-i="'+i+'" '+(pipeOn[i]?'checked':'')+'><i></i></label>'
+    +'</div>').join('');
+  document.querySelectorAll('#autoSteps .sw input').forEach(cb=>cb.onchange=()=>{
+    const i=+cb.dataset.i;pipeOn[i]=cb.checked;
+    cb.closest('.astep').classList.toggle('off',!cb.checked);
+    updateAutoOv();
+  });
+}
+function renderStrats(){
+  document.getElementById('stratBox').innerHTML=STRATS.map((s,i)=>
+    '<div class="schip'+(stratOn[i]?' on':'')+'" data-i="'+i+'"><b>'+s.t+'</b><small>'+s.v+'</small></div>').join('');
+  document.querySelectorAll('#stratBox .schip').forEach(c=>c.onclick=()=>{
+    const i=+c.dataset.i;stratOn[i]=!stratOn[i];c.classList.toggle('on',stratOn[i]);updateAutoOv();
+  });
+}
+function autoStats(){
+  const N=+document.getElementById('inBatch').value;
+  const T=+document.getElementById('inThreads').value;
+  const activeSteps=pipeOn.filter(Boolean).length;
+  // 差异化组合数 = 已选策略的可轮换取值数连乘
+  let combos=1;STRATS.forEach((s,i)=>{if(stratOn[i])combos*=s.variants;});
+  const totalMin=Math.ceil(N/T)*AUTO_MIN_PER;      // 并行总耗时
+  const perHour=Math.floor(60/AUTO_MIN_PER)*T;      // 每小时产能
+  const perDay=perHour*24;                          // 理论日产能
+  return {N,T,activeSteps,combos,totalMin,perHour,perDay};
+}
+function fmtMin(m){const h=Math.floor(m/60),mm=m%60;return h>0?(h+' 时 '+mm+' 分'):(mm+' 分');}
+function updateAutoOv(){
+  const s=autoStats();
+  const enough=s.combos>=s.N;
+  document.getElementById('autoOv').innerHTML=
+     ov(s.N+' 条','本批量产数量')
+    +ov(s.T+' 线程','GPU 并行')
+    +ov(fmtMin(s.totalMin),'预估总耗时')
+    +ov((s.combos>=100000?(Math.round(s.combos/1000)+'k+'):s.combos)+' 种',(enough?'差异化组合✓覆盖':'差异化组合⚠不足'));
+  function ov(b,sp){return '<div class="aov"><b>'+b+'</b><span>'+sp+'</span></div>';}
+}
+function esc2(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+function renderAutoPlan(){
+  const s=autoStats();
+  const title=(document.getElementById('roleTitle').value||'目标剧集').trim();
+  const chan=(typeof sel!=='undefined'?sel.channel:'女频爆款');
+  const style=(typeof sel!=='undefined'?sel.style:'豪门总裁');
+  const ratio=(typeof sel!=='undefined'?sel.ratio:'9:16');
+  const dur=document.getElementById('inDur').value;
+  const pp=document.getElementById('inPP').value;
+  const enough=s.combos>=s.N;
+  let h='';
+  // 1) 产能与任务配置
+  h+='<div class="ao-sec"><h4>📊 产能与任务配置 <span>无人值守 · 全自动执行</span></h4><div class="ao-plan">'
+    +line('目标剧集',esc2(title))
+    +line('题材频道 / 细分',chan+' · '+style)
+    +line('画幅 / 单集时长',ratio+' · '+dur)
+    +line('伪原创强度',pp+'%')
+    +line('本批量产数量',s.N+' 条差异化成片')
+    +line('GPU 并发线程',s.T+' 线程并行（'+ (s.T<=4?'✓ 12G 显存安全区':'⚠ 超 4 线程有崩帧风险') +'）')
+    +line('单条预估耗时',AUTO_MIN_PER+' 分钟（3-5 分钟取中）')
+    +line('本批预估总耗时','约 '+fmtMin(s.totalMin))
+    +line('理论日产能','≈ '+s.perDay+' 条/天（'+s.T+' 线程满负荷）')
+    +'</div></div>';
+  // 2) 九步执行配置
+  h+='<div class="ao-sec"><h4>🔧 九步流水线执行配置 <span>'+s.activeSteps+'/9 环节启用</span></h4><div class="ao-flow">';
+  PIPE9.forEach((st,i)=>{h+='<div class="ao-fstep"><b>'+st.n+'</b><div class="aft"><b>'+st.t+(pipeOn[i]?'':' <span style="color:var(--txt3)">（已跳过）</span>')+'</b><small>'+st.p+'</small></div></div>';});
+  h+='</div></div>';
+  // 3) 批量差异化矩阵
+  const chosen=STRATS.filter((_,i)=>stratOn[i]);
+  h+='<div class="ao-sec"><h4>🔀 批量差异化矩阵 <span>共 '+(s.combos>=100000?(Math.round(s.combos/1000)+'k+'):s.combos)+' 种唯一组合</span></h4><div class="ao-plan">'
+    +'<div class="ao-mtx">'+chosen.map(c=>'<span class="ao-tag">'+c.t+'：'+c.v+'</span>').join('')+'</div>'
+    +'<div class="ao-note">系统随机调度上述维度为每条成片生成唯一参数组合（步骤4去重核心），'
+    +(enough?('可覆盖本批 '+s.N+' 条无重复内容 ✓'):('⚠ 当前组合数 '+s.combos+' < '+s.N+' 条，建议增开差异化维度或降低批量数量，避免同质化限流'))
+    +'</div></div></div>';
+  // 4) 风控合规
+  h+='<div class="ao-sec"><h4>🛡️ 风控合规策略 <span>规避搬运/查重/同质化</span></h4><div class="ao-plan">'
+    +line('画面原创兜底','AI 像素级重绘（非滤镜），画面为全新生成内容')
+    +line('敏感内容过滤','涉政/涉暴/低俗/违禁 自动拦截剔除')
+    +line('参数随机化','禁止固定模板，逐条随机调用画风/音色/特效/剪辑')
+    +line('矩阵错峰发布','同剧集错开发布时间 + 更换画风，规避同质化限流')
+    +line('二次发布防重','再发布自动微调画面参数 + 改写部分文案')
+    +'</div></div>';
+  document.getElementById('autoOut').innerHTML=h;
+  function line(k,v){return '<div class="ao-line"><span>'+k+'</span><b>'+v+'</b></div>';}
+}
+function genAutoPlan(){
+  const btn=document.getElementById('autoGenBtn');
+  btn.disabled=true;const old=btn.innerHTML;btn.innerHTML='<span>⏳</span> 配置生成中...';
+  setTimeout(()=>{renderAutoPlan();btn.disabled=false;btn.innerHTML=old;},600);
+}
+// 并发线程滑块联动
+(function(){
+  const thr=document.getElementById('inThreads'),thrVal=document.getElementById('thrVal'),thrHint=document.getElementById('thrHint');
+  thr.oninput=()=>{
+    thrVal.textContent=thr.value+' 线程';
+    thrHint.textContent=thr.value<=4?('· '+thr.value+' 线程并行（12G 显存推荐 2-4）'):('· '+thr.value+' 线程（⚠ 超 4 线程有崩帧风险）');
+    updateAutoOv();
+  };
+  // 批量数量变化时同步刷新概览(追加监听,不覆盖原有)
+  document.getElementById('inBatch').addEventListener('input',updateAutoOv);
+  document.getElementById('inDur').addEventListener('change',()=>{});
+  document.getElementById('autoGenBtn').onclick=genAutoPlan;
+  document.getElementById('autoCopyBtn').onclick=function(){
+    const t=document.getElementById('autoOut').innerText;const b=this,o=b.innerHTML;
+    if(!t||t.indexOf('生成批量自动化配置')>=0){b.innerHTML='📋 请先生成方案';setTimeout(()=>b.innerHTML=o,1200);return;}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(()=>{b.innerHTML='✓ 已复制';setTimeout(()=>b.innerHTML=o,1400);}).catch(()=>{b.innerHTML='复制失败';setTimeout(()=>b.innerHTML=o,1400);});}
+    else{b.innerHTML='复制失败';setTimeout(()=>b.innerHTML=o,1400);}
+  };
+  renderAutoSteps();renderStrats();updateAutoOv();
+})();
+
 /* ============ player modal ============ */
 /* 字幕台词按细分题材从 ALL_CATS 取,见 catSubs() */
 const player=document.getElementById('player');
@@ -1154,8 +1370,8 @@ function openPlayer(v){
     player.classList.add('hasimg');
     // set poster from thumb if available
     if(v.thumb) pVideo.poster=v.thumb;
-    // load first clip (muted for Chrome autoplay compatibility)
-    pVideo.muted=true;
+    // load first clip — user clicked card = valid gesture, try unmuted autoplay
+    pVideo.muted=false;
     pVideo.removeAttribute('loop'); // we manage clip sequence ourselves
     loadClip(0);
     // preload remaining clips
@@ -1207,26 +1423,34 @@ function playP(){
   if(pState.clips.length===0){playSim();return;} // fallback sim mode
   pState.playing=true; player.classList.add('playing');
   document.getElementById('pPlay').textContent='⏸';
-  // Chrome: keep muted for autoplay, then attempt unmute after play starts (user gesture context)
-  const promise=pVideo.play();
-  if(promise!==undefined){
-    promise.then(()=>{
-      // playing successfully — try to enable sound after a short delay
-      setTimeout(()=>{if(pState.playing){pVideo.muted=false;pVideo.play().catch(()=>{pVideo.muted=true;});}},300);
-    }).catch(e=>{
-      // autoplay blocked — force muted play as last resort
-      console.warn('Autoplay blocked, forcing muted:', e.message);
-      pVideo.muted=true;
-      pVideo.play().catch(()=>{console.error('Even muted playback failed');});
-    });
-  }
+  updateVolUI();
+  // Try unmuted play first (user gesture context from click)
+  const tryPlay=(forceMuted)=>{
+    if(forceMuted) pVideo.muted=true;
+    else pVideo.muted=false;
+    const promise=pVideo.play();
+    if(promise!==undefined){
+      promise.then(()=>{
+        updateVolUI();
+      }).catch(e=>{
+        if(!pVideo.muted){
+          // unmuted blocked by browser policy → fallback muted
+          console.warn('Unmuted autoplay blocked, falling back to muted:', e.message);
+          tryPlay(true);
+        }else{
+          console.error('Even muted playback failed:', e.message);
+        }
+      });
+    }
+  };
+  tryPlay(false);
   // bind events once per session
   pVideo.ontimeupdate=onVTimeUpdate;
   pVideo.onended=()=>{
     if(!pState.playing)return;
     if(pState.clipIdx<pState.clips.length-1){
       loadClip(pState.clipIdx+1);
-      pVideo.muted=false;
+      // preserve current mute state on clip switch
       pVideo.play().catch(()=>{pVideo.muted=true;pVideo.play();});
     }else{
       onAllClipsDone();
@@ -1238,6 +1462,26 @@ function pauseP(){
   document.getElementById('pPlay').textContent='▶';
   if(pState.clips.length>0)pVideo.pause();
   else clearInterval(pState.timer);
+}
+/* ---- volume control ---- */
+function updateVolUI(){
+  const btn=document.getElementById('pVol');
+  const hint=document.getElementById('pMuteHint');
+  if(!btn)return;
+  btn.textContent=pVideo.muted?'🔇':'🔊';
+  btn.title=pVideo.muted?'点击开启声音':'点击静音';
+  // show muted hint when playing but forced-muted by browser
+  if(hint){
+    hint.style.display=(pVideo.muted&&pState.playing)?'flex':'none';
+  }
+}
+function toggleVol(){
+  pVideo.muted=!pVideo.muted;
+  // if unmuting while playing, need user gesture to restart with sound
+  if(!pVideo.muted&&pState.playing){
+    pVideo.play().catch(()=>{pVideo.muted=true;updateVolUI();});
+  }
+  updateVolUI();
 }
 function onVTimeUpdate(){
   if(!pState.playing)return;
@@ -1344,6 +1588,8 @@ document.getElementById('pPlay').onclick=()=>{
 };
 document.getElementById('pClose').onclick=closePlayer;
 document.getElementById('pToggleDetail').onclick=()=>player.classList.toggle('showDetail');
+document.getElementById('pVol').onclick=toggleVol;
+document.getElementById('pMuteHint').onclick=toggleVol;
 player.addEventListener('click',e=>{if(e.target===player)closePlayer();});
 document.getElementById('pProgress').onclick=e=>{
   if(pState.clips.length===0)return;
